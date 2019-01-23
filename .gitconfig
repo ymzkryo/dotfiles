@@ -1,0 +1,10 @@
+[user]
+	name = yamachaaan
+	email = ymzk.yamachan@gmail.com
+[color]
+	ui = true
+	diff = auto
+	status = auto
+	branch = auto
+[core]
+	quotepath = false

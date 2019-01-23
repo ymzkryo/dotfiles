@@ -1,0 +1,17 @@
+autoconf
+gettext
+git
+goenv
+libevent
+ncurses
+openssl
+pcre2
+pkg-config
+pyenv
+rbenv
+rbenv-communal-gems
+readline
+ruby-build
+tmux
+tree
+zsh
