@@ -8,6 +8,7 @@ openssl
 pcre2
 pkg-config
 pyenv
+pyenv-virtualenv
 rbenv
 rbenv-communal-gems
 readline
