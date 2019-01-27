@@ -53,15 +53,23 @@ PROMPT=$PROMPT'${vcs_info_msg_0_} %{${fg[red]}%}%}$%{${reset_color}%} '
 # プロンプト（右）
 RPROMPT='%{${fg[cyan]}%}[%*]%{${reset_color}%}'
 
+# alias
+# 年月日別メモファイル作成
+alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
+
 # pyenv SETTING
 export PYENV_ROOT=/usr/local/var/pyenv
-eval "$(pyenv init -)";
+eval "$(pyenv init -)"
 
 # goenv SETTING
-export PATH="$HOME/.goenv/bin:$PATH"
+export GOENV_ROOT=$HOME/.goenv
+export PATH=$GOENV_ROOT/bin:$PATH
 eval "$(goenv init -)"
+
+export GOPATH=$HOME/go
+PATH=$PATH:$GOPATH/bin
 
 # rbenv SETTING
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH=$HOME/.rbenv/bin:$PATH
 eval "$(rbenv init -)"
