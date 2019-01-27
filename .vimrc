@@ -36,7 +36,7 @@ set showmatch           " 対応する括弧などをハイライト表示する
 set matchtime=3         " 対応括弧のハイライト表示を3秒にする
 set wrap                " 長いテキストの折り返し
 set textwidth=0         " 自動的に改行が入るのを無効化
-set colorcolumn=100      " その代わり100文字目にラインを入れる
+set colorcolumn=80      " その代わり100文字目にラインを入れる
 "対応括弧に'<'と'>'のペアを追加
 set matchpairs& matchpairs+=<:>
 " ノーマルモード時だけ ; と : を入れ替える
@@ -103,5 +103,15 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&b:NERDTree.isTa
 let g:indent_guides_enable_on_vim_startup = 1
 
 let g:lightline = {
-      \ 'colorscheme': 'solarized'
+    \ 'colorscheme': 'solarized'
       \ }
+augroup vimrc-auto-mkdir  " {{{
+    autocmd!
+    autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+    function! s:auto_mkdir(dir, force)  " {{{
+        if !isdirectory(a:dir) && (a:force ||
+                    \    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+            call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+        endif
+    endfunction  " }}}
+augroup END  " }}}
