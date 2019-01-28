@@ -1,4 +1,7 @@
 syntax on
+set encoding=utf-8
+set fileencoding=utf-8
+set fileformat=unix
 set background=dark
 colorscheme solarized
 set number
@@ -39,6 +42,7 @@ set textwidth=0         " 自動的に改行が入るのを無効化
 set colorcolumn=80      " その代わり100文字目にラインを入れる
 "対応括弧に'<'と'>'のペアを追加
 set matchpairs& matchpairs+=<:>
+
 " ノーマルモード時だけ ; と : を入れ替える
 noremap ; :
 nnoremap : ;
@@ -115,3 +119,4 @@ augroup vimrc-auto-mkdir  " {{{
         endif
     endfunction  " }}}
 augroup END  " }}}
+
