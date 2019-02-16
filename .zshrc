@@ -59,6 +59,10 @@ alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
 
 # gcalcliのtoday-tomorrowを呼び出し
 alias gcal='gcalcli agenda today tomorrow'
+
+# 自作todoistのコマンド省略
+alias todoist='./main.py'
+
 # pyenv SETTING
 export PYENV_ROOT=/usr/local/var/pyenv
 eval "$(pyenv init -)"
