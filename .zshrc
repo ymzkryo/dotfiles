@@ -57,6 +57,8 @@ RPROMPT='%{${fg[cyan]}%}[%*]%{${reset_color}%}'
 # 年月日別メモファイル作成
 alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
 
+# gcalcliのtoday-tomorrowを呼び出し
+alias gcal='gcalcli agenda today tomorrow'
 # pyenv SETTING
 export PYENV_ROOT=/usr/local/var/pyenv
 eval "$(pyenv init -)"
