@@ -79,3 +79,8 @@ PATH=$PATH:$GOPATH/bin
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH=$HOME/.rbenv/bin:$PATH
 eval "$(rbenv init -)"
+
+# plenv
+if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
+export PATH="$HOME/.plenv/bin:$PATH"
+eval "$(plenv init -)"
