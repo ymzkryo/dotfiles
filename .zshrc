@@ -5,7 +5,6 @@ export EDITOR=/usr/local/bin/vim
 # SSH接続先で日本語を使えるようにする
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
 # 色を使用できるようにする
 autoload -Uz colors
 colors
@@ -20,6 +19,11 @@ setopt correct
 ## 補完機能の強化
 autoload -U compinit
 compinit
+
+# 選択中の候補を塗り潰す
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' menu select
 # 補完で小文字でも大文字にマッチさせる
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
@@ -49,11 +53,12 @@ precmd () { vcs_info }
 # プロンプト（左）
 PROMPT='%{$fg[red]%}[%~]%{$reset_color%}'
 PROMPT=$PROMPT'${vcs_info_msg_0_} %{${fg[red]}%}%}$%{${reset_color}%} '
-
 # プロンプト（右）
 RPROMPT='%{${fg[cyan]}%}[%*]%{${reset_color}%}'
 
 # alias
+# brewの時、envを使わない
+alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
 # 年月日別メモファイル作成
 alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
 
@@ -79,8 +84,3 @@ PATH=$PATH:$GOPATH/bin
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH=$HOME/.rbenv/bin:$PATH
 eval "$(rbenv init -)"
-
-# plenv
-if which plenv > /dev/null; then eval "$(plenv init - zsh)"; fi
-export PATH="$HOME/.plenv/bin:$PATH"
-eval "$(plenv init -)"
