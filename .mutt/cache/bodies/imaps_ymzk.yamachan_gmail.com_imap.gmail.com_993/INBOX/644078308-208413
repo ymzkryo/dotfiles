@@ -1,0 +1,139 @@
+Delivered-To: ymzk.yamachan@gmail.com
+Received: by 2002:a50:c358:0:0:0:0:0 with SMTP id q24csp3477229edb;
+        Sun, 6 Jan 2019 23:03:19 -0800 (PST)
+X-Google-Smtp-Source: AFSGD/UNQWW9QyVhmpfCmB6DTWFHahM6DNNjBjkLhFM8sxf9YXK3TZv2wqrZgqZVmOISL8Kt/WbK
+X-Received: by 2002:aa7:81d0:: with SMTP id c16mr61444576pfn.153.1546844599452;
+        Sun, 06 Jan 2019 23:03:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1546844599; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ROrtuHJNJnmYaKAiQh+uiiLkuGZDtNqc/vvh7Sv6utL4eaobgVj7EakILQGaq+wj8a
+         OVypkQQ9GhXAn/Zyl+SOMF4CH9Gohx5QiupIw48R/SJNPwgl49vV3iimb67lqV6YyHSb
+         EjfFFU+Bqi98cV9s8UHEjUPb8hyJNKGWbq1NyCF3f5h4JrTju+QckNHxBwrlr+/JBRh+
+         4VeEOpWZrKHJ14EU1hSQAk/ngBEIBKFswOiaeZB61i3sqRhWtbu5iyAvimm3LJyBG2Ck
+         X2BB3Yam7Csle9WvY147XJj+KVGhxJqotZ9Y2ltl5iNkvYZ9f9eTCt70vDa5g/tYL1pf
+         AT5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version;
+        bh=u3CU9KkQuBVPkQK/JrKUhO1jDGh3M7U9cIINZan9HOg=;
+        b=avVQe9l/BP1D8pIqi56E+bTk/fbhKAb5/fEpgmAC3RyknQrj0yEQpIu3QPuvazF/P1
+         PZ9A4I3HC7F6mJRGyVnYY5V0/4bA3SvqAOIdvqQhBmmvrUgtXIUu5TcvZlIrVnWuAYxt
+         exBA10cXhOKUJlhjahAIDSu7gWQv67+4AXn0bZTAt5vDhxD7ZJ+Bv2TAPB/45SY4ijVj
+         Ex9AJDF0IdYjGlnL3cF3FaXBSgzQWP/BEXIx5C+1bS9ft56YxGbyh0lApMWeprRx4RJT
+         cPj9Ht5ZgF+CkUl89wTHkSkmK5/VT6wVRtLRwZdkpDgeEwA9Pfsy0ndv5/a7c2QEfq4k
+         ki6A==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of kageura@infocrest.co.jp designates 153.127.234.3 as permitted sender) smtp.mailfrom=kageura@infocrest.co.jp
+Return-Path: <kageura@infocrest.co.jp>
+Received: from smtp.kagoya.net (smtp1.kagoya.net. [153.127.234.3])
+        by mx.google.com with ESMTP id o6si12596991plh.23.2019.01.06.23.03.18
+        for <ymzk.yamachan@gmail.com>;
+        Sun, 06 Jan 2019 23:03:19 -0800 (PST)
+Received-SPF: pass (google.com: domain of kageura@infocrest.co.jp designates 153.127.234.3 as permitted sender) client-ip=153.127.234.3;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of kageura@infocrest.co.jp designates 153.127.234.3 as permitted sender) smtp.mailfrom=kageura@infocrest.co.jp
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+	by smtp.kagoya.net (Postfix) with ESMTPSA id CDDF01C90C38
+	for <ymzk.yamachan@gmail.com>; Mon,  7 Jan 2019 16:03:17 +0900 (JST)
+Received: by mail-lj1-f173.google.com with SMTP id k19-v6so37157932lji.11
+        for <ymzk.yamachan@gmail.com>; Sun, 06 Jan 2019 23:03:17 -0800 (PST)
+X-Gm-Message-State: AJcUukc69Ij1dzlTdkjNG1aCdfN34WEr6uFsqQIwoJRzPayQskSy2nOx
+	vsQcnXm/a3s34YIhnLqtWMcURUScXblV8TFa9v0=
+X-Received: by 2002:a2e:88cf:: with SMTP id a15-v6mr32444811ljk.76.1546844594954;
+ Sun, 06 Jan 2019 23:03:14 -0800 (PST)
+MIME-Version: 1.0
+References: <CALVQF=yvyFeVeqoVp_nxPBEaggnUkdvKOiZf1DQoWuKDia+15g@mail.gmail.com>
+In-Reply-To: <CALVQF=yvyFeVeqoVp_nxPBEaggnUkdvKOiZf1DQoWuKDia+15g@mail.gmail.com>
+From: Seiji Kageura <kageura@infocrest.co.jp>
+Date: Mon, 7 Jan 2019 16:03:04 +0900
+X-Gmail-Original-Message-ID: <CAJBYVeCQuqv+cHnX4n2pLUh9W_BkHuXG7j68eBT-vmNsQzwkNA@mail.gmail.com>
+Message-ID: <CAJBYVeCQuqv+cHnX4n2pLUh9W_BkHuXG7j68eBT-vmNsQzwkNA@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IOmjn+S6i+S8muOAgeOBguOCiuOBjOOBqOOBhuOBlOOBluOBhOOBvuOBl+OBnw==?=
+To: Ryo Yamazaki <ymzk.yamachan@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000009ae68a057ed8d2a6"
+
+--0000000000009ae68a057ed8d2a6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+5bGx5bSO44GV44KTDQoNCuacrOW5tOOCguOCiOOCjeOBl+OBj+OBiumhmOOBhOOBl+OBvuOBmeOA
+gg0KDQrjgb7jgZ/ku4rpgLHjgYvmnaXpgLHjgavjgafjgoLmm7jpoZ7kuIDlvI/jgpLlj5bjgorj
+gavmnaXjgabjgY/jgaDjgZXjgYTjgILjgZ3jga7pmpvjgavmupDms4nlvrTlj47npajjgYzjgYLj
+gozjgbDmjIHlj4LjgZfjgabjgY/jgaDjgZXjgYTjgIINCg0K5LuK6YCx44Gv5pS56KOF44Gu5rqW
+5YKZ44Gu54mH5LuY44GR44Gq44Gp44Gn44OQ44K/44OQ44K/44GX44Gm44GE44KL44Go5oCd44GE
+44G+44GZ44CCDQrlhaXnpL7ml6XjgavplqLjgZfjgabjgafjgZnjgYzjgIHkvJrnpL7jga7nt6Dj
+goHml6XjgYwyMOaXpeOBquOBruOBpzIx5pel44GL44KJ44GM6Imv44GE44Go5oCd44GE44G+44GZ
+44CCDQrvvIjjgoLjgaHjgo3jgpPjgZ3jgozjgojjgorjgoLliY3jgavmpa3li5njgafjga/jgarj
+gY/pgYrjgbPjgavjgY3jgabjgoLjgonjgYbjgbbjgpPjgavjga/lpKfkuIjlpKvjgafjgZnjgYzn
+rJHvvIkNCg0K44G+44Gf5pel5pmC44GE44GP44Gk44GL44GP44Gg44GV44GE44CCDQoNCjIwMTjl
+ubQxMuaciDEw5pelKOaciCkgMTM6MTYgUnlvIFlhbWF6YWtpIDx5bXprLnlhbWFjaGFuQGdtYWls
+LmNvbT46DQoNCj4g5b2x5rWm44GV44KTDQo+DQo+IOOBiuS4luipseOBq+OBquOBo+OBpuOBiuOC
+iuOBvuOBmeOAgg0KPiDlsbHltI7jgafjgZnjgIINCj4NCj4g6YeR5puc5pel44Gv44CB6aOf5LqL
+5Lya44Gr44GK6KqY44GE6aCC44GN44CB44GC44KK44GM44Go44GG44GU44GW44GE44G+44GX44Gf
+44CCDQo+IOefreOBhOaZgumWk+OBp+OBl+OBn+OBjOOAgeOCpOODs+ODleOCqeOCr+ODrOOCueOD
+iOOBruODoeODs+ODkOODvOOBqOipseOBmeOBk+OBqOOBjOOBp+OBjeOAgeWwkeOBl+OBp+OBr+OB
+guOCiuOBvuOBmeOBjA0KPiDjganjgpPjgarjgqvjg6njg7zjgYvjgpLmhJ/jgZjjgovjgZPjgajj
+gYzjgafjgY3jgb7jgZfjgZ/jgIINCj4NCj4g5oSP5aSW44GoU2xhY2vjgafjga7jg4Hjg6Pjg4Pj
+g4jjg5njg7zjgrnjga7jgrPjg5/jg6Xjg4vjgrHjg7zjgrfjg6fjg7PjgoRnaXTjgafjga7jg5Dj
+g7zjgrjjg6fjg7PnrqHnkIbjgavoiIjlkbPjgpLmjIHjgaTmlrnjgYzjgYTjgonjgaPjgZfjgoPj
+gaPjgZ/jgojjgYbjgafjgIHmpb3jgZfjgY/jgarjgaPjgabjgY3jgb7jgZfjgZ/jgIINCj4NCj4g
+5p2l5bm0MeaciOOCiOOCiuOAgeOCiOOCjeOBl+OBj+OBiumhmOOBhOiHtOOBl+OBvuOBmeOAgg0K
+Pg0KPg0KPg0KPiDlsbHltI4NCj4NCi0tIA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KU2VpamkgS0FHRVVSQSAoTW9iaWxl
+77yaMDkwLTc3NjYtMDE4MykNCg0KaW5mb2NyZXN0IGNvLixsdGQuDQoyRiBLYXJhc3VtYSBibGQs
+IDg1LTEgTWlrdXJhLWNobywNCk5ha2FneW8ta3UsIEtZT1RPIDYwNDgxNjYNCi0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCklN
+UE9SVEFOVCBOT1RJQ0UNClRoZSBpbmZvcm1hdGlvbiBpbiB0aGlzIGUtbWFpbCBhbmQgYXR0YWNo
+ZWQgZmlsZXMgYXJlIENPTkZJREVOVElBTC4NCkFueSB1bmF1dGhvcml6ZWQgdXNlIG9yIGRpc2Ns
+b3N1cmUgb2YgdGhpcyBlbWFpbCBpcyBwcm9oaWJpdGVkLg0KSWYgeW91IGhhdmUgcmVjZWl2ZWQg
+dGhpcyBlbWFpbCBpbiBlcnJvciwgcGxlYXNlIGRlbGV0ZSB0aGUgZW1haWwgYW5kIGl0cw0KYXR0
+YWNobWVudHMgaW1tZWRpYXRlbHkuDQo=
+--0000000000009ae68a057ed8d2a6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+PGRpdj48ZGl2IGRpcj0iYXV0byI+5bGx5bSO44GV44KTPC9kaXY+PC9kaXY+PGRpdiBkaXI9ImF1
+dG8iPjxicj48L2Rpdj48ZGl2IGRpcj0iYXV0byI+5pys5bm044KC44KI44KN44GX44GP44GK6aGY
+44GE44GX44G+44GZ44CCPC9kaXY+PGRpdiBkaXI9ImF1dG8iPjxicj48L2Rpdj48ZGl2IGRpcj0i
+YXV0byI+44G+44Gf5LuK6YCx44GL5p2l6YCx44Gr44Gn44KC5pu46aGe5LiA5byP44KS5Y+W44KK
+44Gr5p2l44Gm44GP44Gg44GV44GE44CC44Gd44Gu6Zqb44Gr5rqQ5rOJ5b605Y+O56Wo44GM44GC
+44KM44Gw5oyB5Y+C44GX44Gm44GP44Gg44GV44GE44CCPC9kaXY+PGRpdiBkaXI9ImF1dG8iPjxi
+cj48L2Rpdj48ZGl2IGRpcj0iYXV0byI+5LuK6YCx44Gv5pS56KOF44Gu5rqW5YKZ44Gu54mH5LuY
+44GR44Gq44Gp44Gn44OQ44K/44OQ44K/44GX44Gm44GE44KL44Go5oCd44GE44G+44GZ44CCPC9k
+aXY+PGRpdiBkaXI9ImF1dG8iPuWFpeekvuaXpeOBq+mWouOBl+OBpuOBp+OBmeOBjOOAgeS8muek
+vuOBrue3oOOCgeaXpeOBjDIw5pel44Gq44Gu44GnMjHml6XjgYvjgonjgYzoia/jgYTjgajmgJ3j
+gYTjgb7jgZnjgII8L2Rpdj48ZGl2IGRpcj0iYXV0byI+77yI44KC44Gh44KN44KT44Gd44KM44KI
+44KK44KC5YmN44Gr5qWt5YuZ44Gn44Gv44Gq44GP6YGK44Gz44Gr44GN44Gm44KC44KJ44GG44G2
+44KT44Gr44Gv5aSn5LiI5aSr44Gn44GZ44GM56yR77yJPC9kaXY+PGRpdiBkaXI9ImF1dG8iPjxi
+cj48L2Rpdj48ZGl2IGRpcj0iYXV0byI+44G+44Gf5pel5pmC44GE44GP44Gk44GL44GP44Gg44GV
+44GE44CCPC9kaXY+PGRpdj48YnI+PGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPjxkaXYgZGlyPSJs
+dHIiPjIwMTjlubQxMuaciDEw5pelKOaciCkgMTM6MTYgUnlvIFlhbWF6YWtpICZsdDs8YSBocmVm
+PSJtYWlsdG86eW16ay55YW1hY2hhbkBnbWFpbC5jb20iPnltemsueWFtYWNoYW5AZ21haWwuY29t
+PC9hPiZndDs6PGJyPjwvZGl2PjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9
+Im1hcmdpbjowIDAgMCAuOGV4O2JvcmRlci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVm
+dDoxZXgiPjxkaXYgZGlyPSJsdHIiPuW9sea1puOBleOCkzxkaXY+PGJyPjwvZGl2PjxkaXY+44GK
+5LiW6Kmx44Gr44Gq44Gj44Gm44GK44KK44G+44GZ44CCPC9kaXY+PGRpdj7lsbHltI7jgafjgZnj
+gII8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PumHkeabnOaXpeOBr+OAgemjn+S6i+S8muOBq+OB
+iuiqmOOBhOmgguOBjeOAgeOBguOCiuOBjOOBqOOBhuOBlOOBluOBhOOBvuOBl+OBn+OAgjwvZGl2
+PjxkaXY+55+t44GE5pmC6ZaT44Gn44GX44Gf44GM44CB44Kk44Oz44OV44Kp44Kv44Os44K544OI
+44Gu44Oh44Oz44OQ44O844Go6Kmx44GZ44GT44Go44GM44Gn44GN44CB5bCR44GX44Gn44Gv44GC
+44KK44G+44GZ44GMPC9kaXY+PGRpdj7jganjgpPjgarjgqvjg6njg7zjgYvjgpLmhJ/jgZjjgovj
+gZPjgajjgYzjgafjgY3jgb7jgZfjgZ/jgII8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PuaEj+Wk
+luOBqFNsYWNr44Gn44Gu44OB44Oj44OD44OI44OZ44O844K544Gu44Kz44Of44Ol44OL44Kx44O8
+44K344On44Oz44KEZ2l044Gn44Gu44OQ44O844K444On44Oz566h55CG44Gr6IiI5ZGz44KS5oyB
+44Gk5pa544GM44GE44KJ44Gj44GX44KD44Gj44Gf44KI44GG44Gn44CB5qW944GX44GP44Gq44Gj
+44Gm44GN44G+44GX44Gf44CCPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj7mnaXlubQx5pyI44KI
+44KK44CB44KI44KN44GX44GP44GK6aGY44GE6Ie044GX44G+44GZ44CCPC9kaXY+PGRpdj48YnI+
+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj7lsbHltI48L2Rpdj48L2Rp
+dj4NCjwvYmxvY2txdW90ZT48L2Rpdj48L2Rpdj4tLSA8YnI+PGRpdiBkaXI9Imx0ciIgY2xhc3M9
+ImdtYWlsX3NpZ25hdHVyZSIgZGF0YS1zbWFydG1haWw9ImdtYWlsX3NpZ25hdHVyZSI+LS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LTxicj5TZWlqaSBLQUdFVVJBIChNb2JpbGXvvJowOTAtNzc2Ni0wMTgzKTxicj48YnI+aW5mb2Ny
+ZXN0IGNvLixsdGQuPGJyPjJGIEthcmFzdW1hIGJsZCwgODUtMSBNaWt1cmEtY2hvLDxicj5OYWth
+Z3lvLWt1LCBLWU9UTyA2MDQ4MTY2PGJyPi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+SU1QT1JUQU5UIE5PVElDRTxicj5U
+aGUgaW5mb3JtYXRpb24gaW4gdGhpcyBlLW1haWwgYW5kIGF0dGFjaGVkIGZpbGVzIGFyZSBDT05G
+SURFTlRJQUwuPGJyPkFueSB1bmF1dGhvcml6ZWQgdXNlIG9yIGRpc2Nsb3N1cmUgb2YgdGhpcyBl
+bWFpbCBpcyBwcm9oaWJpdGVkLjxicj5JZiB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGVtYWlsIGlu
+IGVycm9yLCBwbGVhc2UgZGVsZXRlIHRoZSBlbWFpbCBhbmQgaXRzIGF0dGFjaG1lbnRzIGltbWVk
+aWF0ZWx5LjwvZGl2Pg0K
+--0000000000009ae68a057ed8d2a6--

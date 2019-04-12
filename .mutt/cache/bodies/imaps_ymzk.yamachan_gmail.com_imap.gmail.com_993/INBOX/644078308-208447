@@ -1,0 +1,299 @@
+Delivered-To: ymzk.yamachan@gmail.com
+Received: by 2002:a50:c358:0:0:0:0:0 with SMTP id q24csp4478972edb;
+        Mon, 7 Jan 2019 18:43:32 -0800 (PST)
+X-Google-Smtp-Source: AFSGD/W6pShgU8lZ4vHuvnR8SAJ+y1RKjTSzOU1HE8ToWNXVe5F2Go5Zqkul2oEDi15GlTx02HYM
+X-Received: by 2002:a62:5ec5:: with SMTP id s188mr64213402pfb.145.1546915412093;
+        Mon, 07 Jan 2019 18:43:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1546915412; cv=none;
+        d=google.com; s=arc-20160816;
+        b=RRyj1IqD5IlAzOXevHLeT2QW/jO0vsXNAYWdCEYiU5tuYFbKNPxwarqEEbnsTx+bxS
+         cxz/oQKD4+TMqYO0LCyJldTDBoFJA7ZvGitKj1mWrQ1ATiW2q+twlk5rFfdOMLPgy7Io
+         v/v3w1qbisxgkLOmxMaGmHqLS4KP0JL6gblzUoHrM+a81OoPk3PnzXbMB3rGracxnfgF
+         lvafbOdVPWVghq1QcW4AwXT2mcjJVFEQ41NS7ZJzPC4nCEhYo0gZ8GdNT/WevsdPF8SB
+         MhlWuTUkxi4cFzUVeGu7QExvudEpLy3ymZE9liQkJyTj4NkZfQsJOAVyDvoKVOyUs6fF
+         WtAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:in-reply-to:references:message-id:subject:date:mime-version
+         :content-transfer-encoding:from;
+        bh=UDdtLu7P5MQXRpG9XqK6bX54uLn8YIRHpIPB1Ns2CI8=;
+        b=COvDLbT2lc28/JReQ5MbJKitIdwJj5zUf7+TC1qKXxOK2iS5NwB4I7fWYlZCOgs8vf
+         wtoh6gx+zUs9kic6PrjU7tLpG5SxzxRimYXV5vEcPXgCiySG7h21xCS/LkHxL2jSdZon
+         1kFIsCrDqkzVfak/vcClSmwB9w0eb9MBl1eC0Pcgtr0FfhA/+ANrhbbADL6c7SfeBeau
+         gizneXPKX1iRwGuUZFijWrwh8zppw2aItsp9YLLyxZ8tr7lYGwzPGmmRa8nUPrcSL+AT
+         UZswXJQBuJTtZBaOsV3D8aCOKaD7vtet0kTk8cp638/VUUaRm8OqkjlwhDm3yoPBA1kq
+         WFGA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of kageura@infocrest.co.jp designates 153.127.234.5 as permitted sender) smtp.mailfrom=kageura@infocrest.co.jp
+Return-Path: <kageura@infocrest.co.jp>
+Received: from smtp.kagoya.net (smtp3.kagoya.net. [153.127.234.5])
+        by mx.google.com with ESMTP id r7si49227169pfb.237.2019.01.07.18.43.31
+        for <ymzk.yamachan@gmail.com>;
+        Mon, 07 Jan 2019 18:43:31 -0800 (PST)
+Received-SPF: pass (google.com: domain of kageura@infocrest.co.jp designates 153.127.234.5 as permitted sender) client-ip=153.127.234.5;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of kageura@infocrest.co.jp designates 153.127.234.5 as permitted sender) smtp.mailfrom=kageura@infocrest.co.jp
+Received: from [192.168.0.146] (101-141-81-18f1.kyt1.eonet.ne.jp [101.141.81.18])
+	by smtp.kagoya.net (Postfix) with ESMTPSA id C05A31C90EC6
+	for <ymzk.yamachan@gmail.com>; Tue,  8 Jan 2019 11:43:30 +0900 (JST)
+From: Seiji KAGEURA <kageura@infocrest.co.jp>
+Content-Type: multipart/alternative;
+	boundary=Apple-Mail-41DECFD2-FC3A-41B2-8A9F-898D682C6224
+Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (1.0)
+Date: Tue, 8 Jan 2019 11:43:30 +0900
+Subject: =?utf-8?B?UmU6IOabuOmhnumWouS/guaXpeeoi+OBq+OBpOOBhOOBpg==?=
+Message-Id: <5F2A6F91-C246-46AC-9BD9-1E51BDB46CA5@infocrest.co.jp>
+References: <CALVQF=yvyFeVeqoVp_nxPBEaggnUkdvKOiZf1DQoWuKDia+15g@mail.gmail.com> <CAJBYVeCQuqv+cHnX4n2pLUh9W_BkHuXG7j68eBT-vmNsQzwkNA@mail.gmail.com> <102d1d7f-6820-4d64-a74c-f87e72aef8f6@Spark>
+In-Reply-To: <102d1d7f-6820-4d64-a74c-f87e72aef8f6@Spark>
+To: Ryo Yamazaki <ymzk.yamachan@gmail.com>
+X-Mailer: iPhone Mail (16C101)
+
+
+--Apple-Mail-41DECFD2-FC3A-41B2-8A9F-898D682C6224
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: base64
+
+44Gh44KH44Gj44Go5qSc6KiO44GX44G+44GZ44Gt44CCDQrlhYPjgIXjgYvjgonoqbHjgZfjgabj
+gYTjgZ/jga7jga/pgKPkvJHmmI7jgZHjga4xNeaXpeOBp+OBl+OBn+OCiOOAguOBn+OBoOOAgeen
+geOBjOOBhuOBo+OBi+OCiuOBl+OBpuOBiuOCijTml6XjgaDjgZHjga7lh7rnpL7nt6DjgoHjgavj
+garjgovjga7jgacyMeaXpeOBqOOBhOOBhuOBk+OBqOOBp+mAo+e1oeOBl+OBvuOBl+OBn+OAguWf
+uuacrOOBr+OBv+OBquOBleOCkzIx5pel44GC44Gf44KK44Gu5YWl56S+44Gr44GX44Gm44KC44KJ
+44Gj44Gm44G+44GZ44CCDQoNCuS6i+WLmeaJgOOBruaOg+mZpOOChOOCpOODs+ODleODqea6luWC
+meOAgeWQiOmWk+OBq+WWtualreWRqOOCiuOBquOBqeOBp+S7iumAseOBr+Wkp+WkieOBp+OBmeOB
+reODvA0KDQpTZWlqaSBLDQoNCjIwMTkvMDEvMDggMTE6MzHjgIFSeW8gWWFtYXpha2kgPHltemsu
+eWFtYWNoYW5AZ21haWwuY29tPuOBruODoeODvOODqzoNCg0KPiDlvbHmtabjgZXjgpMNCj4gDQo+
+IOacrOW5tOOCguOCiOOCjeOBl+OBj+OBiumhmOOBhOiHtOOBl+OBvuOBmeOAgg0KPiANCj4g5pel
+56iL44Gn44GZ44GM44CBDQo+IDHmnIg55pelKOawtCkxMTowMH4xNTowMA0KPiAx5pyIMTDml6Uo
+5pyoKTExOjAwfjE1OjAwDQo+IDHmnIgxMeaXpSjph5EpMTE6MDB+MTU6MDANCj4g44Gn44GE44GL
+44GM44Gn44GX44KH44GG44GL44CCDQo+IA0KPiDlhYPjgIUx5pyI44Gu5LyR44G/5piO44GR44KS
+N+aXpeOBqOaNieOBiOOBpuOBiuOCiuOBvuOBl+OBn+OBruOBp+OAgTIx5pel44GL44KJ5YWl56S+
+44Go44Gq44KK44G+44GZ44GoDQo+IOS/nemZuuOBquOBqeOBruaJi+e2muOBjeOBp+OBk+OBoeOC
+ieOBqOOBl+OBpuOBr+mDveWQiOOBjOaCquOBhOOBruOBp+OBquOCi+OBueOBj+aXqeOCgeOBq+Wv
+vuW/nOOBl+OBpumgguOBjeOBn+OBhOOBruOBp+OBmeOBjOOAgeOBneOBrueCueOCguWQiOOCj+OB
+m+OBpuS4iuiomOaXpeeoi+OBp+OBiuS8muOBhOOBl+OBn+mam+OBq+OBiuipseOBleOBm+OBpuOB
+hOOBn+OBoOOBkeOCjOOBsOOBqOaAneOBhOOBvuOBmeOAgg0KPiANCj4g5Lul5LiK44CB5a6c44GX
+44GP44GK6aGY44GE6Ie044GX44G+44GZ44CCDQo+IA0KPiANCj4g5bGx5bSODQo+IA0KPiA9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiDlsbHltI7kuq4NCj4g
+UllPIFlhbWF6YWtpDQo+IA0KPiAwOTAtNDI2OC0zOTM4DQo+IHltemsueWFtYWNoYW5AZ21haWwu
+Y29tDQo+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+IA0K
+PiAyMDE55bm0MeaciDfml6UgMTY6MDMgKzA5MDDjgIFTZWlqaSBLYWdldXJhIOOBruODoeODvOOD
+qzoNCj4+IOWxseW0juOBleOCkw0KPj4gDQo+PiDmnKzlubTjgoLjgojjgo3jgZfjgY/jgYrpoZjj
+gYTjgZfjgb7jgZnjgIINCj4+IA0KPj4g44G+44Gf5LuK6YCx44GL5p2l6YCx44Gr44Gn44KC5pu4
+6aGe5LiA5byP44KS5Y+W44KK44Gr5p2l44Gm44GP44Gg44GV44GE44CC44Gd44Gu6Zqb44Gr5rqQ
+5rOJ5b605Y+O56Wo44GM44GC44KM44Gw5oyB5Y+C44GX44Gm44GP44Gg44GV44GE44CCDQo+PiAN
+Cj4+IOS7iumAseOBr+aUueijheOBrua6luWCmeOBrueJh+S7mOOBkeOBquOBqeOBp+ODkOOCv+OD
+kOOCv+OBl+OBpuOBhOOCi+OBqOaAneOBhOOBvuOBmeOAgg0KPj4g5YWl56S+5pel44Gr6Zai44GX
+44Gm44Gn44GZ44GM44CB5Lya56S+44Gu57eg44KB5pel44GMMjDml6Xjgarjga7jgacyMeaXpeOB
+i+OCieOBjOiJr+OBhOOBqOaAneOBhOOBvuOBmeOAgg0KPj4g77yI44KC44Gh44KN44KT44Gd44KM
+44KI44KK44KC5YmN44Gr5qWt5YuZ44Gn44Gv44Gq44GP6YGK44Gz44Gr44GN44Gm44KC44KJ44GG
+44G244KT44Gr44Gv5aSn5LiI5aSr44Gn44GZ44GM56yR77yJDQo+PiANCj4+IOOBvuOBn+aXpeaZ
+guOBhOOBj+OBpOOBi+OBj+OBoOOBleOBhOOAgg0KPj4gDQo+PiAyMDE45bm0MTLmnIgxMOaXpSjm
+nIgpIDEzOjE2IFJ5byBZYW1hemFraSA8eW16ay55YW1hY2hhbkBnbWFpbC5jb20+Og0KPj4+IOW9
+sea1puOBleOCkw0KPj4+IA0KPj4+IOOBiuS4luipseOBq+OBquOBo+OBpuOBiuOCiuOBvuOBmeOA
+gg0KPj4+IOWxseW0juOBp+OBmeOAgg0KPj4+IA0KPj4+IOmHkeabnOaXpeOBr+OAgemjn+S6i+S8
+muOBq+OBiuiqmOOBhOmgguOBjeOAgeOBguOCiuOBjOOBqOOBhuOBlOOBluOBhOOBvuOBl+OBn+OA
+gg0KPj4+IOefreOBhOaZgumWk+OBp+OBl+OBn+OBjOOAgeOCpOODs+ODleOCqeOCr+ODrOOCueOD
+iOOBruODoeODs+ODkOODvOOBqOipseOBmeOBk+OBqOOBjOOBp+OBjeOAgeWwkeOBl+OBp+OBr+OB
+guOCiuOBvuOBmeOBjA0KPj4+IOOBqeOCk+OBquOCq+ODqeODvOOBi+OCkuaEn+OBmOOCi+OBk+OB
+qOOBjOOBp+OBjeOBvuOBl+OBn+OAgg0KPj4+IA0KPj4+IOaEj+WkluOBqFNsYWNr44Gn44Gu44OB
+44Oj44OD44OI44OZ44O844K544Gu44Kz44Of44Ol44OL44Kx44O844K344On44Oz44KEZ2l044Gn
+44Gu44OQ44O844K444On44Oz566h55CG44Gr6IiI5ZGz44KS5oyB44Gk5pa544GM44GE44KJ44Gj
+44GX44KD44Gj44Gf44KI44GG44Gn44CB5qW944GX44GP44Gq44Gj44Gm44GN44G+44GX44Gf44CC
+DQo+Pj4gDQo+Pj4g5p2l5bm0MeaciOOCiOOCiuOAgeOCiOOCjeOBl+OBj+OBiumhmOOBhOiHtOOB
+l+OBvuOBmeOAgg0KPj4+IA0KPj4+IA0KPj4+IA0KPj4+IOWxseW0jg0KPj4gLS0NCj4+IC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0NCj4+IFNlaWppIEtBR0VVUkEgKE1vYmlsZe+8mjA5MC03NzY2LTAxODMpDQo+PiANCj4+IGlu
+Zm9jcmVzdCBjby4sbHRkLg0KPj4gMkYgS2FyYXN1bWEgYmxkLCA4NS0xIE1pa3VyYS1jaG8sDQo+
+PiBOYWthZ3lvLWt1LCBLWU9UTyA2MDQ4MTY2DQo+PiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+PiBJTVBPUlRBTlQgTk9U
+SUNFDQo+PiBUaGUgaW5mb3JtYXRpb24gaW4gdGhpcyBlLW1haWwgYW5kIGF0dGFjaGVkIGZpbGVz
+IGFyZSBDT05GSURFTlRJQUwuDQo+PiBBbnkgdW5hdXRob3JpemVkIHVzZSBvciBkaXNjbG9zdXJl
+IG9mIHRoaXMgZW1haWwgaXMgcHJvaGliaXRlZC4NCj4+IElmIHlvdSBoYXZlIHJlY2VpdmVkIHRo
+aXMgZW1haWwgaW4gZXJyb3IsIHBsZWFzZSBkZWxldGUgdGhlIGVtYWlsIGFuZCBpdHMgYXR0YWNo
+bWVudHMgaW1tZWRpYXRlbHkuDQo=
+
+--Apple-Mail-41DECFD2-FC3A-41B2-8A9F-898D682C6224
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto">=E3=81=A1=E3=82=87=E3=81=A3=E3=81=A8=E6=A4=9C=
+=E8=A8=8E=E3=81=97=E3=81=BE=E3=81=99=E3=81=AD=E3=80=82<div>=E5=85=83=E3=80=85=
+=E3=81=8B=E3=82=89=E8=A9=B1=E3=81=97=E3=81=A6=E3=81=84=E3=81=9F=E3=81=AE=E3=81=
+=AF=E9=80=A3=E4=BC=91=E6=98=8E=E3=81=91=E3=81=AE15=E6=97=A5=E3=81=A7=E3=81=97=
+=E3=81=9F=E3=82=88=E3=80=82=E3=81=9F=E3=81=A0=E3=80=81=E7=A7=81=E3=81=8C=E3=81=
+=86=E3=81=A3=E3=81=8B=E3=82=8A=E3=81=97=E3=81=A6=E3=81=8A=E3=82=8A4=E6=97=A5=
+=E3=81=A0=E3=81=91=E3=81=AE=E5=87=BA=E7=A4=BE=E7=B7=A0=E3=82=81=E3=81=AB=E3=81=
+=AA=E3=82=8B=E3=81=AE=E3=81=A721=E6=97=A5=E3=81=A8=E3=81=84=E3=81=86=E3=81=93=
+=E3=81=A8=E3=81=A7=E9=80=A3=E7=B5=A1=E3=81=97=E3=81=BE=E3=81=97=E3=81=9F=E3=80=
+=82=E5=9F=BA=E6=9C=AC=E3=81=AF=E3=81=BF=E3=81=AA=E3=81=95=E3=82=9321=E6=97=A5=
+=E3=81=82=E3=81=9F=E3=82=8A=E3=81=AE=E5=85=A5=E7=A4=BE=E3=81=AB=E3=81=97=E3=81=
+=A6=E3=82=82=E3=82=89=E3=81=A3=E3=81=A6=E3=81=BE=E3=81=99=E3=80=82</div><div=
+><br></div><div>=E4=BA=8B=E5=8B=99=E6=89=80=E3=81=AE=E6=8E=83=E9=99=A4=E3=82=
+=84=E3=82=A4=E3=83=B3=E3=83=95=E3=83=A9=E6=BA=96=E5=82=99=E3=80=81=E5=90=88=E9=
+=96=93=E3=81=AB=E5=96=B6=E6=A5=AD=E5=91=A8=E3=82=8A=E3=81=AA=E3=81=A9=E3=81=A7=
+=E4=BB=8A=E9=80=B1=E3=81=AF=E5=A4=A7=E5=A4=89=E3=81=A7=E3=81=99=E3=81=AD=E3=83=
+=BC<br><br><div id=3D"AppleMailSignature" dir=3D"ltr">Seiji K</div><div dir=3D=
+"ltr"><br>2019/01/08 11:31=E3=80=81Ryo Yamazaki &lt;<a href=3D"mailto:ymzk.y=
+amachan@gmail.com">ymzk.yamachan@gmail.com</a>&gt;=E3=81=AE=E3=83=A1=E3=83=BC=
+=E3=83=AB:<br><br></div><blockquote type=3D"cite"><div dir=3D"ltr">
+
+<title></title>
+
+
+<div name=3D"messageBodySection" style=3D"font-size: 14px; font-family: -app=
+le-system, BlinkMacSystemFont, sans-serif;">=E5=BD=B1=E6=B5=A6=E3=81=95=E3=82=
+=93
+<div><br></div>
+<div>=E6=9C=AC=E5=B9=B4=E3=82=82=E3=82=88=E3=82=8D=E3=81=97=E3=81=8F=E3=81=8A=
+=E9=A1=98=E3=81=84=E8=87=B4=E3=81=97=E3=81=BE=E3=81=99=E3=80=82</div>
+<div><br></div>
+<div>=E6=97=A5=E7=A8=8B=E3=81=A7=E3=81=99=E3=81=8C=E3=80=81</div>
+<div>1=E6=9C=889=E6=97=A5(=E6=B0=B4)11:00~15:00</div>
+<div>1=E6=9C=8810=E6=97=A5(=E6=9C=A8)11:00~15:00</div>
+<div>1=E6=9C=8811=E6=97=A5(=E9=87=91)11:00~15:00</div>
+<div>=E3=81=A7=E3=81=84=E3=81=8B=E3=81=8C=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=
+=E3=81=8B=E3=80=82</div>
+<div><br></div>
+<div>=E5=85=83=E3=80=851=E6=9C=88=E3=81=AE=E4=BC=91=E3=81=BF=E6=98=8E=E3=81=91=
+=E3=82=927=E6=97=A5=E3=81=A8=E6=8D=89=E3=81=88=E3=81=A6=E3=81=8A=E3=82=8A=E3=
+=81=BE=E3=81=97=E3=81=9F=E3=81=AE=E3=81=A7=E3=80=8121=E6=97=A5=E3=81=8B=E3=82=
+=89=E5=85=A5=E7=A4=BE=E3=81=A8=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=99=E3=81=A8<=
+/div>
+<div>=E4=BF=9D=E9=99=BA=E3=81=AA=E3=81=A9=E3=81=AE=E6=89=8B=E7=B6=9A=E3=81=8D=
+=E3=81=A7=E3=81=93=E3=81=A1=E3=82=89=E3=81=A8=E3=81=97=E3=81=A6=E3=81=AF=E9=83=
+=BD=E5=90=88=E3=81=8C=E6=82=AA=E3=81=84=E3=81=AE=E3=81=A7=E3=81=AA=E3=82=8B=E3=
+=81=B9=E3=81=8F=E6=97=A9=E3=82=81=E3=81=AB=E5=AF=BE=E5=BF=9C=E3=81=97=E3=81=A6=
+=E9=A0=82=E3=81=8D=E3=81=9F=E3=81=84=E3=81=AE=E3=81=A7=E3=81=99=E3=81=8C=E3=80=
+=81=E3=81=9D=E3=81=AE=E7=82=B9=E3=82=82=E5=90=88=E3=82=8F=E3=81=9B=E3=81=A6=E4=
+=B8=8A=E8=A8=98=E6=97=A5=E7=A8=8B=E3=81=A7=E3=81=8A=E4=BC=9A=E3=81=84=E3=81=97=
+=E3=81=9F=E9=9A=9B=E3=81=AB=E3=81=8A=E8=A9=B1=E3=81=95=E3=81=9B=E3=81=A6=E3=81=
+=84=E3=81=9F=E3=81=A0=E3=81=91=E3=82=8C=E3=81=B0=E3=81=A8=E6=80=9D=E3=81=84=E3=
+=81=BE=E3=81=99=E3=80=82</div>
+<div><br></div>
+<div>=E4=BB=A5=E4=B8=8A=E3=80=81=E5=AE=9C=E3=81=97=E3=81=8F=E3=81=8A=E9=A1=98=
+=E3=81=84=E8=87=B4=E3=81=97=E3=81=BE=E3=81=99=E3=80=82</div>
+<div><br></div>
+<div><br></div>
+<div>=E5=B1=B1=E5=B4=8E</div>
+</div>
+<div name=3D"messageSignatureSection" style=3D"font-size: 14px; font-family:=
+ -apple-system, BlinkMacSystemFont, sans-serif;"><br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+<div>=E5=B1=B1=E5=B4=8E=E4=BA=AE</div>
+<div>RYO Yamazaki</div>
+<div><br></div>
+<div>090-4268-3938</div>
+<div><a href=3D"mailto:ymzk.yamachan@gmail.com">ymzk.yamachan@gmail.com</a><=
+/div>
+<div>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br></div>
+<div><br></div>
+</div>
+<div name=3D"messageReplySection" style=3D"font-size: 14px; font-family: -ap=
+ple-system, BlinkMacSystemFont, sans-serif;">2019=E5=B9=B41=E6=9C=887=E6=97=A5=
+ 16:03 +0900=E3=80=81Seiji Kageura =E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB:<br>=
+
+<blockquote type=3D"cite" style=3D"margin: 5px 5px; padding-left: 10px; bord=
+er-left: thin solid #1abc9c;">
+<div>
+<div dir=3D"auto">=E5=B1=B1=E5=B4=8E=E3=81=95=E3=82=93</div>
+</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">=E6=9C=AC=E5=B9=B4=E3=82=82=E3=82=88=E3=82=8D=E3=81=97=E3=81=
+=8F=E3=81=8A=E9=A1=98=E3=81=84=E3=81=97=E3=81=BE=E3=81=99=E3=80=82</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">=E3=81=BE=E3=81=9F=E4=BB=8A=E9=80=B1=E3=81=8B=E6=9D=A5=E9=80=
+=B1=E3=81=AB=E3=81=A7=E3=82=82=E6=9B=B8=E9=A1=9E=E4=B8=80=E5=BC=8F=E3=82=92=E5=
+=8F=96=E3=82=8A=E3=81=AB=E6=9D=A5=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82=E3=81=9D=E3=81=AE=E9=9A=9B=E3=81=AB=E6=BA=90=E6=B3=89=E5=BE=B4=E5=8F=
+=8E=E7=A5=A8=E3=81=8C=E3=81=82=E3=82=8C=E3=81=B0=E6=8C=81=E5=8F=82=E3=81=97=E3=
+=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">=E4=BB=8A=E9=80=B1=E3=81=AF=E6=94=B9=E8=A3=85=E3=81=AE=E6=BA=
+=96=E5=82=99=E3=81=AE=E7=89=87=E4=BB=98=E3=81=91=E3=81=AA=E3=81=A9=E3=81=A7=E3=
+=83=90=E3=82=BF=E3=83=90=E3=82=BF=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E3=81=A8=
+=E6=80=9D=E3=81=84=E3=81=BE=E3=81=99=E3=80=82</div>
+<div dir=3D"auto">=E5=85=A5=E7=A4=BE=E6=97=A5=E3=81=AB=E9=96=A2=E3=81=97=E3=81=
+=A6=E3=81=A7=E3=81=99=E3=81=8C=E3=80=81=E4=BC=9A=E7=A4=BE=E3=81=AE=E7=B7=A0=E3=
+=82=81=E6=97=A5=E3=81=8C20=E6=97=A5=E3=81=AA=E3=81=AE=E3=81=A721=E6=97=A5=E3=
+=81=8B=E3=82=89=E3=81=8C=E8=89=AF=E3=81=84=E3=81=A8=E6=80=9D=E3=81=84=E3=81=BE=
+=E3=81=99=E3=80=82</div>
+<div dir=3D"auto">=EF=BC=88=E3=82=82=E3=81=A1=E3=82=8D=E3=82=93=E3=81=9D=E3=82=
+=8C=E3=82=88=E3=82=8A=E3=82=82=E5=89=8D=E3=81=AB=E6=A5=AD=E5=8B=99=E3=81=A7=E3=
+=81=AF=E3=81=AA=E3=81=8F=E9=81=8A=E3=81=B3=E3=81=AB=E3=81=8D=E3=81=A6=E3=82=82=
+=E3=82=89=E3=81=86=E3=81=B6=E3=82=93=E3=81=AB=E3=81=AF=E5=A4=A7=E4=B8=88=E5=A4=
+=AB=E3=81=A7=E3=81=99=E3=81=8C=E7=AC=91=EF=BC=89</div>
+<div dir=3D"auto"><br></div>
+<div dir=3D"auto">=E3=81=BE=E3=81=9F=E6=97=A5=E6=99=82=E3=81=84=E3=81=8F=E3=81=
+=A4=E3=81=8B=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82</div>
+<div><br>
+<div class=3D"gmail_quote">
+<div dir=3D"ltr">2018=E5=B9=B412=E6=9C=8810=E6=97=A5(=E6=9C=88) 13:16 Ryo Ya=
+mazaki &lt;<a href=3D"mailto:ymzk.yamachan@gmail.com">ymzk.yamachan@gmail.co=
+m</a>&gt;:<br></div>
+<blockquote class=3D"gmail_quote" style=3D"margin: 5px 5px; padding-left: 10=
+px; border-left: thin solid #e67e22;">
+<div dir=3D"ltr">=E5=BD=B1=E6=B5=A6=E3=81=95=E3=82=93
+<div><br></div>
+<div>=E3=81=8A=E4=B8=96=E8=A9=B1=E3=81=AB=E3=81=AA=E3=81=A3=E3=81=A6=E3=81=8A=
+=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82</div>
+<div>=E5=B1=B1=E5=B4=8E=E3=81=A7=E3=81=99=E3=80=82</div>
+<div><br></div>
+<div>=E9=87=91=E6=9B=9C=E6=97=A5=E3=81=AF=E3=80=81=E9=A3=9F=E4=BA=8B=E4=BC=9A=
+=E3=81=AB=E3=81=8A=E8=AA=98=E3=81=84=E9=A0=82=E3=81=8D=E3=80=81=E3=81=82=E3=82=
+=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=81=84=E3=81=BE=E3=81=97=E3=
+=81=9F=E3=80=82</div>
+<div>=E7=9F=AD=E3=81=84=E6=99=82=E9=96=93=E3=81=A7=E3=81=97=E3=81=9F=E3=81=8C=
+=E3=80=81=E3=82=A4=E3=83=B3=E3=83=95=E3=82=A9=E3=82=AF=E3=83=AC=E3=82=B9=E3=83=
+=88=E3=81=AE=E3=83=A1=E3=83=B3=E3=83=90=E3=83=BC=E3=81=A8=E8=A9=B1=E3=81=99=E3=
+=81=93=E3=81=A8=E3=81=8C=E3=81=A7=E3=81=8D=E3=80=81=E5=B0=91=E3=81=97=E3=81=A7=
+=E3=81=AF=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=81=8C</div>
+<div>=E3=81=A9=E3=82=93=E3=81=AA=E3=82=AB=E3=83=A9=E3=83=BC=E3=81=8B=E3=82=92=
+=E6=84=9F=E3=81=98=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=A7=E3=81=8D=E3=81=
+=BE=E3=81=97=E3=81=9F=E3=80=82</div>
+<div><br></div>
+<div>=E6=84=8F=E5=A4=96=E3=81=A8Slack=E3=81=A7=E3=81=AE=E3=83=81=E3=83=A3=E3=
+=83=83=E3=83=88=E3=83=99=E3=83=BC=E3=82=B9=E3=81=AE=E3=82=B3=E3=83=9F=E3=83=A5=
+=E3=83=8B=E3=82=B1=E3=83=BC=E3=82=B7=E3=83=A7=E3=83=B3=E3=82=84git=E3=81=A7=E3=
+=81=AE=E3=83=90=E3=83=BC=E3=82=B8=E3=83=A7=E3=83=B3=E7=AE=A1=E7=90=86=E3=81=AB=
+=E8=88=88=E5=91=B3=E3=82=92=E6=8C=81=E3=81=A4=E6=96=B9=E3=81=8C=E3=81=84=E3=82=
+=89=E3=81=A3=E3=81=97=E3=82=83=E3=81=A3=E3=81=9F=E3=82=88=E3=81=86=E3=81=A7=E3=
+=80=81=E6=A5=BD=E3=81=97=E3=81=8F=E3=81=AA=E3=81=A3=E3=81=A6=E3=81=8D=E3=81=BE=
+=E3=81=97=E3=81=9F=E3=80=82</div>
+<div><br></div>
+<div>=E6=9D=A5=E5=B9=B41=E6=9C=88=E3=82=88=E3=82=8A=E3=80=81=E3=82=88=E3=82=8D=
+=E3=81=97=E3=81=8F=E3=81=8A=E9=A1=98=E3=81=84=E8=87=B4=E3=81=97=E3=81=BE=E3=81=
+=99=E3=80=82</div>
+<div><br></div>
+<div><br></div>
+<div><br></div>
+<div>=E5=B1=B1=E5=B4=8E</div>
+</div>
+</blockquote>
+</div>
+</div>
+--<br>
+<div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature=
+">----------------------------------------------------------------<br>
+Seiji KAGEURA (Mobile=EF=BC=9A090-7766-0183)<br>
+<br>
+infocrest co.,ltd.<br>
+2F Karasuma bld, 85-1 Mikura-cho,<br>
+Nakagyo-ku, KYOTO 6048166<br>
+----------------------------------------------------------------<br>
+IMPORTANT NOTICE<br>
+The information in this e-mail and attached files are CONFIDENTIAL.<br>
+Any unauthorized use or disclosure of this email is prohibited.<br>
+If you have received this email in error, please delete the email and its at=
+tachments immediately.</div>
+</blockquote>
+</div>
+
+
+</div></blockquote></div></body></html>=
+
+--Apple-Mail-41DECFD2-FC3A-41B2-8A9F-898D682C6224--

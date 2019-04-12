@@ -1,0 +1,2407 @@
+Delivered-To: ymzk.yamachan@gmail.com
+Received: by 2002:a50:f5e7:0:0:0:0:0 with SMTP id x36csp3821014edm;
+        Mon, 8 Apr 2019 07:08:49 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw+SSvTNOdMm3/0vWc6zzVIuxo6E3hM0A5ohyGTzALy/5gpQK4QkR555bAeM94iAivZbcll
+X-Received: by 2002:a25:9781:: with SMTP id i1mr3027316ybo.345.1554732529281;
+        Mon, 08 Apr 2019 07:08:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1554732529; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Dp42bEr6f3JYtyK87/VRL4p5iZZSoUpdsPCm3qn5oWmUUQqjC+am21lsoQRUfg9Lyq
+         Q/uU5QvaM0AqeD8Mrp8nN+xzEuWPkvEJq2apWLx+ZLbo7kGeT8Rl535vmMZi4cFPdVhz
+         1dPc/GFXGUglZ3cOxX1wnaM1XWpA2H6A8539Xs1TomTo9ZWygiL+HUPBprzavMWFeeLH
+         0F3Sy97L/EZd6gPWlFgeEt2ssNDFIMpIl8nR5hsHmc/Ylj2l98DQ7zuis1ORRz40fEVn
+         1PJUw8NNvjXA946u6LW3XXUnn3WAv3SmFfWncymRLtAZWoi2/FSf2JWDbQ0NYGLdCdo3
+         S8Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:mime-version:subject:message-id:to:reply-to:from
+         :date:dkim-signature;
+        bh=jtDPXFt8BjhjwuahSj04PoiFKmJWJ5mVf9Xq5AkdFYQ=;
+        b=XPVqmjc8lkOOKmRY2224qaNga4PElwAaUhPpIwF8KHpuqB1KZ2Y3G/QreW1p74Rqkx
+         C+fFl3vLHYotWvc+EP+IO7SF3aJSl6j6XyXqayFEUu8EMtt05xPjTW8cd4Ti8IIUKiia
+         tQO0jiC7Kj25ge0mKWCUw7twCFCNK0OIFbnfPo+IE51qz9+XIBD5INzYM5v8WJYqAg5s
+         RQ77mPpdpO1QzbfIrZ3wagXHnRCrExcm5LAmSkBfjR59rVW0jXHgn+7XEqIhGrXcJ0oW
+         9h8Q6jbzxS3GVk04cYm4TOGQC745YgWOrTVWLugNoQDXftbuO7uD4qf1SFNhCTcjr5e1
+         Deyw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@mg.jp.expediamail.com header.s=gears header.b=XdAP4YMn;
+       spf=pass (google.com: domain of 364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com designates 135.84.217.208 as permitted sender) smtp.mailfrom=364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=expediamail.com
+Return-Path: <364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com>
+Received: from gears217-208.expediamail.com (gears217-208.expediamail.com. [135.84.217.208])
+        by mx.google.com with ESMTPS id c21si18095269ywc.15.2019.04.08.07.08.49
+        for <ymzk.yamachan@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Apr 2019 07:08:49 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com designates 135.84.217.208 as permitted sender) client-ip=135.84.217.208;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@mg.jp.expediamail.com header.s=gears header.b=XdAP4YMn;
+       spf=pass (google.com: domain of 364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com designates 135.84.217.208 as permitted sender) smtp.mailfrom=364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=expediamail.com
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=gears; d=mg.jp.expediamail.com;
+ h=Date:From:Reply-To:To:Message-ID:Subject:MIME-Version:Content-Type:
+ List-Unsubscribe;
+ bh=XTDnv5ScZi0YHYxp+ygeSoRoo2s=;
+ b=XdAP4YMnNnPQAAuriUE7jUEezsdZKHxMwJpRrFpEQ+LT8IELn37Y3zAmQnNrPVvRjq4hQ0xjuP/6
+   GFYmbWYEWfVSzbEKTFtzme8UNGYw4TCTbktueM8i8spkl0fFX//STwPmwhJBunU4KzS5/DYKVyGb
+   gP0FWVj8Wm5tDfZvoOg=
+Date: Mon, 8 Apr 2019 10:08:47 -0400 (EDT)
+From: =?UTF-8?B?44Ko44Kv44K544Oa44OH44Kj44Ki5LqL5YuZ5bGA?= <Expedia@jp.expediamail.com>
+Reply-To: Expedia@jp.expediamail.com
+To: ymzk.yamachan@gmail.com
+Message-ID: <1407509744.139198362.1554732527232.JavaMail.cloud@mta0204.messagegears.net>
+Subject: =?UTF-8?Q?=E3=82=A8=E3=82=AF=E3=82=B9=E3=83=9A=E3=83=87?=
+ =?UTF-8?Q?=E3=82=A3=E3=82=A2=E3=81=AE=E6=97=85=E8=A1=8C?=
+ =?UTF-8?Q?=E7=A2=BA=E8=AA=8D=E9=80=9A=E7=9F=A5_-_5/2_?=
+ =?UTF-8?Q?-_(=E6=97=85=E7=A8=8B=E7=95=AA=E5=8F=B7_7425445919430)?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_139198360_1096551037.1554732527231"
+X-Original-To: ymzk.yamachan@gmail.com
+List-Unsubscribe: <http://link.jp.expediamail.com/uc/1/64126281/02-c19098-ea54b43835bf43ac872be0372ed04da0/JP.PT.EVENTTRIGGEREDMAILING.ENSPURCHASECONFIRMATION.HOTEL%26EMLDTL%3DDATE20190408-ISSUX.SIDX.KEY94001326146.PAIDX.LANGJA_JP.MCIDX.TESTX.VERSX.MIDSX/lzmx.lnznpuna/tznvy/pbz>, <mailto:unsub-364126281000010015302-c19098-ea54b43835bf43ac872be0372ed04da0@mg.jp.expediamail.com>
+
+------=_Part_139198360_1096551037.1554732527231
+Content-Type: multipart/related; 
+	boundary="----=_Part_139198361_1264890630.1554732527231"
+
+------=_Part_139198361_1264890630.1554732527231
+Content-Type: text/html;charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8=
+" />
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0"/>
+    <title>Itinerary: Hotel in =E3=83=90=E3=83=B3=E3=82=B3=E3=82=AF</title>
+
+
+    <style>
+
+<style type=3D"text/css">
+
+    @charset "utf-8";
+    /* CSS Document */
+
+
+    /* Resets */
+    body[class=3D"full-width-html-body"]{ min-width:100% !important; font-f=
+amily: HelveticaNeue;  -webkit-font-smoothing: antialiased; background-colo=
+r: #FFFFFF; padding: 0; margin: 0;-webkit-text-size-adjust: none;-ms-text-s=
+ize-adjust: 100%; }
+
+    /* Outlook fixes */
+    #outlook a { padding: 0; }
+    table{ mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+
+    /* Hotmail fixes */
+    .ReadMsgBody{ width: 100% !important; }
+    .ExternalClass{ width: 100% !important; }
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass f=
+ont,
+    .ExternalClass td, .ExternalClass div{ line-height: 100%; }
+
+    /* Re-style iPhone automatic links */
+    .appleLinkBodyTxt a { color: #0065B8; text-decoration: none; }
+    .supCopy { vertical-align: baseline; position: relative; top: -0.4em; }
+
+    /* Structure */
+    hr { margin: 0; border: none; border-top: 1px solid #C8C8C8; }
+    *[class=3D"primary-section"] { padding: 24px; }
+    *[class=3D"secondary-section"] { padding-bottom: 12px; }
+    *[class=3D"hr-section"] { padding-left: 24px; padding-right: 24px; }
+    td[class=3D"hr-container"] { padding-top: 24px; padding-bottom: 24px; }
+
+    *[class=3D"content-primary-section"] { padding: 24px; padding-top: 0px;=
+ padding-bottom: 0px; }
+    *[class=3D"small-content-list-section"] { padding-bottom: 12px; }
+
+    /* Headers */
+    *[class=3D"header-1"] { font-size: 30px; color: #1F1F1F; }
+    *[class=3D"header-2"] { font-size: 24px; color: #58738A; }
+    *[class=3D"header-3"] { font-size: 18px; color: #58738A; }
+    *[class=3D"header-4"] { font-size: 18px; color: #58738A; font-weight: b=
+old; }
+    *[class=3D"header-5"] { font-size: 15px; color: #58738A; font-weight: b=
+old; }
+
+    /* Text */
+    *[class=3D"large-text"] { font-size: 18px; }
+    *[class=3D"text"] { font-size: 15px; }
+    *[class=3D"content-text"] { font-size: 15px; color: #6B6B6B; }
+    *[class=3D"small-content-text"] { font-size: 12px; color: #6B6B6B; }
+    td[class=3D"link"] { font-size: 15px; }
+    a[class=3D"link"] { color: #0065B8; text-decoration: none; }
+    a[class=3D"message-hotel-link"] { font-family: HelveticaNeue, Helvetica=
+; color: #0065B8; text-decoration: none; }
+    a[class=3D"link"]:visited { color: #0065B8; }
+    td[class=3D"small-link"] { font-size: 12px; }
+    a[class=3D"small-link"] { color: #0065B8; text-decoration: none; }
+    a[class=3D"small-link"]:visited { color: #0065B8; }
+
+    /* Buttons */
+    td[class=3D"brand-button"] { border-radius: 3px; -moz-border-radius: 3p=
+x; -webkit-border-radius:3px; border:1px solid ; border-color:#D3A825; bord=
+er-bottom: 2px solid #A7861B; padding:15px 18px 15px 18px; }
+    a[class=3D"brand-button"] { text-decoration: none; font-family: Helveti=
+caNeue; font-size: 18px; color: #3D3100; display: block; font-weight: bold;=
+ }
+
+    .icon .alt:not(.ie8) {
+        border: none;
+        clip: rect(0 0 0 0);
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute !important;
+        display: inline-block;
+        font-style: normal;
+        white-space: pre;
+    }
+
+    .icon-popup {
+        content: "\e024";
+        margin-left: .23076923em;
+    }
+
+    @media only screen and (max-width: 600px) {
+        *[class=3D"flex-width-100"] { width: 100% !important; height: auto =
+!important; line-height: normal !important; }
+        *[class=3D"hide-all"] { display: none !important; }
+        *[class=3D"split"]{ float: left !important; width: 100% !important;=
+ }
+    }
+
+    @media only screen and (max-width: 400px) {
+        *[class=3D"primary-section"] { padding: 12px; }
+
+        *[class=3D"hide-400"] { display: none !important; }
+        *[class=3D"split-400"]{ float: left !important; width: 100% !import=
+ant; }
+        *[class=3D"txt-resize-30"] { font-size: 30px !important; }
+        *[class=3D"txt-resize-24"] { font-size: 24px !important; }
+        *[class=3D"txt-resize-18"] { font-size: 18px !important; }
+        *[class=3D"txt-resize-12"] { font-size: 12px !important; }
+    }
+    @media only screen and (max-width: 300px) {
+        /*Primary Classes*/
+        *[class=3D"hide-200"] { display: none !important; }
+    }
+</style>
+<style type=3D"text/css">
+
+    @charset "utf-8";
+        /* CSS Document */
+
+
+        /* Resets */
+    body[class=3D"full-width-html-body"]{ min-width:100% !important; font-f=
+amily: HelveticaNeue;  -webkit-font-smoothing: antialiased; background-colo=
+r: #FFFFFF; padding: 0; margin: 0;-webkit-text-size-adjust: none;-ms-text-s=
+ize-adjust: 100%; }
+
+        /* Outlook fixes */
+    #outlook a { padding: 0; }
+    table{ mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+
+        /* Hotmail fixes */
+    .ReadMsgBody{ width: 100% !important; }
+    .ExternalClass{ width: 100% !important; }
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass f=
+ont,
+    .ExternalClass td, .ExternalClass div{ line-height: 100%; }
+
+        /* Re-style iPhone automatic links */
+    .appleLinkBodyTxt a { color: #0065B8; text-decoration: none; }
+    .supCopy { vertical-align: baseline; position: relative; top: -0.4em; }
+
+        /* Structure */
+    hr { margin: 0; border: none; border-top: 1px solid #C8C8C8; }
+    *[class=3D"primary-section"] { padding: 24px; }
+    *[class=3D"secondary-section"] { padding-bottom: 12px; }
+    *[class=3D"hr-section"] { padding-left: 24px; padding-right: 24px; }
+    td[class=3D"hr-container"] { padding-top: 24px; padding-bottom: 24px; }
+
+    *[class=3D"content-primary-section"] { padding: 24px; padding-top: 0px;=
+ padding-bottom: 0px; }
+    *[class=3D"small-content-list-section"] { padding-bottom: 12px; }
+
+        /* Headers */
+    /**[class=3D"header-1"] { font-size: 25px; color: #1F1F1F; line-height:=
+ 30px;}*/
+    /**[class=3D"header-2"] { font-size: 20px; color: #00355F; line-height:=
+ 24px; }*/
+    *[class=3D"header-3"] { font-size: 18px; color: #58738A; }
+    /**[class=3D"header-4"] { font-size: 18px; color: #58738A; font-weight:=
+ bold; }*/
+    *[class=3D"header-5"] { font-size: 15px; color: #58738A; font-weight: b=
+old; }
+
+        /* Text */
+    *[class=3D"large-text"] { font-size: 18px; }
+    *[class=3D"text"] { font-size: 15px; }
+    *[class=3D"content-text"] { font-size: 15px; color: #6B6B6B; line-heigh=
+t: 21px}
+    *[class=3D"small-content-text"] { font-size: 12px; color: #6B6B6B; }
+    td[class=3D"link"] { font-size: 15px; }
+    a[class=3D"link"] { color: #0065B8; text-decoration: none; }
+    a[class=3D"link"]:visited { color: #0065B8; }
+    td[class=3D"small-link"] { font-size: 12px; }
+    a[class=3D"small-link"] { color: #0065B8; text-decoration: none; }
+    a[class=3D"small-link"]:visited { color: #0065B8; }
+
+        /* Buttons */
+    td[class=3D"brand-button"] { border-radius: 3px; -moz-border-radius: 3p=
+x; -webkit-border-radius:3px; border:1px solid ; border-color:#D3A825; bord=
+er-bottom: 2px solid #A7861B; padding:15px 18px 15px 18px; }
+    a[class=3D"brand-button"] { text-decoration: none; font-family: Helveti=
+caNeue; font-size: 18px; color: #3D3100; display: block; font-weight: bold;=
+ }
+
+    @media only screen and (max-width: 600px) {
+        *[class=3D"flex-width-100"] { width: 100% !important; height: auto =
+!important; line-height: normal !important; }
+        *[class=3D"hide-all"] { display: none !important; }
+        *[class=3D"split"]{ float: left !important; width: 100% !important;=
+ }
+        *[id=3D"check-in-container-amenities"]{ padding-top:12px; }
+    }
+
+    @media only screen and (max-width: 400px) {
+        *[class=3D"primary-section"] { padding: 12px; }
+
+        *[class=3D"hide-400"] { display: none !important; }
+        *[class=3D"split-400"]{ float: left !important; width: 100% !import=
+ant; }
+        *[class=3D"txt-resize-30"] { font-size: 30px !important; }
+        *[class=3D"txt-resize-24"] { font-size: 24px !important; }
+        *[class=3D"txt-resize-18"] { font-size: 18px !important; }
+        *[class=3D"txt-resize-12"] { font-size: 12px !important; }
+        /**[id=3D"car-xsell-image"] {display: none !important;}*/
+    }
+    @media only screen and (max-width: 300px) {
+        /*Primary Classes*/
+        *[class=3D"hide-200"] { display: none !important; }
+    }
+</style>
+<style type=3D"text/css">
+
+=09.hotel-content .content-text a {
+=09    color: #0065b8;
+=09    text-decoration: none;
+=09}
+
+    *[id=3D"thank-you-header-section"] {
+        padding-top: 0px;
+        padding-bottom: 6px;
+    }
+
+    *[id=3D"branding-logo-size"] {
+        width: 126px;
+        height: 36px;
+    }
+
+    *[id=3D"confirmation-message-section"] {
+        padding-top: 0px;
+    }
+
+    *[id=3D"car-xsell-image"] {
+        width: 268px;
+        height: 138px;
+        background-size: 75%;
+        background-repeat:no-repeat;
+        background-position: center;
+    }
+
+    img[id=3D"rewards"] {
+        height: 48px;
+    }
+
+    p, ul {
+        margin: 0;
+    }
+    .disney-image{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 100%;
+        width: auto;
+        -webkit-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+    }
+    .disney-secondary{
+        display: table-cell;
+        vertical-align: top;
+        padding-left: 16px;
+        width: 250px;
+    }
+    .disney-img-container{
+        display: table-cell;
+        width: 99px;
+        height: 99px;
+        overflow:hidden;
+        position:relative
+    }
+    .bookNowDiv{
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+
+
+
+    @media only screen and (max-width: 600px) {
+        td[id=3D"car-image-td"]{
+           align:left;
+            width:165px !important;
+        }
+        img[id=3D"car-img"]{
+            width:165px !important;
+        }
+
+        table[id=3D"rewards-container"] {
+            padding-left: 0px;
+        }
+        img[id=3D"responsive-img"] {
+            width: 100% !important;
+            height:195px !important;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        td[id=3D"car-image-td"]{
+            align:left;
+            width:165px !important;
+        }
+        img[id=3D"car-img"]{
+            width:165px !important;
+        }
+        img[id=3D"lx-image"] {
+            width: 100% !important;
+            height:195px !important;
+        }
+    }
+
+    @media only screen and (max-width: 300px) {
+        td[id=3D"car-image-td"]{
+           align:left;
+            width:165px !important;
+        }
+        img[id=3D"car-img"]{
+            width:165px !important;
+        }
+        img[id=3D"lx-image"] {
+            width: 350px !important;
+            height:195px !important;
+        }
+    }
+    @media only screen and (max-width: 490px) {
+        .disney-secondary{
+            display: block;
+            vertical-align: top;
+            padding-left: 16px;
+            width:100%;
+        }
+        .bookNowDiv{
+            padding-top: 10px;
+            padding-left: 14px;
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .disney-img-container{
+            display: table-cell;
+            width: 125px;
+            height: 125px;
+            overflow:hidden;
+            position:relative
+        }
+
+    }
+    #flightConfirmationInsuranceMsg .insurance_recommendation_msg {
+        color: #2f7000;
+        padding: 5px 0px 0px 20px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+</style>    </style>
+</head>
+
+
+<body class=3D"full-width-html-body"> <img height=3D"1" width=3D"1" src=3D"=
+https://dctk.expedia.com/track/1x1.gif?expUserId=3D200582724&langId=3D1041&=
+siteId=3D28&tpId=3D28&eapId=3D0&tuid=3D100512881&uis_siteId=3D28&uis_tpid=
+=3D28&uis_eapid=3D0&uis_guid=3D81c3135a-fb66-4364-98e5-0f6ab91d94dd&uis_tui=
+d=3D100512881&ABTests=3D29710.0%7C25252.1%7C8298.1%7C15355.1%7C30251.0%7C14=
+596.1%7C26812.1%7C8729.0%7C8299.0%7C24578.1%7C28168.0%7C6297.1%7C11044.1%7C=
+16215.1%7C28151.1%7C26334.0%7C12982.1%7C25341.1%7C28095.0%7C27202.1%7C28962=
+.0%7C4614.1%7C14502.1%7C29713.0%7C99991.0%7C7858.1&sendDate=3D040819&emailT=
+ype=3Dexpedia.purchase.confirm.email.e3&tripId=3D158224d6-844c-4004-b777-2d=
+cdc6e89987" />
+
+    <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"presentation=
+">
+        <tr>
+            <td align=3D"center" valign=3D"top">
+                <!-- Pseudo Body -->
+
+                <!-- Canvas -->
+                <table id=3D"email-canvas" class=3D"flex-width-100" width=
+=3D"600" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"
+                       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt=
+;" role=3D"presentation">
+                    <tr>
+                        <td id=3D"email-modules" valign=3D"top"><!-- Email =
+Modules -->
+
+                            <!-- Email Module Container -->
+                            <table id=3D"email-module-container" width=3D"1=
+00%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0"
+                                   style=3D"mso-table-lspace: 0pt;mso-table=
+-rspace: 0pt;" role=3D"presentation">
+                                <!-- Branding -->
+                                <tr>
+                                    <td class=3D"primary-section" align=3D"=
+left" style=3D"padding: 24px;">
+                                                  <a  style=3D"text-decorat=
+ion:none;" href=3Dhttp://link.jp.expediamail.com/c/4/?T=3DNjQxMjYyODE%3AMDI=
+tYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZDA0ZGEw%3AeW16ay55YW1hY2hhbkB=
+nbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlMSU5HLkVOU1BVUkNIQVNFQ09ORklS=
+TUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVNTVVguU0lEWC5LRVk5NDAwMTMyNjE=
+0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1guTUlEU1g%3AZmFsc2U%3A%3A%3A=
+aHR0cHM6Ly93d3cuZXhwZWRpYS5jby5qcC91c2VyL2VtYWlsY2xpY2svYmV4LXRyaXBzL2YycGh=
+vQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWpIUl9aWm9hWnhsVzJCUXk4V3VteGVoRUVxOTdqa1dLbV=
+pJNHRlQVdkT0Zmb1paRUpjWk05dUppY1p2RmdmSVJJN2xQNl9MbGJKNHBKN0RSQk94TVV0aVpTT=
+nZRP0VNTENJRD1KUC5QVC5FVkVOVFRSSUdHRVJFRE1BSUxJTkcuRU5TUFVSQ0hBU0VDT05GSVJN=
+QVRJT04uSE9URUwmRU1MRFRMPURBVEUyMDE5MDQwOC1JU1NVWC5TSURYLktFWTk0MDAxMzI2MTQ=
+2LlBBSURYLkxBTkdKQV9KUC5NQ0lEWC5URVNUWC5WRVJTWC5NSURTWA&K=3DeR7Wye5YwbJf60n=
+u7FN0zw>
+                                                    =20
+
+
+                                <img itemprop=3D"image" src=3D"https://www.=
+expedia.co.jp/_dms/email/logo.png?locale=3Dja_JP&siteid=3D28&"  border=3D"0=
+" alt=3D"=E3=82=A8=E3=82=AF=E3=82=B9=E3=83=9A=E3=83=87=E3=82=A3=E3=82=A2"  =
+/>
+
+                                                  </a>
+                                    </td>
+                                </tr>
+                                <!-- /Branding -->
+
+                                <!--Self Sent Email Message-->
+                                <tr>
+                                    <td id=3D"thank-you-header-section" cla=
+ss=3D"primary-section" align=3D"left"
+                                        style=3D"padding: 24px;padding-top:=
+ 0px;padding-bottom: 6px;">
+                                            <h1 class=3D"header-1"  style=
+=3D"font-family: HelveticaNeue, Helvetica;  font-size: 25px;color: #1F1F1F;=
+line-height: 30px;-webkit-margin-before: 0em;-webkit-margin-after: 0em;font=
+-weight: 100;">
+=E3=81=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=81=84=E3=
+=81=BE=E3=81=97=E3=81=9F=E3=80=82                                          =
+  </h1>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td id=3D"confirmation-message-section"=
+ class=3D"primary-section" align=3D"left"  style=3D"color: #477A00;
+                                            padding: 24px;padding-top: 0px;=
+">
+                                            <span class=3D"large-text" styl=
+e=3D"font-family: HelveticaNeue, Helvetica; font-size: 18px;-webkit-margin-=
+before: 0em;-webkit-margin-after: 0em;font-weight: 100;">
+=E3=81=94=E4=BA=88=E7=B4=84=E3=81=8C=E7=A2=BA=E5=AE=9A=E3=81=97=E3=81=BE=E3=
+=81=97=E3=81=9F=E3=80=82=E4=BA=88=E7=B4=84=E7=A2=BA=E8=AA=8D=E3=81=AE=E3=81=
+=8A=E9=9B=BB=E8=A9=B1=E3=81=AF=E4=B8=8D=E8=A6=81=E3=81=A7=E3=81=99=E3=80=82=
+                                            </span>
+                                    </td>
+                                </tr>
+
+                                <!-- /Purchase Confirmation Message -->
+
+                                <!-- Trip Details Content -->
+                                <tr>
+                                    <td valign=3D"top" align=3D"center">
+
+
+<table id=3D"trip-details-content" width=3D"100%" border=3D"0" cellspacing=
+=3D"0" cellpadding=3D"0"
+       bgcolor=3D"#f5f5f5" style=3D"mso-table-lspace: 0pt;mso-table-rspace:=
+ 0pt;" role=3D"presentation">
+    <tr>
+        <td class=3D"primary-section" align=3D"left" style=3D"padding: 24px=
+;">
+
+
+<style type=3D"text/css">
+
+    *[id=3D"trip-dates-section"] {
+        padding-bottom: 0px;
+    }
+
+    @media only screen and (max-width: 600px) {
+
+    }
+
+    @media only screen and (max-width: 400px) {
+
+    }
+    @media only screen and (max-width: 300px) {
+
+    }
+</style>
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"prese=
+ntation">
+    <tr>
+        <td id=3D"trip-title-section" class=3D"secondary-section" align=3D"=
+left" style=3D"padding-bottom: 12px;">
+            <span class=3D"header-2" style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 20px;color: #00355f;line-height: 24px;">Hotel in =E3=
+=83=90=E3=83=B3=E3=82=B3=E3=82=AF</span>
+        </td>
+    </tr>
+
+    <tr>
+        <td id=3D"trip-dates-section" class=3D"secondary-section" align=3D"=
+left" style=3D"padding-bottom: 0px;">
+            <span class=3D"content-text" style=3D"font-family: HelveticaNeu=
+e, Helvetica; font-size: 15px;color: #6B6B6B;">2019/5/2 - 2019/5/4</span>
+        </td>
+    </tr>
+
+</table>        </td>
+    </tr>
+
+    <!-- MIP -->
+
+
+
+
+
+
+
+
+    <!-- MIP -->
+
+        <tr>
+            <td class=3D"hr-section" align=3D"left"  style=3D"padding-left:=
+ 24px;padding-right: 24px;">
+                <hr style=3D"margin: 0;border: none;border-top: 1px solid #=
+C8C8C8;" />
+            </td>
+        </tr>
+
+            <tr>
+                <td class=3D"primary-section" align=3D"left" style=3D"paddi=
+ng-left: 24px;padding-right: 24px;">
+
+<style type=3D"text/css">
+
+    *[id=3D"online-trip-button-container"] {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        *[class=3D"mobile-button"] {
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+
+    }
+    @media only screen and (max-width: 300px) {
+
+    }
+</style>
+
+
+
+
+
+<!-- Mobile App Links -->
+
+<!-- Temporary fix due to ad-x being deprecated -->
+
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"prese=
+ntation">
+    <tr>
+        <td id=3D"trip-title-section" class=3D"secondary-section" align=3D"=
+left" style=3D"padding-bottom: 12px;">
+            <span style=3D"font-family: HelveticaNeue, Helvetica; font-size=
+: 17px;color: #6b6b6b;line-height: 24px;">
+=E3=81=84=E3=81=A4=E3=81=A7=E3=82=82=E3=81=A9=E3=81=93=E3=81=A7=E3=82=82=E6=
+=9C=80=E6=96=B0=E3=81=AE=E6=97=85=E7=A8=8B=E3=82=92=E7=A2=BA=E8=AA=8D=E3=81=
+=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 12px;">
+            <!-- Button -->
+            <table align=3D"left" cellpadding=3D"15" cellspacing=3D"10" sty=
+le=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"presentation">
+                <tr>
+                    <td class=3D"brand-button" bgcolor=3D"#FFCA00" align=3D=
+"center"
+                        style=3D"border-radius: 3px;-moz-border-radius: 3px=
+;-webkit-border-radius: 3px;border: 1px solid ; border-color:#D3A825;
+                        border-bottom: 2px solid #A7861B ;padding: 15px 18p=
+x 15px 18px;">
+                            <a class=3D"brand-button" alias=3D"Button"
+                                    target=3D"_blank" href=3Dhttp://link.jp=
+.expediamail.com/c/4/?T=3DNjQxMjYyODE%3AMDItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM=
+4NzJiZTAzNzJlZDA0ZGEw%3AeW16ay55YW1hY2hhbkBnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUU=
+klHR0VSRURNQUlMSU5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRF=
+MjAxOTA0MDgtSVNTVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFg=
+uVEVTVFguVkVSU1guTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0cHM6Ly93d3cuZXhwZWRpYS5jby5q=
+cC91c2VyL2VtYWlsY2xpY2svYmV4LXRyaXBzL2YycGhvQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWp=
+IUl9aWm9hWnhsVzJCUXk4V3VteGVoRUVxOTdqa1dLbVpJNHRlQVdkT0Zmb1paRUpjWk05dUppY1=
+p2RmdmSVJJN2xQNl9MbGJKNHBKN0RSQk94TVV0aVpTTnZRL3RyaXBzLzc0MjU0NDU5MTk0MzA_c=
+mZycj1IT1QuSVRJTi5SRS5TRUVJVElOJnVzZXJUb2tlbj1mMnBob0NfY2lIOXlZV2lLQ2hWelIw=
+QS13cVVqSFJfWlpvYVp4bFcyQlF5OFd1bXhlaEVFcTk3amtXS21aSTR0ZUFXZE9GZm9aWkVKY1p=
+NOXVKaWNadkZnZklSSTdsUDZfTGxiSjRwSjdEUkJPeE1VdGlaU052USZFTUxDSUQ9SlAuUFQuRV=
+ZFTlRUUklHR0VSRURNQUlMSU5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUT=
+D1EQVRFMjAxOTA0MDgtSVNTVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAu=
+TUNJRFguVEVTVFguVkVSU1guTUlEU1g&K=3DgGN-LvvKWrtyR5us5TDdIQ
+                               style=3D"text-decoration: none;font-family: =
+HelveticaNeue, Helvetica; font-size: 18px;color: #3D3100;display: block;fon=
+t-weight: bold;">
+=E6=97=85=E7=A8=8B=E3=82=92=E8=A6=8B=E3=82=8B                            </=
+a>
+                    </td>
+                        <td class=3D"brand-button" bgcolor=3D"#0D67B5" alig=
+n=3D"center"
+                            style=3D"border-radius: 3px;-moz-border-radius:=
+ 3px;-webkit-border-radius: 3px;border: 1px solid #1F1F1F;
+                                    border-bottom: 2px solid #1F1F1F; paddi=
+ng: 15px 18px 15px 18px;">
+                            <a class=3D"brand-button" alias=3D"Button"
+                               href=3Dhttp://link.jp.expediamail.com/c/4/?T=
+=3DNjQxMjYyODE%3AMDItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZDA0ZGEw%3=
+AeW16ay55YW1hY2hhbkBnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlMSU5HLkVO=
+U1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVNTVVguU0l=
+EWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1guTUlEU1=
+g%3AZmFsc2U%3A%3A%3AaHR0cHM6Ly90MXktOC50bG5rLmlvL3NlcnZlP2FjdGlvbj1jbGljayZ=
+wdWJsaXNoZXJfaWQ9MTY5MDA2JnNpdGVfaWQ9MTAyNzEyJmFnZW5jeV9pZD0xMDM0Jm15X2NhbX=
+BhaWduPUJSQU5EJm15X3B1Ymxpc2hlcj1FWFBFRElBLUpQJm15X3NpdGU9R0VORVJJQyZteV9hZ=
+Gdyb3VwPUJSQU5EOkRJU1BMQVkuRU9EJm15X2FkPUJSQU5ELkVYUEVESUEtSlAuRElTUExBWS5F=
+T0QuTkVXQ09ORlYyRU1BSUwtLkdFTkVSSUMmbXlfcGxhY2VtZW50PU5FV0NPTkZWMkVNQUlMJnN=
+pdGVfaWRfYW5kcm9pZD0xMDc2Nzgmc2l0ZV9pZF93ZWI9MTM4MTQx&K=3DR7kBLD-pGnreDb0xW=
+TtSwA
+                               target=3D"_blank"
+                               style=3D"text-decoration: none;font-family: =
+HelveticaNeue, Helvetica; font-size: 18px;color: #FFFFFF;display: block;fon=
+t-weight: bold;">
+=E3=82=B9=E3=83=9E=E3=83=BC=E3=83=88=E3=83=95=E3=82=A9=E3=83=B3=E3=81=AB=E3=
+=83=80=E3=82=A6=E3=83=B3=E3=83=AD=E3=83=BC=E3=83=89                        =
+    </a>
+                        </td>
+                </tr>
+            </table>
+            <!-- /Button -->
+        </td>
+    </tr>
+
+
+
+
+</table>                </td>
+            </tr>
+
+    <tr>
+        <td class=3D"hr-section" align=3D"left" style=3D"padding-left: 24px=
+;padding-right: 24px;">
+             <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C=
+8C8;">
+        </td>
+    </tr>
+
+    <tr>
+        <td class=3D"primary-section" align=3D"left" style=3D"padding: 24px=
+;">
+
+<style type=3D"text/css">
+
+    *[id=3D"hotel-image"] {
+        width: 264px;
+        height: 149px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    *[id=3D"hotel-name-and-info-section"] {
+        padding-left: 24px;
+    }
+
+    *[id=3D"hotel-name"] {
+        padding-bottom: 6px;
+    }
+
+    *[id=3D"hotel-address"] {
+        padding-bottom: 6px;
+    }
+
+    *[id=3D"check-in-out-time-section"] {
+        width: 100%;
+    }
+
+    *[id=3D"car-xsell-image"]{
+        width:268px;
+        height:138px;
+    }
+
+    @media only screen and (max-width: 600px) {
+        *[id=3D"hotel-name-and-info-section"] {
+            padding-left: 0px;
+            padding-top: 18px;
+        }
+
+        td[id=3D"check-in-container"] {
+            margin-bottom: 12px;
+        }
+    }
+
+    @media only screen and (max-width: 400px) {
+        *[id=3D"car-xsell-image"]{
+            width:112px;
+            height:60px;
+        }
+    }
+
+    @media only screen and (max-width: 300px) {
+        *[id=3D"car-xsell-image"]{
+            width:112px;
+            height:60px;
+        }
+    }
+</style>
+
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+    <!-- Hotel overview -->
+
+    <tr>
+        <td align=3D"left">
+
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5" role=3D"presentation">
+    <!-- Hotel header -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 23px;">
+            <span class=3D"header-2" style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 20px;color: #6b6b6b;line-height: 24px">
+=E3=83=9B=E3=83=86=E3=83=AB=E3=81=AE=E6=A6=82=E8=A6=81            </span>
+        </td>
+    </tr>
+    <!-- /Hotel header -->
+
+    <!-- Hotel information section -->
+    <tr>
+        <td class=3D"secondary-section" valign=3D"top" style=3D"padding-bot=
+tom: 12px;">
+
+            <table class=3D"flex-width-100" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0"
+                   style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" r=
+ole=3D"presentation">
+                <tr>
+                    <td id=3D"hotel-image"  class=3D"split" align=3D"center=
+" style=3D"padding-right:24px;">
+                        <img height=3D"149" width=3D"264" src=3D"https://im=
+ages.trvl-media.com//hotels/6000000/5490000/5487000/5486921/dcb790fe_y.jpg"=
+ onerror=3D"this.src=3D'https://images.trvl-media.com/media/content/expaus/=
+images/dealhunter/no-image.png'" style=3D"width:264px; height:149px; backgr=
+ound: url('https://images.trvl-media.com/media/content/expaus/images/dealhu=
+nter/no-image.png'); background-size:auto;">  <!--fallback img -->
+                    </td>
+                    <td class=3D"split" valign=3D"top">
+                        <table width=3D"100%" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" =
+role=3D"presentation">
+                            <tr>
+                                <td>
+                                    <!-- Single Column Copy Module (adjust =
+width) -->
+                                    <table id=3D"hotel-name-and-info-sectio=
+n" width=3D"100%" border=3D"0" cellpadding=3D"0"
+                                           cellspacing=3D"0" style=3D"mso-t=
+able-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"presentation">
+                                        <tr>
+                                            <td id=3D"hotel-name" class=3D"=
+header-4" align=3D"left" valign=3D"top"
+                                                style=3D"font-family: Helve=
+ticaNeue, Helvetica; font-size: 17px;color: #6b6b6b;font-weight: bold;paddi=
+ng-bottom: 6px;line-height: 24px;">
+                                                <span>=E3=83=A1=E3=83=AB=E3=
+=82=AD=E3=83=A5=E3=83=BC=E3=83=AB =E3=83=90=E3=83=B3=E3=82=B3=E3=82=AF =E3=
+=82=B5=E3=82=A4=E3=82=A2=E3=83=A0</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td id=3D"hotel-address" class=
+=3D"content-text" align=3D"left" valign=3D"top"
+                                                style=3D"font-family: Helve=
+ticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;padding-bottom: 6px;lin=
+e-height: 21px;">
+                                                <span>
+                                                        927 Rama 1 Road, Wa=
+ngmai, Bangkok, 10330 =E3=82=BF=E3=82=A4
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align=3D"left" valign=3D"to=
+p" style=3D"font-size: 15px;">
+                                                <table width=3D"100%" borde=
+r=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace: 0pt;=
+mso-table-rspace: 0pt;" role=3D"presentation">
+                                                    <tr>
+                                                            <td class=3D"li=
+nk" align=3D"left" valign=3D"top" style=3D"font-size: 15px; padding-right:1=
+2px;">
+                                                                <a class=3D=
+"link" href=3Dhttp://link.jp.expediamail.com/c/4/?T=3DNjQxMjYyODE%3AMDItYzE=
+5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZDA0ZGEw%3AeW16ay55YW1hY2hhbkBnbWF=
+pbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlMSU5HLkVOU1BVUkNIQVNFQ09ORklSTUFU=
+SU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVNTVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5=
+QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1guTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0=
+cHM6Ly93d3cuZXhwZWRpYS5jby5qcC9pdGluLmg1NDg2OTIxLkhvdGVsLUluZm9ybWF0aW9uP2x=
+hbmdpZD0xMDQxJkVNTENJRD1KUC5QVC5FVkVOVFRSSUdHRVJFRE1BSUxJTkcuRU5TUFVSQ0hBU0=
+VDT05GSVJNQVRJT04uSE9URUwmRU1MRFRMPURBVEUyMDE5MDQwOC1JU1NVWC5TSURYLktFWTk0M=
+DAxMzI2MTQ2LlBBSURYLkxBTkdKQV9KUC5NQ0lEWC5URVNUWC5WRVJTWC5NSURTWA&K=3DksPsq=
+gsHfWgioqSSr_vIuQ target=3D"_blank" style=3D"color:#0065b8; text-decoration=
+:none;">
+                                                                    <span s=
+tyle=3D"font-family: HelveticaNeue, Helvetica; color:#0065B8; text-decorati=
+on:none;">
+=E3=83=9B=E3=83=86=E3=83=AB=E3=82=92=E8=A1=A8=E7=A4=BA                     =
+                                               </span>
+                                                                </a>
+                                                            </td>
+                                                            <td class=3D"li=
+nk" align=3D"left" valign=3D"top" style=3D"font-size: 15px;">
+                                                                <a class=3D=
+"link" href=3Dhttp://link.jp.expediamail.com/c/4/?T=3DNjQxMjYyODE%3AMDItYzE=
+5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZDA0ZGEw%3AeW16ay55YW1hY2hhbkBnbWF=
+pbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlMSU5HLkVOU1BVUkNIQVNFQ09ORklSTUFU=
+SU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVNTVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5=
+QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1guTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0=
+cHM6Ly9tYXBzLmdvb2dsZS5jb20vP3E9MTAzMzArQmFuZ2tvayUyQys5MjcrUmFtYSsxK1JvYWQ=
+lMkMrV2FuZ21haStQYXRodW13YW4&K=3DJZ2bx4u70fn3gi41X8y1aQ target=3D"_blank" s=
+tyle=3D"color:#0065b8; text-decoration:none;">
+                                                                    <span s=
+tyle=3D"font-family: HelveticaNeue, Helvetica; color:#0065B8; text-decorati=
+on:none;">=E5=9C=B0=E5=9B=B3=E3=81=8A=E3=82=88=E3=81=B3=E9=81=93=E9=A0=86</=
+span>
+                                                                </a>
+                                                            </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                <!-- /Single Column Copy Module (adjust wid=
+th) -->
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Hotel information section -->
+
+    <!-- Hotel reservation dates -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 12px;">
+            <table class=3D"flex-width-100" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" =
+role=3D"presentation">
+                <tr>
+                    <td align=3D"left">
+                         <span class=3D"header-4" style=3D"font-family: Hel=
+veticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-weight: bold;">
+=E5=AE=BF=E6=B3=8A=E6=97=A5                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align=3D"left">
+                        <span class=3D"content-text" style=3D"font-family: =
+HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;line-height: 21px;=
+">
+                            2019/5/2 - 2019/5/4
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Hotel reservation dates -->
+
+    <!-- Itinerary Number -->
+    <tr>
+        <td align=3D"left">
+            <table class=3D"flex-width-100" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" =
+role=3D"presentation">
+                <tr>
+                    <td align=3D"left">
+                          <span class=3D"header-4" style=3D"font-family: He=
+lveticaNeue, Helvetica;font-size: 15px;color: #6b6b6b;font-weight: bold;">
+=E6=97=85=E7=A8=8B=E7=95=AA=E5=8F=B7                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td align=3D"left">
+                        <span class=3D"content-text" style=3D"text-decorati=
+on:none; font-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6=
+B6B;">7425445919430</span>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Itinerary Number -->
+
+    <!-- Confirmation Number -->
+    <!-- Check if the first room has a confirmation number -->
+    <!-- /Confirmation Number -->
+
+
+
+</table>        </td>
+    </tr>
+    <!-- /Hotel overview -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left" style=3D"padding-top: 24p=
+x;padding-bottom: 24px;">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;" />
+        </td>
+    </tr>
+
+    <!-- Before You Go -->
+    <!-- /Before You Go -->
+
+    <!-- Hotel check in/check out information -->
+    <tr>
+        <td align=3D"left">
+
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"prese=
+ntation">
+    <!-- Check in/out header -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 24px;">
+            <span class=3D"header-2" style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 20px;color: #6b6b6b;">
+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A4=E3=83=B3=E3=81=8A=E3=82=88=E3=
+=81=B3=E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A2=E3=82=A6=E3=83=88      =
+      </span>
+        </td>
+    </tr>
+    <!-- /Check in/out header -->
+
+    <!-- Hotel reservation dates -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 12px;">
+            <table id=3D"check-in-out-time-section" class=3D"flex-width-100=
+" cellpadding=3D"0" cellspacing=3D"0" border=3D"0"
+                   style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;wid=
+th: 100%;" role=3D"presentation">
+                <tr>
+                    <td id=3D"check-in-container" class=3D"split" align=3D"=
+left">
+                            <table  width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0=
+pt;" role=3D"presentation">
+                                <tr>
+                                    <td align=3D"left" valign=3D"top">
+                                        <span class=3D"header-4"  style=3D"=
+font-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-=
+weight: bold;">
+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A4=E3=83=B3=E6=99=82=E9=96=93   =
+                                     </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;"=
+>14:00</span>
+                                    </td>
+                                </tr>
+                            </table>
+                    </td>
+                    <td class=3D"split" align=3D"left">
+                            <table width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0=
+pt;" role=3D"presentation">
+                                <tr>
+                                    <td align=3D"left" valign=3D"top">
+                                        <span class=3D"header-4" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-w=
+eight: bold;">
+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A2=E3=82=A6=E3=83=88=E6=99=82=E9=
+=96=93                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;"=
+>=E6=AD=A3=E5=8D=88</span>
+                                    </td>
+                                </tr>
+                            </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Hotel reservation dates -->
+
+    <!-- Check-in policies -->
+        <tr>
+            <td align=3D"left">
+                <table class=3D"flex-width-100" cellpadding=3D"0" cellspaci=
+ng=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;=
+" role=3D"presentation">
+                    <tr>
+                        <td align=3D"left">
+                            <span class=3D"header-4" style=3D"font-family: =
+HelveticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-weight: bold;=
+">
+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A4=E3=83=B3 =E3=83=9D=E3=83=AA=
+=E3=82=B7=E3=83=BC                            </span>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td align=3D"left">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">=E3=
+=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A4=E3=83=B3=E9=96=8B=E5=A7=8B=E6=99=
+=82=E5=88=BB : 14:00</span>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td align=3D"left">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">=E3=
+=83=AC=E3=82=A4=E3=83=88 =E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A4=E3=
+=83=B3=E3=82=92=E3=81=8A=E8=80=83=E3=81=88=E3=81=AE=E5=A0=B4=E5=90=88=E3=81=
+=AF=E3=80=81=E3=81=93=E3=81=AE=E6=96=BD=E8=A8=AD=E3=81=AB=E7=9B=B4=E6=8E=A5=
+=E3=81=94=E9=80=A3=E7=B5=A1=E3=81=84=E3=81=9F=E3=81=A0=E3=81=8D=E3=80=81=E6=
+=96=BD=E8=A8=AD=E3=81=AE=E3=83=AC=E3=82=A4=E3=83=88 =E3=83=81=E3=82=A7=E3=
+=83=83=E3=82=AF=E3=82=A4=E3=83=B3 =E3=83=9D=E3=83=AA=E3=82=B7=E3=83=BC=E3=
+=82=92=E3=81=94=E7=A2=BA=E8=AA=8D=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=
+=82</span>
+                                </td>
+                            </tr>
+
+                        <tr>
+                            <td align=3D"left">
+                                &nbsp;
+                            </td>
+                        </tr>
+                </table>
+            </td>
+        </tr>
+    <!-- /Check-in policies -->
+
+    <!-- Special instructions -->
+    <!-- /Special instructions -->
+
+</table>        </td>
+    </tr>
+    <!-- /Hotel check in/check out information -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left" style=3D"padding-top: 24p=
+x;padding-bottom: 24px;">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;" />
+        </td>
+    </tr>
+
+    <!-- Hotel rooms -->
+        <!-- Hotel room 0 information -->
+        <tr>
+            <td align=3D"left">
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+        style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"pres=
+entation">
+
+    <!-- Room header -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 24px">
+            <span class=3D"header-2" style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 20px;color: #6b6b6b;">
+=E9=83=A8=E5=B1=8B            </span>
+        </td>
+    </tr>
+    <!-- /Room header -->
+
+    <!-- Room section row -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 12px;">
+            <table width=3D"100%" class=3D"flex-width-100" cellpadding=3D"0=
+" cellspacing=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-r=
+space: 0pt;" role=3D"presentation">
+                <tr>
+
+                    <!-- Room guests -->
+                    <td class=3D"split" align=3D"left" width=3D"50%">
+                        <table  width=3D"100%" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" role=3D"presentation">
+                            <tr>
+                                <td align=3D"left" valign=3D"top">
+                                    <span class=3D"header-4" style=3D"font-=
+family: HelveticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-weigh=
+t: bold;">=E3=81=8A=E5=AE=A2=E6=A7=98</span>
+                                </td>
+
+                                <!-- if confirmation nubmer is valid, then =
+do <td> Confirmation Label </td> -->
+                            </tr>
+                            <tr>
+                                <td align=3D"left">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">=E3=
+=81=94=E4=BA=88=E7=B4=84=E8=80=85=E5=90=8D : RYO YAMAZAKI</span>
+                                </td>
+
+                                <!-- if confirmation nubmer valid, then add=
+ <td> confirmation # </td> -->
+                            </tr>
+                            <tr>
+                                <td align=3D"left">
+
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">
+=E5=A4=A7=E4=BA=BA 2 =E5=90=8D
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <!-- /Room guests -->
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Room section row -->
+
+    <!-- Room section row -->
+     <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 12px;">
+            <table class=3D"flex-width-100" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" width=3D"100%"
+                   style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" r=
+ole=3D"presentation">
+                <tr style=3D"vertical-align: top;">
+
+                    <!-- Room information -->
+                        <td class=3D"split" align=3D"left" width=3D"50%">
+                            <table  width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation">
+                                <tr>
+                                    <td align=3D"left" valign=3D"top">
+                                        <span class=3D"header-4" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-w=
+eight: bold;">=E9=83=A8=E5=B1=8B</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;"=
+>=E3=82=B9=E3=83=BC=E3=83=9A=E3=83=AA=E3=82=A2 =E3=83=AB=E3=83=BC=E3=83=A0<=
+/span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    <!-- /Room information -->
+
+                    <!-- Amenities -->
+                    <!-- /Amenities -->
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Room section row -->
+
+    <!-- Accessibility information -->
+
+
+    <!-- /Accessibility information -->
+
+        <tr>
+            <td align=3D"left" valign=3D"top" style=3D"padding-bottom: 12px=
+;">
+                <div class=3D"header-4" style=3D"font-family: HelveticaNeue=
+, Helvetica; font-size: 15px;color: #6b6b6b;font-weight: bold;">=E9=83=A8=
+=E5=B1=8B=E3=81=AB=E9=96=A2=E3=81=99=E3=82=8B=E3=83=AA=E3=82=AF=E3=82=A8=E3=
+=82=B9=E3=83=88</div>
+                    <div style=3D"font-family: HelveticaNeue, Helvetica; fo=
+nt-size: 15px;color: #6B6B6B;">=E3=82=AF=E3=82=A4=E3=83=BC=E3=83=B3=E3=83=
+=99=E3=83=83=E3=83=89 1 =E5=8F=B0</div>
+                    <div style=3D"font-family: HelveticaNeue, Helvetica; fo=
+nt-size: 15px;color: #6B6B6B;">=E7=A6=81=E7=85=99</div>
+            </td>
+        </tr>
+
+</table>            </td>
+        </tr>
+        <!-- /Hotel room 0 information -->
+    <!-- /Hotel rooms -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left" style=3D"padding-top: 24p=
+x;padding-bottom: 24px;">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;" />
+        </td>
+    </tr>
+
+    <!-- Hotel price information -->
+    <tr>
+        <td align=3D"left">
+            <table class=3D"flex-width-100" width=3D"100%" cellpadding=3D"0=
+" cellspacing=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-r=
+space: 0pt;">
+                <tr>
+                    <td class=3D"split" align=3D"left" width=3D"50%">
+
+<style type=3D"text/css">
+    *[clas=3D"content-text"] {
+        font-family: HelveticaNeue, Helvetica;
+        font-size: 15px;
+        color: #6B6B6B;
+    }
+
+    td {
+        align: left;
+    }
+</style>
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"prese=
+ntation">
+
+
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"font-family=
+: HelveticaNeue, Helvetica; padding-bottom: 24px;">
+            <span class=3D"header-2" style=3D"font-size: 20px;color: #6b6b6=
+b;">
+=E6=96=99=E9=87=91=E3=81=AE=E6=A6=82=E8=A6=81            </span>
+        </td>
+    </tr>
+
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 12px;">
+            <table class=3D"flex-width-100" cellpadding=3D"0" cellspacing=
+=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" =
+role=3D"presentation">
+
+                    <!-- Price breakdown title -->
+                    <tr>
+                        <td align=3D"left" width=3D"100%">
+                            <span class=3D"header-4" style=3D"font-family: =
+HelveticaNeue, Helvetica; font-size: 15px;color: #6b6b6b;font-weight: bold;=
+">
+=E6=96=99=E9=87=91=E5=86=85=E8=A8=B3                            </span>
+                        </td>
+                    </tr>
+                    <!-- /Price breakdown title -->
+
+                <!-- Room level charges and discounts -->
+
+                    <!-- Room price -->
+                    <tr>
+
+                        <td align=3D"left">
+                            <span class=3D"content-text" style=3D"font-fami=
+ly: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">
+
+
+
+                                    =E9=83=A8=E5=B1=8B=E6=96=99=E9=87=91 : =
+                                        THB=C2=A06,944.30
+
+
+                            </span>
+                        </td>
+                    </tr>
+                        <!-- /Room price -->
+                        <!-- Per night pricing information -->
+                        <tr>
+                            <td align=3D"left">
+                                <span class=3D"content-text" style=3D"font-=
+family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">
+                                    <!-- # night: -->
+                                        2 =E6=B3=8A:
+                                        THB=C2=A02,950.00
+
+                                         1 =E6=B3=8A=E5=B9=B3=E5=9D=87=20
+                                </span>
+                            </td>
+                        </tr>
+                        <!-- /Per night pricing information -->
+
+                    <!-- Total per room per night -->
+
+                            <tr>
+                                <td align=3D"left">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">
+                                        2019/5/2:                          =
+                       THB=C2=A02,900.00
+
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align=3D"left">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;">
+                                        2019/5/3:                          =
+                       THB=C2=A03,000.00
+
+                                    </span>
+                                </td>
+                            </tr>
+                    <!-- /Total per room per night -->
+
+                    <!-- Cancellation penalty -->
+                    <!-- /Cancellation penalty -->
+
+                    <!-- Coupon description -->
+                    <!-- /Coupon description -->
+
+                    <!-- Extra guest fee -->
+                    <!-- /Extra guest fee -->
+
+                    <!-- Taxes and fees -->
+                        <tr>
+                            <td align=3D"left">
+
+
+                                    <!-- /Taxes and fees -->
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica; font-size: 15px;color: #6B6B6B;"=
+>=E7=A8=8E: THB=C2=A01,044.30</span>
+                            </td>
+                        </tr>
+
+
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+
+
+                <!--Mandatory fees-->
+                <!--Mandatory fees-->
+
+                <!-- /Room level charges and discounts -->
+
+                <!-- Agent Fee for Telesales Path -->
+                <!-- /Agent Fee for Telesales Path -->
+
+                <!-- Deposit permutations -->
+                <!-- /Deposit permutations -->
+
+
+                <!-- pay with points / statement credit -->
+                <!-- /pay with points / statement credit -->
+
+                <!-- /Partner Loyalty Pricing Summary-->
+
+                <!-- Total -->
+                <tr>
+                    <td align=3D"left">
+                        <strong class=3D"content-text" style=3D"font-family=
+: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">
+
+=E5=90=88=E8=A8=88 :
+                                THB=C2=A06,944.30
+                                (24,310=C2=A0=E5=86=86)
+
+                        </strong>
+                    </td>
+                </tr>
+                <!-- /Total -->
+
+
+                <!-- Collected by Expedia -->
+                    <tr>
+                        <td align=3D"left" style=3D"padding-bottom:12px;">
+                            <span class=3D"small-content-text" style=3D"fon=
+t-family: HelveticaNeue, Helvetica;font-size: 12px;color: #6B6B6B;">
+=E3=83=9B=E3=83=86=E3=83=AB=E3=81=A7=E3=81=AE=E3=81=8A=E6=94=AF=E6=89=95=E3=
+=81=84                            </span>
+                        </td>
+                    </tr>
+                    <!-- /Total collection message -->
+
+                     </td>
+                     </tr>
+                    <!-- /statementCredit Messaging-->
+
+                    <!-- Deferred payment date message  -->
+                    <!-- End of Deferred payment date message  -->
+
+                <!-- DRR savings message -->
+                        <tr>
+                            <td align=3D"left">
+                                <strong class=3D"content-text" style=3D"fon=
+t-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;"></stron=
+g> <!-- save % -->
+                            </td>
+                        </tr>
+
+                <!-- /DRR savings message -->
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td align=3D"left">
+            <span class=3D"small-content-text" style=3D"font-family: Helvet=
+icaNeue, Helvetica;font-size: 12px;color: #6B6B6B;">
+            <!-- Show VAT disclaimer based on POSu-->
+
+JPY=E3=81=A7=E3=81=AE=E6=96=99=E9=87=91=E3=81=AF=E7=8F=BE=E5=9C=A8=E3=81=AE=
+=E7=82=BA=E6=9B=BF=E3=83=AC=E3=83=BC=E3=83=88=E3=81=AB=E5=9F=BA=E3=81=A5=E3=
+=81=8F=E6=96=99=E9=87=91=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81=E6=97=85=E8=A1=
+=8C=E6=99=82=E3=81=AB=E3=81=AF=E5=A4=89=E5=8B=95=E3=81=97=E3=81=A6=E3=81=84=
+=E3=82=8B=E5=8F=AF=E8=83=BD=E6=80=A7=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=
+=81=99=E3=80=82=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AA=E3=81=8A=E6=94=AF=E6=89=
+=95=E3=81=84=E3=81=AF=E3=80=81=E3=83=9B=E3=83=86=E3=83=AB=E3=81=AB=E5=AF=BE=
+=E3=81=97=E3=81=A6=E7=9B=B4=E6=8E=A5=E3=80=81=E7=8F=BE=E5=9C=B0=E9=80=9A=E8=
+=B2=A8=E3=81=A7=E8=A1=8C=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=
+=84=E3=80=82        </td>
+        <br/>
+    </tr>
+
+
+</table>
+                    </td>
+                        <td class=3D"split" valign=3D"top" width=3D"100%" s=
+tyle=3D"height:40px; width:102px; display: inline-table ">
+<style type=3D"text/css">
+    #rewards-container img {
+        width: 160px;
+    }
+</style>
+    <table id=3D"rewards-container" width=3D"100%" border=3D"0" cellspacing=
+=3D"0" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+           style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;" role=3D"p=
+resentation">
+<!-- Rewards logo -->
+<tr>
+    <td class=3D"secondary-section" align=3D"left" style=3D"padding-bottom:=
+ 12px;">
+
+
+<img itemprop=3D"image" alt=3D"=E3=82=A8=E3=82=AF=E3=82=B9=E3=83=9A=E3=83=
+=87=E3=82=A3=E3=82=A2" src=3D"https://www.expedia.co.jp/_dms/loyalty/reward=
+s/icon-logo/logo.svg?locale=3Dja_JP&siteid=3D28&path=3DitinEmail" onerror=
+=3D"this.src=3Dthis.src.replace('.svg?','.png?');this.onerror=3D'';" border=
+=3D"0" /><!=E2=80=94 DMSTagLib -->    </td>
+</tr>
+
+<!-- /Rewards logo -->
+
+<!-- Reward points -->
+<tr>
+    <td align=3D"left">
+            <span class=3D"content-text" style=3D"font-family: HelveticaNeu=
+e, Helvetica; font-size: 14px;color: #6B6B6B;">648 =E3=83=9D=E3=82=A4=E3=83=
+=B3=E3=83=88</span>
+    </td>
+</tr>
+<!-- /Reward points -->
+
+<!-- Reward points message -->
+
+    <tr>
+        <td align=3D"left">
+            <span class=3D"small-content-text" style=3D"font-family: Helvet=
+icaNeue, Helvetica; font-size: 13px;color: #6B6B6B;">=E7=8D=B2=E5=BE=97</sp=
+an>
+        </td>
+    </tr>
+<!-- /Reward points message -->
+
+<tr>
+    <td align=3D"left">
+        &nbsp;
+    </td>
+</tr>
+
+<!-- Rewards link -->
+        <!-- Rewards link -->
+            <tr>
+                <td align=3D"left">
+                    <a class=3D"link" href=3Dhttp://link.jp.expediamail.com=
+/c/4/?T=3DNjQxMjYyODE%3AMDItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZDA=
+0ZGEw%3AeW16ay55YW1hY2hhbkBnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlMS=
+U5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVNT=
+VVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1g=
+uTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0cHM6Ly93d3cuZXhwZWRpYS5jby5qcC91c2VyL3Jld2Fy=
+ZHM_RU1MQ0lEPUpQLlBULkVWRU5UVFJJR0dFUkVETUFJTElORy5FTlNQVVJDSEFTRUNPTkZJUk1=
+BVElPTi5IT1RFTCZFTUxEVEw9REFURTIwMTkwNDA4LUlTU1VYLlNJRFguS0VZOTQwMDEzMjYxND=
+YuUEFJRFguTEFOR0pBX0pQLk1DSURYLlRFU1RYLlZFUlNYLk1JRFNYICsgJnVzZXJUb2tlbj0gK=
+yBmMnBob0NfY2lIOXlZV2lLQ2hWelIwQS13cVVqSFJfWlpvYVp4bFcyQlF5OFd1bXhlaEVFcTk3=
+amtXS21aSTR0ZUFXZE9GZm9aWkVKY1pNOXVKaWNadkZnZklSSTdsUDZfTGxiSjRwSjdEUkJPeE1=
+VdGlaU052UQ&K=3Dwq3ZW3aoM9Y0sOedpKsleQ target=3D"_blank"
+                       style=3D"color: #0065B8;text-decoration: none;">
+                        =E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E3=83=9D=E3=82=
+=A4=E3=83=B3=E3=83=88=E3=82=92=E8=A1=A8=E7=A4=BA </a>
+                </td>
+            </tr>
+        <!-- /Rewards link -->
+
+    </table>
+                        </td>
+                   </tr>
+            </table>
+        </td>
+    </tr>
+    <!-- /Hotel price information -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left" align=3D"left" style=3D"p=
+adding-top: 24px;padding-bottom: 24px;">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;" />
+        </td>
+    </tr>
+
+
+
+    <!-- Additional hotel fees -->
+    <tr>
+        <td align=3D"left">
+
+    <table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=
+=3D"0" cellpadding=3D"0"
+           bgcolor=3D"#f5f5f5"style=3D"mso-table-lspace: 0pt;mso-table-rspa=
+ce: 0pt;" role=3D"presentation">
+        <!-- Additional fees header -->
+        <tr>
+            <td class=3D"secondary-section" align=3D"left" style=3D"padding=
+-bottom: 24px;">
+                <span class=3D"header-2" style=3D"font-family: HelveticaNeu=
+e, Helvetica;font-size: 20px;color: #6b6b6b;">
+=E8=BF=BD=E5=8A=A0=E3=81=AE=E3=83=9B=E3=83=86=E3=83=AB=E6=96=99=E9=87=91   =
+             </span>
+            </td>
+        </tr>
+        <!-- /Additional fees header -->
+
+        <!-- Fees and deposits disclaimer -->
+        <tr>
+            <td class=3D"secondary-section" align=3D"left" style=3D"padding=
+-bottom: 12px;">
+                <table class=3D"flex-width-100" cellpadding=3D"0" cellspaci=
+ng=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;=
+" role=3D"presentation">
+                    <tr>
+                        <td align=3D"left">
+                            <span class=3D"content-text" style=3D"font-fami=
+ly: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">
+=E4=BB=A5=E4=B8=8B=E3=81=AE=E6=96=99=E9=87=91=E3=81=8A=E3=82=88=E3=81=B3=E3=
+=83=87=E3=83=9D=E3=82=B8=E3=83=83=E3=83=88=E3=81=AF=E3=80=81=E9=81=B8=E6=8A=
+=9E=E3=81=95=E3=82=8C=E3=81=9F=E5=AE=A2=E5=AE=A4=E6=96=99=E9=87=91=E3=81=AB=
+=E3=81=93=E3=82=8C=E3=82=89=E3=81=AE=E6=96=99=E9=87=91=E3=81=8C=E5=90=AB=E3=
+=81=BE=E3=82=8C=E3=81=A6=E3=81=84=E3=81=AA=E3=81=84=E5=A0=B4=E5=90=88=E3=81=
+=AE=E3=81=BF=E9=81=A9=E7=94=A8=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82=
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <!-- /Fees and deposits disclaimer -->
+
+        <!-- Payments and credits deposit message -->
+
+
+        <!-- /Payments and credits deposit message -->
+
+        <!-- Payments/Credits for GDS Hotels -->
+        <!-- /Payments/Credits for GDS Hotels -->
+
+        <!-- Payments/Credits for DA Hotels -->
+        <!-- /Payments/Credits for DA Hotels -->
+
+        <!-- Fees -->
+            <!-- Mandatory fees -->
+                <tr>
+                    <td class=3D"secondary-section" align=3D"left" style=3D=
+"padding-bottom: 12px;">
+                        <table class=3D"flex-width-100" cellpadding=3D"0" c=
+ellspacing=3D"0" border=3D"0"
+                               style=3D"mso-table-lspace: 0pt;mso-table-rsp=
+ace: 0pt;" role=3D"presentation">
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=
+<p>=E6=96=BD=E8=A8=AD=E3=81=A7=E3=81=8A=E6=94=AF=E6=89=95=E3=81=84=E3=81=84=
+=E3=81=9F=E3=81=A0=E3=81=8F=E6=96=99=E9=87=91 :</p></span> <!-- mandary fee=
+es is empty soemtimes? -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=
+<ul><li>=E3=83=87=E3=83=9D=E3=82=B8=E3=83=83=E3=83=88 : 1 =E6=B3=8A=E3=81=
+=AB=E3=81=A4=E3=81=8D 1000.00 =E3=83=90=E3=83=BC=E3=83=84</li></ul></span> =
+<!-- mandary feees is empty soemtimes? -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=
+<p>=E4=B8=8B=E8=A8=98=E3=81=AE=E6=96=99=E9=87=91=E3=81=AF=E9=83=A8=E5=B1=8B=
+=E6=96=99=E9=87=91=E5=90=88=E8=A8=88=E3=81=AB=E5=90=AB=E3=81=BE=E3=82=8C=E3=
+=81=A6=E3=81=84=E3=81=BE=E3=81=99 :</p><ul><li>=E3=83=AA=E3=82=BE=E3=83=BC=
+=E3=83=88=E6=96=99=E9=87=91</li></ul></span> <!-- mandary feees is empty so=
+emtimes? -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align=3D"left">
+                                        <span class=3D"content-text" style=
+=3D"font-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=
+<p>=E5=AE=BF=E6=B3=8A=E6=96=BD=E8=A8=AD=E3=81=8B=E3=82=89=E6=8F=90=E4=BE=9B=
+=E3=81=95=E3=82=8C=E3=81=9F=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E6=96=99=E9=
+=87=91=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=8C=E3=81=A6=E3=81=84=E3=81=BE=E3=81=
+=99=E3=81=8C=E3=80=81=E3=81=94=E4=BA=88=E7=B4=84=E3=81=AE=E5=AE=BF=E6=B3=8A=
+=E6=95=B0=E3=82=84=E9=83=A8=E5=B1=8B=E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=E8=
+=AA=B2=E9=87=91=E9=A1=8D=E3=81=8C=E5=A4=89=E6=9B=B4=E3=81=AB=E3=81=AA=E3=82=
+=8B=E5=A0=B4=E5=90=88=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
+</p></span> <!-- mandary feees is empty soemtimes? -->
+                                    </td>
+                                </tr>
+                        </table>
+                    </td>
+                </tr>
+            <!-- /Mandatory fees -->
+
+            <!-- Fees -->
+                <tr>
+                    <td class=3D"secondary-section" align=3D"left">
+                        <table class=3D"flex-width-100" cellpadding=3D"0" c=
+ellspacing=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspa=
+ce: 0pt;" role=3D"presentation">
+                            <tr>
+                                <td align=3D"left">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E4=
+=B8=8A=E8=A8=98=E3=81=AE=E6=96=99=E9=87=91=E3=81=AB=E3=81=AF=E3=80=81=E3=83=
+=9B=E3=83=86=E3=83=AB=E3=81=AE=E3=82=B5=E3=83=BC=E3=83=93=E3=82=B9=E6=96=99=
+=E3=80=81=E6=BB=9E=E5=9C=A8=E4=B8=AD=E3=81=AE=E8=BF=BD=E5=8A=A0=E6=96=99=E9=
+=87=91 (=E3=83=9F=E3=83=8B=E3=83=90=E3=83=BC=E3=80=81=E3=81=8A=E3=81=A4=E3=
+=81=BE=E3=81=BF=E3=80=81=E9=9B=BB=E8=A9=B1=E7=AD=89)=E3=80=81=E3=82=B5=E3=
+=83=BC=E3=83=81=E3=83=A3=E3=83=BC=E3=82=B8=E3=81=AF=E5=90=AB=E3=81=BE=E3=82=
+=8C=E3=81=A6=E3=81=84=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E3=81=93=E3=82=8C=
+=E3=82=89=E3=81=AE=E3=82=B5=E3=83=BC=E3=83=93=E3=82=B9=E6=96=99=E3=80=81=E8=
+=BF=BD=E5=8A=A0=E6=96=99=E9=87=91=E3=80=81=E3=81=8A=E3=82=88=E3=81=B3=E3=82=
+=B5=E3=83=BC=E3=83=81=E3=83=A3=E3=83=BC=E3=82=B8=E3=81=AF=E3=83=81=E3=82=A7=
+=E3=83=83=E3=82=AF=E3=82=A2=E3=82=A6=E3=83=88=E6=99=82=E3=81=AB=E3=83=9B=E3=
+=83=86=E3=83=AB=E3=81=AB=E3=81=A6=E8=A8=88=E7=AE=97=E3=81=95=E3=82=8C=E3=81=
+=BE=E3=81=99=E3=80=82</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            <!-- /Fees -->
+        <!-- /Fees -->
+
+    </table>
+        </td>
+    </tr>
+    <!-- /Additional hotel fees -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left" align=3D"left" style=3D"p=
+adding-top: 24px;padding-bottom: 24px;">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;"/>
+        </td>
+    </tr>
+    <!-- Additional hotel fees -->
+    <tr>
+        <td align=3D"left">
+
+
+
+
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+    <!-- Room header -->
+    <tr>
+        <td class=3D"secondary-section" align=3D"left" style=3D"padding-bot=
+tom: 24px;">
+            <span class=3D"header-2" style=3D"font-family: HelveticaNeue, H=
+elvetica;font-size: 20px;color: #6b6b6b;">
+=E8=A6=8F=E5=89=87=E3=81=A8=E5=88=B6=E9=99=90=E4=BA=8B=E9=A0=85            =
+</span>
+        </td>
+    </tr>
+    <!-- /Room header -->
+
+        <!-- Hotel/Cancellation information -->
+        <tr>
+            <td align=3D"left">
+                <table class=3D"flex-width-100" cellpadding=3D"0" cellspaci=
+ng=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt;=
+">
+                    <!-- Hotel Cancellation Policy -->
+                    <tr>
+                        <td align=3D"left">
+                            <span class=3D"header-4" style=3D"font-family: =
+HelveticaNeue, Helvetica;font-weight: bold; font-size: 15px;color: #6b6b6b;=
+">
+=E3=82=AD=E3=83=A3=E3=83=B3=E3=82=BB=E3=83=AB=E3=81=8A=E3=82=88=E3=81=B3=E5=
+=A4=89=E6=9B=B4                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- Cancellation Introduction -->
+                    <tr>
+                        <td class=3D"secondary-section" align=3D"left" styl=
+e=3D"padding-bottom: 12px;">
+                            <span class=3D"content-text" style=3D"font-fami=
+ly: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E4=B8=8D=E6=
+=B3=8A=E3=81=AE=E6=89=8B=E6=95=B0=E6=96=99=E3=82=92=E9=81=BF=E3=81=91=E3=82=
+=8B=E3=81=9F=E3=82=81=E3=80=81=E6=97=85=E8=A1=8C=E3=82=92=E5=A4=89=E6=9B=B4=
+=E3=81=BE=E3=81=9F=E3=81=AF=E3=82=AD=E3=83=A3=E3=83=B3=E3=82=BB=E3=83=AB=E3=
+=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E6=96=BD=E8=A8=AD=E3=81=
+=AE=E3=82=AD=E3=83=A3=E3=83=B3=E3=82=BB=E3=83=AB =E3=83=9D=E3=83=AA=E3=82=
+=B7=E3=83=BC=E3=81=AB=E5=BE=93=E3=81=A3=E3=81=A6=E4=BA=88=E7=B4=84=E3=82=92=
+=E3=82=AD=E3=83=A3=E3=83=B3=E3=82=BB=E3=83=AB=E3=81=97=E3=81=A6=E3=81=8F=E3=
+=81=A0=E3=81=95=E3=81=84=E3=80=82</span>
+                        </td>
+                    </tr>
+                    <!-- /Cancellation Introduction -->
+                    <tr>
+                        <td class=3D"secondary-section" align=3D"left" styl=
+e=3D"padding-bottom: 12px;">
+                            <span class=3D"content-text" style=3D"font-fami=
+ly: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">2019/5/2=E3=
+=81=AE 17:00 (=E6=9D=B1=E5=8D=97=E3=82=A2=E3=82=B8=E3=82=A2=E6=A8=99=E6=BA=
+=96=E6=99=82) =E3=82=92=E9=81=8E=E3=81=8E=E3=81=A6=E3=81=8B=E3=82=89=E8=A1=
+=8C=E3=82=8F=E3=82=8C=E3=81=9F=E3=82=AD=E3=83=A3=E3=83=B3=E3=82=BB=E3=83=AB=
+=E3=82=84=E5=A4=89=E6=9B=B4=E3=80=81=E3=81=BE=E3=81=9F=E3=81=AF=E4=B8=8D=E6=
+=B3=8A=E3=81=AE=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=811 =E6=B3=8A=E7=9B=AE=E3=
+=81=AE=E5=AE=BF=E6=B3=8A=E6=96=99=E9=87=91 (=E7=A8=8E=E3=81=8A=E3=82=88=E3=
+=81=B3=E3=82=B5=E3=83=BC=E3=83=93=E3=82=B9=E6=96=99=E8=BE=BC=E3=81=BF) =E3=
+=81=A8=E5=90=8C=E9=A1=8D=E3=81=AE=E6=89=8B=E6=95=B0=E6=96=99=E3=81=8C=E6=96=
+=BD=E8=A8=AD=E3=81=AB=E3=82=88=E3=82=8A=E8=AA=B2=E9=87=91=E3=81=95=E3=82=8C=
+=E3=81=BE=E3=81=99=E3=80=82</span>
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td align=3D"left">
+                            <span class=3D"header-4" style=3D"font-family: =
+HelveticaNeue, Helvetica;font-weight: bold; font-size: 15px;color: #6b6b6b;=
+line-height: 30px;">
+=E6=96=99=E9=87=91=E3=81=A8=E3=81=8A=E6=94=AF=E6=89=95=E3=81=84            =
+                </span>
+                        </td>
+                    </tr>
+                    <!-- /Hotel Cancellation Policy -->
+
+                    <!-- Hotel Fees -->
+                        <tr>
+                            <td align=3D"left">
+                                <span class=3D"header-4" style=3D"font-fami=
+ly: HelveticaNeue, Helvetica;font-weight: bold; font-size: 16px;color: #6B6=
+B6B;">
+=E3=83=9B=E3=83=86=E3=83=AB=E6=89=8B=E6=95=B0=E6=96=99                     =
+           </span>
+                            </td>
+                        </tr>
+
+
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E6=
+=96=99=E9=87=91=E3=81=AB=E3=81=AF=E3=80=81=E3=83=9B=E3=83=86=E3=83=AB=E3=81=
+=AE=E3=82=B5=E3=83=BC=E3=83=93=E3=82=B9=E6=96=99=E3=80=81=E6=BB=9E=E5=9C=A8=
+=E4=B8=AD=E3=81=AE=E8=BF=BD=E5=8A=A0=E6=96=99=E9=87=91 (=E3=83=9F=E3=83=8B=
+=E3=83=90=E3=83=BC=E3=80=81=E3=81=8A=E3=81=A4=E3=81=BE=E3=81=BF=E3=80=81=E9=
+=9B=BB=E8=A9=B1=E7=AD=89)=E3=80=81=E3=82=B5=E3=83=BC=E3=83=81=E3=83=A3=E3=
+=83=BC=E3=82=B8=E3=81=AF=E5=90=AB=E3=81=BE=E3=82=8C=E3=81=A6=E3=81=84=E3=81=
+=BE=E3=81=9B=E3=82=93=E3=80=82=E3=81=93=E3=82=8C=E3=82=89=E3=81=AE=E3=82=B5=
+=E3=83=BC=E3=83=93=E3=82=B9=E6=96=99=E3=80=81=E8=BF=BD=E5=8A=A0=E6=96=99=E9=
+=87=91=E3=80=81=E3=81=8A=E3=82=88=E3=81=B3=E3=82=B5=E3=83=BC=E3=83=81=E3=83=
+=A3=E3=83=BC=E3=82=B8=E3=81=AF=E3=83=81=E3=82=A7=E3=83=83=E3=82=AF=E3=82=A2=
+=E3=82=A6=E3=83=88=E6=99=82=E3=81=AB=E3=83=9B=E3=83=86=E3=83=AB=E3=81=AB=E3=
+=81=A6=E8=A8=88=E7=AE=97=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82</span=
+>
+                                </td>
+                            </tr>
+                    <!-- /Hotel Fees -->
+
+                    <!-- Payment Policies -->
+                    <!-- /Payment Policies -->
+
+                    <!-- Occupancy Policies -->
+                        <tr>
+                            <td align=3D"left">
+                                <span class=3D"header-4" style=3D"font-fami=
+ly: HelveticaNeue, Helvetica;font-weight: bold; font-size: 15px;color: #6b6=
+b6b;">
+=E5=AE=BF=E6=B3=8A=E6=96=99=E9=87=91=E3=81=A8=E9=83=A8=E5=B1=8B=E3=81=AE=E5=
+=AE=9A=E5=93=A1                                </span>
+                            </td>
+                        </tr>
+
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E5=
+=9F=BA=E6=9C=AC=E6=96=99=E9=87=91=E3=81=AF 2 =E5=90=8D=E6=A7=98=E3=81=82=E3=
+=81=9F=E3=82=8A=E3=81=AE=E6=96=99=E9=87=91=E3=81=A7=E3=81=99=E3=80=82</span=
+>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E4=
+=BB=A5=E4=B8=8B=E3=81=AB=E8=A1=A8=E7=A4=BA=E3=81=95=E3=82=8C=E3=81=9F=E6=96=
+=99=E9=87=91=E3=81=AE=E4=B8=AD=E3=81=AB=E3=81=AF=E3=80=81=E5=AE=BF=E6=B3=8A=
+=E6=96=BD=E8=A8=AD=E3=81=AE=E6=89=80=E5=9C=A8=E5=9B=BD=E3=81=AE=E9=80=9A=E8=
+=B2=A8=E5=8D=98=E4=BD=8D=E3=81=A7=E8=A1=A8=E7=A4=BA=E3=81=95=E3=82=8C=E3=81=
+=A6=E3=81=84=E3=82=8B=E3=82=82=E3=81=AE=E3=82=82=E3=81=82=E3=82=8A=E3=81=BE=
+=E3=81=99=E3=80=82</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">1 =E5=
+=AE=A4 / =E3=83=A6=E3=83=8B=E3=83=83=E3=83=88=E3=81=82=E3=81=9F=E3=82=8A=E3=
+=81=AE=E5=AE=9A=E5=93=A1 (=E5=90=88=E8=A8=88) =E3=81=AF 3 =E5=90=8D=E3=81=
+=A7=E3=81=99=E3=80=82</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">1 =E5=
+=AE=A4 / =E3=83=A6=E3=83=8B=E3=83=83=E3=83=88=E3=81=82=E3=81=9F=E3=82=8A=E3=
+=81=AE=E5=AE=9A=E5=93=A1 (=E5=A4=A7=E4=BA=BA) =E3=81=AF 3 =E5=90=8D=E3=81=
+=A7=E3=81=99=E3=80=82</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">1 =E5=
+=AE=A4 / =E3=83=A6=E3=83=8B=E3=83=83=E3=83=88=E3=81=82=E3=81=9F=E3=82=8A=E3=
+=81=AE=E5=AE=9A=E5=93=A1 (=E3=81=8A=E5=AD=90=E6=A7=98) =E3=81=AF 2 =E5=90=
+=8D=E3=81=A7=E3=81=99=E3=80=82</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E3=
+=81=93=E3=81=AE=E6=96=BD=E8=A8=AD=E3=81=A7=E3=81=AF=E3=80=81=E6=97=85=E8=A1=
+=8C=E6=99=82=E3=81=AE=E5=B9=B4=E9=BD=A2=E3=81=8C 15 =E6=AD=B3=E4=BB=A5=E4=
+=B8=8B=E3=81=AE=E3=81=8A=E5=AE=A2=E6=A7=98=E3=81=AF=E5=AD=90=E4=BE=9B=E3=81=
+=A8=E3=81=BF=E3=81=AA=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class=3D"secondary-section" align=3D"le=
+ft" style=3D"padding-bottom: 12px;">
+                                    <span class=3D"content-text" style=3D"f=
+ont-family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">=E8=
+=BF=BD=E5=8A=A0=E3=82=B2=E3=82=B9=E3=83=88=E3=81=8C=E5=90=8C=E3=81=98=E9=83=
+=A8=E5=B1=8B=E3=81=AB=E5=AE=BF=E6=B3=8A=E3=81=A7=E3=81=8D=E3=82=8B=E3=81=8B=
+=E3=81=A9=E3=81=86=E3=81=8B=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E4=
+=BF=9D=E8=A8=BC=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82</span=
+>
+                                </td>
+                            </tr>
+                    <!-- /Occupancy Policies -->
+
+                    <!-- Hotel accessibility message -->
+                    <!-- /Hotel accessibility message -->
+
+            </td>
+        </tr>
+</table>
+        </td>
+    </tr>
+    <!-- /Additional hotel fees -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left"  style=3D"padding-top: 24=
+px;padding-bottom: 24px;">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;" />
+        </td>
+    </tr>
+
+    <!-- More help -->
+    <tr>
+        <td align=3D"left">
+
+
+<table class=3D"hotel-content" width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" bgcolor=3D"#f5f5f5"  style=3D"mso-table-lspace: 0pt;mso=
+-table-rspace: 0pt;" role=3D"presentation">
+
+
+        <!-- More help header -->
+        <tr>
+            <td id=3D"customer-support" class=3D"secondary-section" align=
+=3D"left" style=3D"padding-bottom: 24px;">
+                <span class=3D"header-2" style=3D"font-family: HelveticaNeu=
+e, Helvetica;font-size: 20px;color: #6b6b6b;">
+=E3=83=98=E3=83=AB=E3=83=97                </span>
+            </td>
+        </tr>
+        <!-- /More help header -->
+
+            <!-- Hotel help info -->
+            <tr>
+                <td align=3D"left">
+                    <table class=3D"flex-width-100" cellpadding=3D"0" cells=
+pacing=3D"0" border=3D"0" style=3D"mso-table-lspace: 0pt;mso-table-rspace: =
+0pt;" role=3D"presentation">
+                        <tr>
+                            <td align=3D"left">
+                                    <span class=3D"header-4" style=3D"font-=
+family: HelveticaNeue, Helvetica;font-size: 15px;color: #6b6b6b;font-weight=
+: bold;">
+=E3=83=9B=E3=83=86=E3=83=AB=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6            =
+                        </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=3D"left">
+                                <span class=3D"content-text" style=3D"font-=
+family: HelveticaNeue, Helvetica;font-size: 15px;color: #6B6B6B;">
+=E6=96=BD=E8=A8=AD=E3=81=AB=E9=96=A2=E3=81=99=E3=82=8B=E3=81=94=E8=B3=AA=E5=
+=95=8F=E3=82=84=E3=82=B9=E3=83=9A=E3=82=B7=E3=83=A3=E3=83=AB =E3=83=AA=E3=
+=82=AF=E3=82=A8=E3=82=B9=E3=83=88=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=
+=AF=E3=80=81=E3=81=8A=E9=9B=BB=E8=A9=B1=E3=81=A7=E3=83=9B=E3=83=86=E3=83=AB=
+=E3=81=AB=E7=9B=B4=E6=8E=A5=E3=81=8A=E5=95=8F=E3=81=84=E5=90=88=E3=82=8F=E3=
+=81=9B=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84                                <=
+/span>
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td align=3D"left">
+                                <span class=3D"content-text" style=3D"text-=
+decoration: none;font-family: HelveticaNeue, Helvetica;font-size: 15px;colo=
+r: #6B6B6B;"><a href=3D"" style=3D"text-decoration:none;color:#6B6B6B;borde=
+r:none;">=E9=9B=BB=E8=A9=B1 :  66-2-8747111-, FAX :  66-2-8747229-</a> </sp=
+an>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+    <!-- Reservation help info -->
+    <!-- /Reservation help info -->
+        <tr>
+            <td align=3D"left">
+                <span class=3D"content-text" style=3D"font-family: Helvetic=
+aNeue, Helvetica;font-size: 15px;color: #6B6B6B;">
+                    </br>
+                </span>
+            </td>
+        </tr>
+</table>        </td>
+    </tr>
+    <!-- /More help -->
+
+    <!-- /Terms and conditions -->
+    <!-- /Terms and conditions -->
+
+    <tr>
+        <td class=3D"hr-container" align=3D"left"  style=3D"padding-top: 24=
+px;padding-bottom: 24px">
+            <hr style=3D"margin: 0;border: none;border-top: 1px solid #C8C8=
+C8;" />
+        </td>
+    </tr>
+
+</table>        </td>
+    </tr>
+
+    <tr>
+        <td align=3D"left" >
+
+
+
+
+    <tr>
+        <td align=3D"left">
+            <table class=3D"hotel-content" width=3D"100%" border=3D"0" cell=
+spacing=3D"0" cellpadding=3D"0"  style=3D"mso-table-lspace: 0pt;mso-table-r=
+space: 0pt;" role=3D"presentation">
+                <!-- Header -->
+                <tr>
+                    <td class=3D"secondary-section" align=3D"left" style=3D=
+"font-family: HelveticaNeue, Helvetica; padding-bottom: 24px;">
+                    <span class=3D"header-2" style=3D"font-size: 20px;color=
+: #6b6b6b;">
+=E6=97=85=E7=A8=8B=E3=81=AB=E8=BF=BD=E5=8A=A0                    </span>
+                    </td>
+                </tr>
+                <!-- /Header -->
+
+                <!-- Cross Sell -->
+                <table cellspacing=3D"15px" role=3D"presentation">
+                    <tr>
+                        <td>
+                            <img width=3D"265" height=3D"200" src=3D"https:=
+//mediaim.expedia.com/localexpert/456284/00c9f46f-1249-4cc2-95b6-afaed5bd8c=
+28.jpg?impolicy=3Dresizecrop&rw=3D350&rh=3D197"  style=3D"width:265px; heig=
+ht:147px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- Hotwire Car Cross Sell -->
+                        <td style=3D"background-color: white; vertical-alig=
+n: top;">
+                            <div  width=3D"265"  style=3D"width:265px; back=
+ground-color:#ffffff; position: relative;">
+                                <div  style=3D"font-family: HelveticaNeue, =
+Helvetica; font-size: 15px; color: #6b6b6b; padding-left:18px; padding-righ=
+t: 18px; padding-top:18px; padding-bottom:8px;font-weight:bolder; line-heig=
+ht:21px;">
+=E7=A7=BB=E5=8B=95=E3=82=92=E5=BF=AB=E9=81=A9=E3=81=AB !                   =
+             </div>
+
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; color: #6b6b6b; padding-left:18px; padding-right=
+:18px; line-height:21px;">
+=E9=80=81=E8=BF=8E=E3=82=B5=E3=83=BC=E3=83=93=E3=82=B9=E3=82=92=E4=BA=88=E7=
+=B4=84=E3=81=97=E3=82=88=E3=81=86                                </div>
+
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; line-height: 21px;;padding-left:18px; padding-bo=
+ttom: 18px; padding-top: 12px; bottom: 0; left: 0;">
+                                    <a href=3Dhttp://link.jp.expediamail.co=
+m/c/4/?T=3DNjQxMjYyODE%3AMDItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZD=
+A0ZGEw%3AeW16ay55YW1hY2hhbkBnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlM=
+SU5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVN=
+TVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1=
+guTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0cHM6Ly93d3cuZXhwZWRpYS5jby5qcC91c2VyL2VtYWl=
+sY2xpY2svYmV4LXRyaXBzL2YycGhvQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWpIUl9aWm9hWnhsVz=
+JCUXk4V3VteGVoRUVxOTdqa1dLbVpJNHRlQVdkT0Zmb1paRUpjWk05dUppY1p2RmdmSVJJN2xQN=
+l9MbGJKNHBKN0RSQk94TVV0aVpTTnZRL2dyb3VuZC10cmFuc2ZlcnM_aXRpbk51bWJlcj03NDI1=
+NDQ1OTE5NDMwJmxvY2F0aW9uPUJhbmdrb2smc3RhcnREYXRlPTIwMTkvNS8yJmVuZERhdGU9MjA=
+xOS81LzQmcmZycj1IT1QuRW1haWwuWHNlbGwuVHNob3AuUmVzcCZ0cmlwSWQ9MTU4MjI0ZDYtOD=
+Q0Yy00MDA0LWI3NzctMmRjZGM2ZTg5OTg3JmZsaWdodEJvb2tpbmc9ZmFsc2UmRU1MQ0lEPUpQL=
+lBULkVWRU5UVFJJR0dFUkVETUFJTElORy5FTlNQVVJDSEFTRUNPTkZJUk1BVElPTi5IT1RFTCZF=
+TUxEVEw9REFURTIwMTkwNDA4LUlTU1VYLlNJRFguS0VZOTQwMDEzMjYxNDYuUEFJRFguTEFOR0p=
+BX0pQLk1DSURYLlRFU1RYLlZFUlNYLk1JRFNYJnVzZXJUb2tlbj1mMnBob0NfY2lIOXlZV2lLQ2=
+hWelIwQS13cVVqSFJfWlpvYVp4bFcyQlF5OFd1bXhlaEVFcTk3amtXS21aSTR0ZUFXZE9GZm9aW=
+kVKY1pNOXVKaWNadkZnZklSSTdsUDZfTGxiSjRwSjdEUkJPeE1VdGlaU052USY&K=3DNHG-jSVO=
+iXkqzQt1aPGMnA target=3D"_blank" style=3D"text-decoration:none; color:#0065=
+B8;">=E9=80=81=E8=BF=8E=E3=82=92=E4=BA=88=E7=B4=84</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table cellspacing=3D"15px" role=3D"presentation">
+                    <tr>
+                        <td>
+                            <img width=3D"265" height=3D"200" src=3D"https:=
+//images.trvl-media.com/media/content/expus/graphics/launch/flight1320x742.=
+jpg"  style=3D"width:265px; height:147px;"/>
+                        </td>
+                        <td>
+                            <img width=3D"265" height=3D"200"src=3D"https:/=
+/images.trvl-media.com/media/content/expus/graphics/launch/car1320x742.jpg"=
+ style=3D"width:264px; height:147px;"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=3D"background-color: white; vertical-alig=
+n: top;">
+                            <div width=3D"265"  style=3D"width:265px; backg=
+round-color:#ffffff; position: relative;">
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; color: #6b6b6b; padding-left:18px; padding-right=
+: 18px; padding-top:18px; padding-bottom:8px;font-weight:bolder; line-heigh=
+t:21px;">
+=E4=BA=A4=E9=80=9A=E6=89=8B=E6=AE=B5                                </div>
+
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; color: #6b6b6b; padding-left:18px; padding-right=
+:18px; line-height:21px;">
+=E4=B8=BB=E8=A6=81=E8=88=AA=E7=A9=BA=E4=BC=9A=E7=A4=BE=E3=81=AE=E7=89=B9=E5=
+=88=A5=E6=A0=BC=E5=AE=89=E4=BE=A1=E6=A0=BC=E3=82=92=E6=A4=9C=E7=B4=A2      =
+                          </div>
+
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; line-height: 21px;;padding-left:18px; padding-bo=
+ttom: 18px;padding-top: 12px; bottom: 0; left: 0;">
+                                    <a href=3Dhttp://link.jp.expediamail.co=
+m/c/4/?T=3DNjQxMjYyODE%3AMDItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZD=
+A0ZGEw%3AeW16ay55YW1hY2hhbkBnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlM=
+SU5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVN=
+TVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1=
+guTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0cHM6Ly93d3cuZXhwZWRpYS5jby5qcC91c2VyL2VtYWl=
+sY2xpY2svYmV4LXRyaXBzL2YycGhvQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWpIUl9aWm9hWnhsVz=
+JCUXk4V3VteGVoRUVxOTdqa1dLbVpJNHRlQVdkT0Zmb1paRUpjWk05dUppY1p2RmdmSVJJN2xQN=
+l9MbGJKNHBKN0RSQk94TVV0aVpTTnZRL2xlZ2FjeUdPVE8_R09UTz1GTElHSFRMQVVOQ0gmRU1M=
+Q0lEPUpQLlBULkVWRU5UVFJJR0dFUkVETUFJTElORy5FTlNQVVJDSEFTRUNPTkZJUk1BVElPTi5=
+IT1RFTCZFTUxEVEw9REFURTIwMTkwNDA4LUlTU1VYLlNJRFguS0VZOTQwMDEzMjYxNDYuUEFJRF=
+guTEFOR0pBX0pQLk1DSURYLlRFU1RYLlZFUlNYLk1JRFNYJnVzZXJUb2tlbj1mMnBob0NfY2lIO=
+XlZV2lLQ2hWelIwQS13cVVqSFJfWlpvYVp4bFcyQlF5OFd1bXhlaEVFcTk3amtXS21aSTR0ZUFX=
+ZE9GZm9aWkVKY1pNOXVKaWNadkZnZklSSTdsUDZfTGxiSjRwSjdEUkJPeE1VdGlaU052UQ&K=3D=
+ZBdpEwWKeIDNYJgqF34LxA target=3D"_blank" style=3D"text-decoration:none; col=
+or:#0065B8;">=E8=88=AA=E7=A9=BA=E5=88=B8=E3=82=92=E4=BA=88=E7=B4=84</a>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Hotwire Hotel Cross Sell -->
+                        <td style=3D"background-color: white; vertical-alig=
+n: top;">
+                            <div width=3D"256"  style=3D"width:265px; backg=
+round-color:#ffffff; position: relative;">
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; color: #6b6b6b; padding-left:18px; padding-right=
+: 18px; padding-top:18px; padding-bottom:8px;font-weight:bolder; line-heigh=
+t:21px;">
+Bangkok=E3=81=A7=E3=81=AE=E7=A7=BB=E5=8B=95=E6=89=8B=E6=AE=B5              =
+                  </div>
+                                    <div style=3D"font-family: HelveticaNeu=
+e, Helvetica; font-size: 15px; color: #6b6b6b; padding-left:18px; padding-r=
+ight:18px; padding-top:18px; line-height:21px;">
+=E3=83=AC=E3=83=B3=E3=82=BF=E3=82=AB=E3=83=BC=E3=81=A7Bangkok=E3=82=92=E5=
+=9B=9E=E3=82=8D=E3=81=86                                    </div>
+
+                                <div style=3D"font-family: HelveticaNeue, H=
+elvetica; font-size: 15px; line-height: 21px;padding-left:18px; padding-bot=
+tom: 18px; padding-top: 12px; bottom: 0; left: 0;">
+                                    <a href=3Dhttp://link.jp.expediamail.co=
+m/c/4/?T=3DNjQxMjYyODE%3AMDItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZD=
+A0ZGEw%3AeW16ay55YW1hY2hhbkBnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlM=
+SU5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVN=
+TVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1=
+guTUlEU1g%3AZmFsc2U%3A%3A%3AaHR0cHM6Ly93d3cuZXhwZWRpYS5jby5qcC91c2VyL2VtYWl=
+sY2xpY2svYmV4LXRyaXBzL2YycGhvQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWpIUl9aWm9hWnhsVz=
+JCUXk4V3VteGVoRUVxOTdqa1dLbVpJNHRlQVdkT0Zmb1paRUpjWk05dUppY1p2RmdmSVJJN2xQN=
+l9MbGJKNHBKN0RSQk94TVV0aVpTTnZRL2xlZ2FjeUdPVE8_cmZycj1IT1QuRW1haWwuWHNlbGwu=
+VHNob3AuUmVzcCZnb3RvPUNBUkxBVU5DSCZFTUxDSUQ9SlAuUFQuRVZFTlRUUklHR0VSRURNQUl=
+MSU5HLkVOU1BVUkNIQVNFQ09ORklSTUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSV=
+NTVVguU0lEWC5LRVk5NDAwMTMyNjE0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU=
+1guTUlEU1gmdXNlclRva2VuPWYycGhvQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWpIUl9aWm9hWnhs=
+VzJCUXk4V3VteGVoRUVxOTdqa1dLbVpJNHRlQVdkT0Zmb1paRUpjWk05dUppY1p2RmdmSVJJN2x=
+QNl9MbGJKNHBKN0RSQk94TVV0aVpTTnZR&K=3DiEcE3J370wr8Gc0dCTDd0w target=3D"_bla=
+nk" style=3D"text-decoration:none; color:#0065B8;">=E3=83=AC=E3=83=B3=E3=82=
+=BF=E3=82=AB=E3=83=BC=E3=82=92=E4=BA=88=E7=B4=84</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!-- Cross Sell -->
+
+            </table>
+        </td>
+    </tr>
+        </td>
+    </tr>
+
+
+    <!-- /Advertisement-->
+
+    <!-- all that goes in the footer, goes below  -->
+        <tr>
+            <td class=3D"primary-section" align=3D"left" style=3D"padding: =
+24px;">
+                <table id=3D"trip-details-content" width=3D"100%" border=3D=
+"0" cellspacing=3D"0" cellpadding=3D"0" bgcolor=3D"#f5f5f5"
+                       style=3D"mso-table-lspace: 0pt;mso-table-rspace: 0pt=
+;" role=3D"presentation">
+                    <tr>
+                        <td>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class=3D"small-content-list-section" align=
+=3D"left" style=3D"padding-bottom: 12px;">
+                             <span class=3D"small-content-text" style=3D"fo=
+nt-family: HelveticaNeue, Helvetica; font-size: 12px;color: #6B6B6B;">
+=E3=81=93=E3=81=AE=E3=83=A1=E3=83=83=E3=82=BB=E3=83=BC=E3=82=B8=E3=81=AB=E8=
+=BF=94=E4=BF=A1=E3=81=97=E3=81=AA=E3=81=84=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=
+=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AEE=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=
+=A2=E3=83=89=E3=83=AC=E3=82=B9=E3=81=AF=E9=80=81=E4=BF=A1=E5=B0=82=E7=94=A8=
+=E3=81=AE=E3=81=9F=E3=82=81=E3=80=81E=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=92=
+=E5=8F=97=E4=BF=A1=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=A7=E3=
+=81=8D=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82                             </sp=
+an>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class=3D"small-content-list-section" align=
+=3D"left"  style=3D"padding-bottom: 12px;">
+                                <span class=3D"small-content-text" style=3D=
+"font-family: HelveticaNeue, Helvetica; font-size: 12px;color: #6B6B6B;">
+=E3=81=93=E3=81=AEE=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=AF=E3=80=81=E6=9C=80=
+=E8=BF=91<a href=3Dhttp://link.jp.expediamail.com/c/4/?T=3DNjQxMjYyODE%3AMD=
+ItYzE5MDk4LWVhNTRiNDM4MzViZjQzYWM4NzJiZTAzNzJlZDA0ZGEw%3AeW16ay55YW1hY2hhbk=
+BnbWFpbC5jb20%3ASlAuUFQuRVZFTlRUUklHR0VSRURNQUlMSU5HLkVOU1BVUkNIQVNFQ09ORkl=
+STUFUSU9OLkhPVEVMJkVNTERUTD1EQVRFMjAxOTA0MDgtSVNTVVguU0lEWC5LRVk5NDAwMTMyNj=
+E0Ni5QQUlEWC5MQU5HSkFfSlAuTUNJRFguVEVTVFguVkVSU1guTUlEU1g%3AZmFsc2U%3A%3A%3=
+AaHR0cHM6Ly93d3cuZXhwZWRpYS5jby5qcC91c2VyL2VtYWlsY2xpY2svYmV4LXRyaXBzL2YycG=
+hvQ19jaUg5eVlXaUtDaFZ6UjBBLXdxVWpIUl9aWm9hWnhsVzJCUXk4V3VteGVoRUVxOTdqa1dLb=
+VpJNHRlQVdkT0Zmb1paRUpjWk05dUppY1p2RmdmSVJJN2xQNl9MbGJKNHBKN0RSQk94TVV0aVpT=
+TnZRP0VNTENJRD1KUC5QVC5FVkVOVFRSSUdHRVJFRE1BSUxJTkcuRU5TUFVSQ0hBU0VDT05GSVJ=
+NQVRJT04uSE9URUwmRU1MRFRMPURBVEUyMDE5MDQwOC1JU1NVWC5TSURYLktFWTk0MDAxMzI2MT=
+Q2LlBBSURYLkxBTkdKQV9KUC5NQ0lEWC5URVNUWC5WRVJTWC5NSURTWA&K=3DeR7Wye5YwbJf60=
+nu7FN0zw>=E3=82=A8=E3=82=AF=E3=82=B9=E3=83=9A=E3=83=87=E3=82=A3=E3=82=A2</a=
+>=E3=81=A7=E3=81=94=E4=BA=88=E7=B4=84=E3=81=84=E3=81=9F=E3=81=A0=E3=81=84=
+=E3=81=9F=E3=81=8A=E5=AE=A2=E6=A7=98=E3=80=81=E3=81=8A=E3=82=88=E3=81=B3=E3=
+=82=A2=E3=82=AB=E3=82=A6=E3=83=B3=E3=83=88=E6=83=85=E5=A0=B1=E3=82=92=E6=9B=
+=B4=E6=96=B0=E3=81=95=E3=82=8C=E3=81=9F=E3=81=8A=E5=AE=A2=E6=A7=98=E3=81=AB=
+=E3=81=8A=E9=80=81=E3=82=8A=E3=81=97=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=
+=80=82                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=3D"small-content-list-section" align=
+=3D"left">
+                                <span class=3D"small-content-text" style=3D=
+"font-family: HelveticaNeue, Helvetica; font-size: 12px;color: #6B6B6B;">
+&copy; 2019 Expedia, Inc. / Expedia Southeast Asia Pte. Ltd. / AAE Travel P=
+te. Ltd. All rights reserved.                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class=3D"small-content-list-section" align=
+=3D"left" style=3D"padding-bottom: 12px;">
+                                <span class=3D"small-content-text" style=3D=
+"font-family: HelveticaNeue, Helvetica; font-size: 12px;color: #6B6B6B;">EM=
+LCID=3DJP.PT.EVENTTRIGGEREDMAILING.ENSPURCHASECONFIRMATION.HOTEL&EMLDTL=3DD=
+ATE20190408-ISSUX.SIDX.KEY94001326146.PAIDX.LANGJA_JP.MCIDX.TESTX.VERSX.MID=
+SX</span>
+                            </td>
+                        </tr>
+                </table>
+
+                <!-- Safe RTB Codes -->
+                <!-- /Safe RTB Codes -->
+            </td>
+        </tr>
+</table>
+
+                                    </td>
+                                </tr>
+                                <!-- /Trip Details Content -->
+
+                            </table>
+                            <!-- /Email Module Container -->
+
+                        </td>
+                    </tr>
+                </table>
+                <!-- /Canvas -->
+
+                <!-- /Pseudo Body -->
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html><img src=3D"http://link.jp.expediamail.com/o/3/TmpReE1qWXlPREU6TURJd=
+Fl6RTVNRGs0TFdWaE5UUmlORE00TXpWaVpqUXpZV000TnpKaVpUQXpOekpsWkRBMFpHRXc6ZVcx=
+NmF5NTVZVzFoWTJoaGJrQm5iV0ZwYkM1amIyMDpTbEF1VUZRdVJWWkZUbFJVVWtsSFIwVlNSVVJ=
+OUVVsTVNVNUhMa1ZPVTFCVlVrTklRVk5GUTA5T1JrbFNUVUZVU1U5T0xraFBWRVZNSmtWTlRFUl=
+VURDFFUVZSRk1qQXhPVEEwTURndFNWTlRWVmd1VTBsRVdDNUxSVms1TkRBd01UTXlOakUwTmk1U=
+VFVbEVXQzVNUVU1SFNrRmZTbEF1VFVOSlJGZ3VWRVZUVkZndVZrVlNVMWd1VFVsRVUxZw/Q7X15=
+Ji90yMa_SejkuZsmA" width=3D"1" height=3D"1" />
+------=_Part_139198361_1264890630.1554732527231--
+
+------=_Part_139198360_1096551037.1554732527231--

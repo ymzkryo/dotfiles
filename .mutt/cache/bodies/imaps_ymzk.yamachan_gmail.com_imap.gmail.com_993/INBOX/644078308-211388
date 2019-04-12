@@ -1,0 +1,899 @@
+Delivered-To: ymzk.yamachan@gmail.com
+Received: by 2002:a50:f5e7:0:0:0:0:0 with SMTP id x36csp677787edm;
+        Sat, 30 Mar 2019 09:05:15 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqw2Zml5uDW0WHi0hDUpU9nZdi2zIFzV+j5HELPTVMY7zypkk2ui9Dnnx7z4JSQ2Qb6v6SOO
+X-Received: by 2002:a25:b92:: with SMTP id 140mr45214480ybl.217.1553961915727;
+        Sat, 30 Mar 2019 09:05:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1553961915; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ZvHlZBKcQMHuk7lfSxySMETThpxu0JdCCgZe8gmDbxfosHqOv86UwBDXmGGxf+Nc/P
+         4luvJ95WFTv5s++6GUiNJKXqcldM5SZcG1fmkIfL0JwJMsDsdZ09N+as+GLvno9TYQcm
+         i7uUZinZD2lMq0tbOt/Wqnh+8s5RN7tulJijmf6asZQCNcfuYqWrObNhVmEIus79ctqm
+         ssyQChJ7wyS61hM1NarnZO2THDPZQhMVOH6bXjFm2TOQ0CcNysd2P6psPdj2ZAC9NBBH
+         vIU+Tj1npxOTjPKABg/CR+rWfTxxfBMkpOTLuP7sKEdFOX08LNR4rpS+9M3/zqPPfUIe
+         nr4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:message-id:to:mime-version:from:date:dkim-signature
+         :dkim-signature;
+        bh=ou3Oblg0cnte42Zki6fwVYGfNCNUWBGDj6vwc5Lm6xQ=;
+        b=mabSjjuoTI71RJG4JL5QLh8XwL4iy8SisPusj5TXSus0e947rUlygy6eKcRHCy+n3t
+         5JbP4qU6PwwU1rKlcOP0hsZRSzgqVB+lAQl4AGBsy/kjIog/OmhVeIEP69vCc5QrjFnQ
+         UZY1sNiQvqvY+sZ+1qwH4nmAkUnOAfZ/dXzd8EuciTW1LEqyQ6PHIUfWF1B1ch7+fioa
+         82qgzcVcBCPmQOCl1nOY3DI3ze+MCD4bWF3xM5dlLJrSZnNELf9k2HMiluD6KL5S7hiL
+         W/aNZUUVH/eiHZ90Wp2KpVK8GDXDZlJ68nmUZvRylgVZJx8Uj+Rc2POBA8vnYpEKFekO
+         W3xQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@todoist.com header.s=s1 header.b=Rjo+3y8w;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b="gS/lzDGN";
+       spf=pass (google.com: domain of bounces+1623921-516f-ymzk.yamachan=gmail.com@em.todoist.com designates 167.89.38.33 as permitted sender) smtp.mailfrom="bounces+1623921-516f-ymzk.yamachan=gmail.com@em.todoist.com"
+Return-Path: <bounces+1623921-516f-ymzk.yamachan=gmail.com@em.todoist.com>
+Received: from o1.em.todoist.com (o1.em.todoist.com. [167.89.38.33])
+        by mx.google.com with ESMTPS id t128si2999584yba.390.2019.03.30.09.05.14
+        for <ymzk.yamachan@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 30 Mar 2019 09:05:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounces+1623921-516f-ymzk.yamachan=gmail.com@em.todoist.com designates 167.89.38.33 as permitted sender) client-ip=167.89.38.33;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@todoist.com header.s=s1 header.b=Rjo+3y8w;
+       dkim=pass header.i=@sendgrid.info header.s=smtpapi header.b="gS/lzDGN";
+       spf=pass (google.com: domain of bounces+1623921-516f-ymzk.yamachan=gmail.com@em.todoist.com designates 167.89.38.33 as permitted sender) smtp.mailfrom="bounces+1623921-516f-ymzk.yamachan=gmail.com@em.todoist.com"
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=todoist.com; 
+	h=content-type:from:mime-version:to:subject; s=s1; 
+	bh=+kIs1Vc0u9zcLTjqvjwrsunB2s4=; b=Rjo+3y8wK/NSz+Uh8Zpaz+34VrGLy
+	uE3y45bE0zfm1sKgdB1dZOQThrCFa3d0pn5ELAnvJQ56ErLH4TY9ntNOTZmBh0TX
+	z+B1CxastlYO1XYGkodCXwtKcQlOcxqzZVP4jGauveeDq6e2CRKVc0JqKTvF5Af7
+	+0g012H5N/YBsI=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=sendgrid.info; 
+	h=content-type:from:mime-version:to:subject:x-feedback-id; 
+	s=smtpapi; bh=+kIs1Vc0u9zcLTjqvjwrsunB2s4=; b=gS/lzDGNgVD9qMlEQW
+	72ZRXwVwkl7YWvFFTY1bVA1xgOU+yfwHCBgFNeIB+8Nadmg43ZvBXxwMcoJiLd6c
+	UbVzGvO3V7q0bJRxQ2TzmgeyDRF9JkoxqiptocJh19QjjNhovTvVgIPgB9W9SDQv
+	eprQf1pvFu8ePV9b7zpTPtSxg=
+Received: by filter1734p1mdw1.sendgrid.net with SMTP id filter1734p1mdw1-32071-5C9F93B8-3B
+        2019-03-30 16:05:12.822839172 +0000 UTC m=+53517.799511691
+Received: from MTYyMzkyMQ (ec2-54-164-207-242.compute-1.amazonaws.com [54.164.207.242])
+	by ismtpd0013p1iad2.sendgrid.net (SG) with HTTP id sKRl_4-ASSOAzknoMasznQ
+	Sat, 30 Mar 2019 16:05:12.792 +0000 (UTC)
+Content-Type: multipart/alternative; boundary=2819ac08d1cdc7b9050a2e192fc814c0d41dffdce6340ab44a6ddccc9531
+Date: Sat, 30 Mar 2019 16:05:12 +0000 (UTC)
+From: "Keita" <support@todoist.com>
+Mime-Version: 1.0
+To: ymzk.yamachan@gmail.com
+Message-ID: <sKRl_4-ASSOAzknoMasznQ@ismtpd0013p1iad2.sendgrid.net>
+Subject: =?UTF-8?B?VG9kb2lzdCDjg5fjg6zjg5/jgqLjg6DjgpLmm7TmlrDjgZfjgabjgYTjgZ/jgaDjgY3jgIHjgYLjgorjgYzjgajjgYbjgZTjgZbjgYTjgb7jgZnvvIE=?=
+X-SG-EID: +PliA3BOcLGeo58BeDG7e/gl80pNipPPZhOghs8dj3lJzJn8a5bX7GpbVcKug6jt+ar6SDXoktBLpj
+ r8sTkZ4sPH3I4DBr+hX3qQzAAE6NaDMJpoFk4omKHq7iS0mYXCyWjoUr5mh0+8lsAAm1KSwMIqD6Qh
+ K8gsr+cTuoEeC/nQMTz1FCf/L3TuR4RDKwGxDRwIGv2OMzdmHRmyGzDuU8Tu/t8nohICV5dCwEydF9
+ w=
+X-SG-ID: Ma7NgfigSH53bNZLs7gBMUH4SbBhC7KGVLy2kIQCucQ=
+X-Feedback-ID: 1623921:XQU8BFYKQRyPREwcSuSMX6jqDsKl4EOCW8Gd/INF3uQ=:IW/kHKtZRmzKt2Cz36gZa+kZV8CP8j8ohhoiFrH9vTU=:SG
+
+--2819ac08d1cdc7b9050a2e192fc814c0d41dffdce6340ab44a6ddccc9531
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+
+=E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AE=E6=A9=9F=E8=83=BD=E3=
+=81=AA=E3=81=A9=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=94=E8=B3=AA=E5=95=
+=8F=E3=81=8C=E3=81=82=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E3=81=8A=
+=E6=B0=97=E8=BB=BD=E3=81=AB=E3=81=8A=E5=95=8F=E5=90=88=E3=81=9B=E3=81=8F=E3=
+=81=A0=E3=81=95=E3=81=84=E3=80=82
+
+[ ](https://todoist.com#utm_source=3Dlc&utm_medium=3Demail&utm_campaign=3Dp=
+remium_re
+newed)
+
+Ryo =E3=81=95=E3=82=93=E3=80=81=E3=81=93=E3=82=93=E3=81=AB=E3=81=A1=E3=81=
+=AF=E3=80=82
+
+Todoist =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=82=92=E6=9B=B4=E6=
+=96=B0=E3=81=97=E3=81=A6=E3=81=84=E3=81=9F=E3=81=A0=E3=81=8D=E3=80=81=E3=81=
+=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=81=84=E3=81=BE=
+=E3=81=99=EF=BC=81 =E3=81=93=E3=81=AE 1 =E5=B9=B4=E9=96=93=E3=80=81Todoist
+=E3=81=AF=E3=82=BF=E3=82=B9=E3=82=AF=E7=AE=A1=E7=90=86=E3=81=AE=E3=81=8A=E5=
+=BD=B9=E3=81=AB=E3=81=9F=E3=81=A1=E3=81=BE=E3=81=97=E3=81=9F=E3=81=A7=E3=81=
+=97=E3=82=87=E3=81=86=E3=81=8B=EF=BC=9F=E3=81=94=E8=B3=AA=E5=95=8F=E3=81=AA=
+=E3=81=A9=E3=81=82=E3=82=8A=E3=81=BE=E3=81=97=E3=81=9F=E3=82=89=E3=80=81=E3=
+=81=84=E3=81=A4=E3=81=A7=E3=82=82=E6=B0=97=E8=BB=BD=E3=81=AB=E3=81=8A=E5=95=
+=8F=E3=81=84=E5=90=88=E3=82=8F=E3=81=9B=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82
+
+  * =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0 =E3=82=A2=E3=82=AB=E3=82=
+=A6=E3=83=B3=E3=83=88=E3=82=92=E6=9C=80=E5=A4=A7=E9=99=90=E3=81=AB=E4=BD=BF=
+=E3=81=84=E3=81=93=E3=81=AA=E3=81=99=E3=81=9F=E3=82=81=E3=81=AE=E3=82=B3=E3=
+=83=84=E3=82=92=E3=81=8A=E5=BF=98=E3=82=8C=E3=81=A7=E3=81=AF=E3=81=AA=E3=81=
+=84=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=81=8B=EF=BC=9F=E3=81=9D=E3=81=86=
+=E6=80=9D=E3=82=8F=E3=82=8C=E3=82=8B=E6=96=B9=E3=81=AF=E3=80=81=E3=81=9C=E3=
+=81=B2 [Todoist =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AE=E4=
+=BD=BF=E3=81=84=E6=96=B9](https://todoist.com/guide/premium)=E3=82=92=E3=81=
+=94=E8=A6=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=20
+  * Todoist =E3=81=AF=E5=B8=B8=E3=81=AB=E3=82=A2=E3=83=97=E3=83=AA=E3=82=92=
+=E6=94=B9=E5=96=84=E3=81=97=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=82=E6=
+=9C=80=E6=96=B0=E3=81=AE=E5=A4=89=E6=9B=B4=E3=82=84 Todoist =E3=82=92=E6=9C=
+=80=E5=A4=A7=E9=99=90=E3=81=AB=E6=B4=BB=E7=94=A8=E3=81=99=E3=82=8B=E6=96=B9=
+=E6=B3=95=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81=E3=81=9C=E3=
+=81=B2 [Todoist =E3=83=96=E3=83=AD=E3=82=B0](https://blog.doist.com)=E3=82=
+=92=E3=81=94=E8=A6=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=20
+  * =E3=81=94=E8=B3=AA=E5=95=8F=E3=82=84=E3=83=95=E3=82=A3=E3=83=BC=E3=83=
+=89=E3=83=90=E3=83=83=E3=82=AF=E7=AD=89=E3=81=82=E3=82=8A=E3=81=BE=E3=81=97=
+=E3=81=9F=E3=82=89=E3=80=81[get.todoist.help](https://get.todoist.help) =E3=
+=81=8B=E3=82=89=E3=81=8A=E5=95=8F=E3=81=84=E5=90=88=E3=82=8F=E3=81=9B=E3=81=
+=95=E3=82=8C=E3=82=8B=E3=81=8B=E3=80=81=E3=81=93=E3=81=AE=E3=83=A1=E3=83=BC=
+=E3=83=AB=E3=81=AB=E3=81=94=E8=BF=94=E4=BF=A1=E3=81=8F=E3=81=A0=E3=81=95=E3=
+=81=84=E3=80=82=E3=81=84=E3=81=A4=E3=81=A7=E3=82=82=E3=81=94=E9=80=A3=E7=B5=
+=A1=E3=82=92=E3=81=8A=E5=BE=85=E3=81=A1=E3=81=97=E3=81=A6=E3=81=8A=E3=82=8A=
+=E3=81=BE=E3=81=99=E3=80=82=20
+
+Todoist =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AE=E6=A9=9F=E8=
+=83=BD=E3=81=A7=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=8C=E3=82=88=E3=82=
+=8A=E7=94=9F=E7=94=A3=E7=9A=84=E3=81=AA 1
+=E5=B9=B4=E3=82=92=E9=81=8E=E3=81=94=E3=81=9B=E3=82=8B=E3=82=88=E3=81=86=E3=
+=83=81=E3=83=BC=E3=83=A0=E4=B8=80=E5=90=8C=E9=A1=98=E3=81=A3=E3=81=A6=E3=81=
+=8A=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E7=A7=81=E3=81=9F=E3=81=A1=E3=81=AB=
+=E4=BD=95=E3=81=8B=E3=82=B5=E3=83=9D=E3=83=BC=E3=83=88=E3=81=A7=E3=81=8D=E3=
+=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=E3=82=8C=E3=81=B0=E3=80=81=E3=81=
+=84=E3=81=A4=E3=81=A7=E3=82=82=E3=81=8A=E5=B0=8B=E3=81=AD=E3=81=8F=E3=81=A0=
+=E3=81=95=E3=81=84=E3=80=82
+
+=E4=BB=8A=E5=BE=8C=E3=81=A8=E3=82=82=E3=82=88=E3=82=8D=E3=81=97=E3=81=8F=E3=
+=81=8A=E9=A1=98=E3=81=84=E3=81=84=E3=81=9F=E3=81=97=E3=81=BE=E3=81=99=E3=80=
+=82=20=20
+Keita =E3=81=A8=E3=82=B5=E3=83=9D=E3=83=BC=E3=83=88 =E3=83=81=E3=83=BC=E3=
+=83=A0=E4=B8=80=E5=90=8C=E3=82=88=E3=82=8A
+
+=E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AE=E7=84=A1=E6=96=99=E6=
+=9C=9F=E9=96=93=E3=82=92=E7=8D=B2=E5=BE=97=E3=81=97=E3=82=88=E3=81=86=E2=9C=
+=A8
+
+=E7=B4=B9=E4=BB=8B=E3=81=97=E3=81=9F=E4=BA=BA=E3=81=8C=E3=83=97=E3=83=AC=E3=
+=83=9F=E3=82=A2=E3=83=A0=E3=81=AB=E3=82=A2=E3=83=83=E3=83=97=E3=82=B0=E3=83=
+=AC=E3=83=BC=E3=83=89=E3=81=99=E3=82=8B=E3=81=9F=E3=81=B3=E3=81=AB=E3=80=81=
+=E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=8C 2 =E3=81=8B=E6=9C=88=
+=E7=84=A1=E6=96=99=E3=81=AB=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=20=
+=20
+[=E3=81=95=E3=82=89=E3=81=AB=E8=A9=B3=E3=81=97=E3=81=8F](https://todoist.co=
+m/refer)
+
+10 =E4=BB=A5=E4=B8=8A=E3=81=AE=E3=82=BF=E3=82=A4=E3=83=A0=E3=82=BE=E3=83=BC=
+=E3=83=B3=E3=81=AB=E3=81=BE=E3=81=9F=E3=81=8C=E3=82=8B [Doist](https://dois=
+t.com) =E2=99=A1 =E3=83=81=E3=83=BC=E3=83=A0=E3=82=88=E3=82=8A=20=20
+=E3=81=A9=E3=81=93=E3=81=A7=E3=82=82=E4=BD=BF=E3=81=88=E3=82=8B Todoist =E2=
+=80=94 [=E3=82=A2=E3=83=97=E3=83=AA=E3=82=92=E3=83=80=E3=82=A6=E3=83=B3=E3=
+=83=AD=E3=83=BC=E3=83=89](https://todoist.com/downloads#utm_source=3Dlc&utm
+_medium=3Demail&utm_campaign=3Dpremium_renewed)=20=20
+
+[=E8=B3=BC=E8=AA=AD=E8=A7=A3=E9=99=A4](https://todoist.com/secureRedirect?p=
+ath=3D%2Funsubscribe%3Fm_type%3D4&tok
+en=3DeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTQ1NjMxMTIsImp0aSI6I=
+m9mcn
+lleFpRIiwidWlkIjoxNTM0NjIwMCwiY3NyZiI6MX0.XJsAUP9Oti-lP7SgUm2W0O2BjM-nViyd0=
+yvy
+5pQGcus#utm_source=3Dunsubscribe&utm_medium=3Demail&utm_campaign=3Dpremium_=
+renewed)
+
+
+--2819ac08d1cdc7b9050a2e192fc814c0d41dffdce6340ab44a6ddccc9531
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+Mime-Version: 1.0
+
+<!DOCTYPE html>
+    <html dir=3D"ltr" lang=3D"en">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+    <head>
+
+        <meta charset=3D"utf-8">
+
+        <meta name=3D"viewport" content=3D"width=3Ddevice-width">
+
+        <!--[if !mso]><!-->
+            <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+        <!--<![endif]-->
+
+        <title>Todoist =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=82=
+=92=E6=9B=B4=E6=96=B0=E3=81=97=E3=81=A6=E3=81=84=E3=81=9F=E3=81=A0=E3=81=8D=
+=E3=80=81=E3=81=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=
+=81=84=E3=81=BE=E3=81=99=EF=BC=81</title>
+
+
+        <style type=3D"text/css">
+
+            html,
+            body {
+                margin: 0 auto !important;
+                padding: 0 !important;
+                height: 100% !important;
+                width: 100% !important;
+            }
+
+            * {
+                -ms-text-size-adjust: 100%;
+                -webkit-text-size-adjust: 100%;
+            }
+
+            div[style*=3D"margin: 16px 0"] {
+                margin: 0 !important;
+            }
+
+            table,
+            td {
+                mso-table-lspace: 0pt !important;
+                mso-table-rspace: 0pt !important;
+            }
+
+            table {
+                border-spacing: 0 !important;
+                table-layout: fixed !important;
+                margin: 0 auto !important;
+            }
+
+            img {
+                line-height: 100%;
+                outline: none;
+                text-decoration: none;
+                -ms-interpolation-mode: bicubic;
+                border: 0;
+                max-width: 100%;
+                height: auto;
+                vertical-align: middle;
+            }
+
+            .yshortcuts a {
+                border-bottom: none !important;
+            }
+
+            a[x-apple-data-detectors] {
+                color: inherit !important;
+                text-decoration: none !important;
+                font-size: inherit !important;
+                font-family: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+            }
+
+            @media screen and (min-width: 600px) {
+                .ios-responsive-grid {
+                    display: -webkit-box !important;
+                    display: -webkit-flex !important;
+                    display: -moz-box !important;
+                    display: -ms-flexbox !important;
+                    display: flex !important;
+                }
+                .ios-responsive-grid__unit  {
+                    float: left;
+                }
+            }
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+        </style>
+
+        <!--[if gte mso 9]>
+        <style type=3D"text/css">
+            li {
+                text-indent: -1em;
+            }
+        </style>
+        <![endif]-->
+
+        <style type=3D"text/css">
+
+
+            .button__td,
+            .button__a {
+                transition: all 100ms ease;
+            }
+
+            .button__td:hover,
+            .button__a:hover {
+                background: #d7382a !important;
+            }
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+            @media screen and (max-width: 599px) {
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+.tdo-card { padding: 20px !important; }
+.tdo-h1 { font-size: 22px !important; }
+.tdo-h2 { font-size: 19px !important; }
+.tdo-feature-icon { width: 51px !important; }
+
+
+
+
+                .mobile-hidden {
+                    display: none !important;
+                }
+
+                .mobile-d-block {
+                    display: block !important;
+                }
+
+                .mobile-w-full {
+                    width: 100% !important;
+                }
+
+                .mobile-h-auto {
+                    height: auto !important;
+                }
+
+                .mobile-m-h-auto {
+                    margin: 0 auto !important;
+                }
+
+                .mobile-p-0 {
+                    padding: 0 !important;
+                }
+
+                .mobile-p-h-0 {
+                    padding-right: 0 !important;
+                    padding-left: 0 !important;
+                }
+
+                .mobile-p-t-0 {
+                    padding-top: 0 !important;
+                }
+
+                .mobile-text-start {
+                    text-align: left !important;
+                }
+
+                .mobile-text-end {
+                    text-align: right !important;
+                }
+
+                .mobile-img-fluid {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                    height: auto !important;
+                }
+            }
+
+        </style>
+    </head>
+
+
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+    <body style=3D"background: #ffffff; height: 100% !important; margin: 0 =
+auto !important; padding: 0 !important; width: 100% !important; ">
+
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+    <div style=3D"display: none; font-size: 1px; line-height: 1px; max-heig=
+ht: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all;">
+=20=20=20=20=20=20=20=20
+                =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AE=E6=
+=A9=9F=E8=83=BD=E3=81=AA=E3=81=A9=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=
+=94=E8=B3=AA=E5=95=8F=E3=81=8C=E3=81=82=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=
+=E3=80=81=E3=81=8A=E6=B0=97=E8=BB=BD=E3=81=AB=E3=81=8A=E5=95=8F=E5=90=88=E3=
+=81=9B=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+=20=20=20=20=20=20=20=20=20=20=20=20
+    </div>
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" style=3D"background: #f2f2f2=
+; border: 0; border-radius: 0; width: 100%; ">
+        <tr>
+            <td align=3D"center" class=3D"" style=3D"padding: 0 20px;">
+
+                <table cellpadding=3D"0" cellspacing=3D"0" style=3D"backgro=
+und: #f2f2f2; border: 0; border-radius: 0; ">
+                    <tr>
+                        <td align=3D"center" class=3D"" style=3D"width: 600=
+px;">
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" dir=3D"ltr" style=3D"border:=
+ 0; width: 100%; ">
+
+        <tr>
+            <td class=3D"" style=3D"padding: 20px 0; text-align: center; ">
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+    <a href=3D"https://em.todoist.net/wf/click?upn=3Dl9eRSOQLkZWFDNi-2BITyE=
+ZzoSRp76X-2B62OZu791Z4Uhf-2Fwb7uyVVhZZGNvb8RcevCePAeDbCP39OJN6fgVw3SET0Lv-2=
+FZuAYw2UN2dpm5oWmhazjyg-2BSme-2BKn9zgN7lF7j_3y3rMrYZJWJTyVSs3QSl6UspMAir-2B=
+QutsECKjyauQN1vlfF-2Fvxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkbG9L6HmPIbJQUnoF6=
+ALnkjFsHqebEbx4EOT5EjRM2Guqp4jPWXK8Qq-2F-2BbGc2Un6wWLZqjy5s-2FV5CAWY6yhq6Te=
+f22zUObLf0uKBATXxmEe9Dlotk1mROaeGvvpMrgB4A4ztE8PPgDx7-2BuwXJF0N5CWCAHxtF4ZE=
+Uj9FJDWekm9RlJ21DR3NBxbFNZgB7cvclA-3D-3D" style=3D"text-decoration: none; "=
+  target=3D"_blank">
+
+        <img alt=3D"Todoist" class=3D"  " src=3D"https://d3ptyyxy2at9ui.clo=
+udfront.net/logo-todoist-2x-97fdf4.png" style=3D"border: 0; height: auto;  =
+max-width: 100%; vertical-align: middle; " width=3D"96" >
+
+    </a>
+
+
+
+=20=20=20=20
+
+            </td>
+        </tr>
+
+    </table>
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+    <div style=3D"margin-bottom: 20px">
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" style=3D"background: #ffffff=
+; border: 0; border-radius: 4px; width: 100%; ">
+        <tr>
+            <td align=3D"center" class=3D"tdo-card" style=3D"padding: 20px =
+50px;">
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" dir=3D"ltr" style=3D"border:=
+ 0; width: 100%; ">
+
+        <tr>
+            <td class=3D"" style=3D"padding: 20px 0; text-align: left; colo=
+r: #474747; font-family: sans-serif;">
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; font-size: 14px; mso-line-height=
+-rule: exactly; line-height: 24px; margin: 30px 0; ">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+                Ryo =E3=81=95=E3=82=93=E3=80=81=E3=81=93=E3=82=93=E3=81=AB=
+=E3=81=A1=E3=81=AF=E3=80=82
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    </p>
+
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; font-size: 14px; mso-line-height=
+-rule: exactly; line-height: 24px; margin: 30px 0; ">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+                Todoist =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=82=
+=92=E6=9B=B4=E6=96=B0=E3=81=97=E3=81=A6=E3=81=84=E3=81=9F=E3=81=A0=E3=81=8D=
+=E3=80=81=E3=81=82=E3=82=8A=E3=81=8C=E3=81=A8=E3=81=86=E3=81=94=E3=81=96=E3=
+=81=84=E3=81=BE=E3=81=99=EF=BC=81
+                =E3=81=93=E3=81=AE 1 =E5=B9=B4=E9=96=93=E3=80=81Todoist =E3=
+=81=AF=E3=82=BF=E3=82=B9=E3=82=AF=E7=AE=A1=E7=90=86=E3=81=AE=E3=81=8A=E5=BD=
+=B9=E3=81=AB=E3=81=9F=E3=81=A1=E3=81=BE=E3=81=97=E3=81=9F=E3=81=A7=E3=81=97=
+=E3=82=87=E3=81=86=E3=81=8B=EF=BC=9F=E3=81=94=E8=B3=AA=E5=95=8F=E3=81=AA=E3=
+=81=A9=E3=81=82=E3=82=8A=E3=81=BE=E3=81=97=E3=81=9F=E3=82=89=E3=80=81=E3=81=
+=84=E3=81=A4=E3=81=A7=E3=82=82=E6=B0=97=E8=BB=BD=E3=81=AB=E3=81=8A=E5=95=8F=
+=E3=81=84=E5=90=88=E3=82=8F=E3=81=9B=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=
+=80=82
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    </p>
+
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+=20=20=20=20
+
+    <ul style=3D"list-style-type: disc; margin: 20px 0; font-size: 14px; ms=
+o-line-height-rule: exactly; line-height: 24px; margin: 30px 0;  margin-lef=
+t: 1em; padding: 0;">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+    <li style=3D"margin: 0; margin-bottom: 0;">
+
+        =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0 =E3=82=A2=E3=82=AB=E3=
+=82=A6=E3=83=B3=E3=83=88=E3=82=92=E6=9C=80=E5=A4=A7=E9=99=90=E3=81=AB=E4=BD=
+=BF=E3=81=84=E3=81=93=E3=81=AA=E3=81=99=E3=81=9F=E3=82=81=E3=81=AE=E3=82=B3=
+=E3=83=84=E3=82=92=E3=81=8A=E5=BF=98=E3=82=8C=E3=81=A7=E3=81=AF=E3=81=AA=E3=
+=81=84=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=81=8B=EF=BC=9F=E3=81=9D=E3=81=
+=86=E6=80=9D=E3=82=8F=E3=82=8C=E3=82=8B=E6=96=B9=E3=81=AF=E3=80=81=E3=81=9C=
+=E3=81=B2 <a href=3D"https://em.todoist.net/wf/click?upn=3Dl9eRSOQLkZWFDNi-=
+2BITyEZ3GLmsxqtJ8YfD6igJYrnafQKLYwMjT5jLZdz1zurKYt_3y3rMrYZJWJTyVSs3QSl6Usp=
+MAir-2BQutsECKjyauQN1vlfF-2Fvxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkaWRPH2qTVz=
+2zNgkvW2syepAK-2BOZjWgVs5O1AdGsl7b1nRdASD3xVyaquISy5aECy6lAY7u-2FCmkeuF-2F6=
+IEuSehkfo-2FhXVTFPCnQ1K22vEyki-2BxlfuqSPvAaKtOWszP-2BI1G3Ov4AYp4C0kYPCd69gQ=
+wG8v6YoqQ2yftvzGFsQhqTeu6-2BqhRvuxnlA26ccws4Ohg-3D-3D" style=3D"color: #db4=
+c3f; text-decoration: none;" target=3D"_blank">Todoist =E3=83=97=E3=83=AC=
+=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AE=E4=BD=BF=E3=81=84=E6=96=B9</a>=E3=82=
+=92=E3=81=94=E8=A6=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+
+    </li>
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+    <li style=3D"margin: 0; margin-bottom: 0;">
+
+        Todoist =E3=81=AF=E5=B8=B8=E3=81=AB=E3=82=A2=E3=83=97=E3=83=AA=E3=
+=82=92=E6=94=B9=E5=96=84=E3=81=97=E3=81=A6=E3=81=84=E3=81=BE=E3=81=99=E3=80=
+=82=E6=9C=80=E6=96=B0=E3=81=AE=E5=A4=89=E6=9B=B4=E3=82=84 Todoist =E3=82=92=
+=E6=9C=80=E5=A4=A7=E9=99=90=E3=81=AB=E6=B4=BB=E7=94=A8=E3=81=99=E3=82=8B=E6=
+=96=B9=E6=B3=95=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81=E3=81=
+=9C=E3=81=B2 <a href=3D"https://em.todoist.net/wf/click?upn=3Dl9eRSOQLkZWFD=
+Ni-2BITyEZ93FXJNJMXJwlwyf2Z6vMQ0-3D_3y3rMrYZJWJTyVSs3QSl6UspMAir-2BQutsECKj=
+yauQN1vlfF-2Fvxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkebp-2FTR3D63PZrdElKbG3buD=
+ieCOo9DztXRLd6n6uctuFW3QJfGiDZE5Q0xDcVp1tGtULk3PsQtwJ5Pu5BOCiY1XwD4S462-2F2=
+HdH512EbqmiZbTuz6SUbMCM8r1DIvVFdoxxCtdnlVQNRtSeSWMc0U952psldH10rXeCO43G9CYE=
+vIhzoClH3DT2wtf6kE11tg-3D-3D" style=3D"color: #db4c3f; text-decoration: non=
+e;" target=3D"_blank">Todoist =E3=83=96=E3=83=AD=E3=82=B0</a>=E3=82=92=E3=
+=81=94=E8=A6=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
+
+    </li>
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+    <li style=3D"margin: 0; margin-bottom: 0;">
+
+        =E3=81=94=E8=B3=AA=E5=95=8F=E3=82=84=E3=83=95=E3=82=A3=E3=83=BC=E3=
+=83=89=E3=83=90=E3=83=83=E3=82=AF=E7=AD=89=E3=81=82=E3=82=8A=E3=81=BE=E3=81=
+=97=E3=81=9F=E3=82=89=E3=80=81<a href=3D"https://em.todoist.net/wf/click?up=
+n=3Dl9eRSOQLkZWFDNi-2BITyEZ4cAw7P39KEef5LalBzu60Q-3D_3y3rMrYZJWJTyVSs3QSl6U=
+spMAir-2BQutsECKjyauQN1vlfF-2Fvxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkWDwJKsWy=
+nugQT7J8Zq8aRnwO6-2FHlSVDd8XNsXgI5UMsYgSmL28GlY89XrOCUW9NSPmUYz07UY5M6WWLuP=
+SyOStjg-2FfPdFVYb8-2BSmH5JiTrueXsHSq8cLygDw9u2TFnAaZ1QgVT6PdMYo0zZf5-2BtnHb=
+nqOJjsEm7fxKWCS25D9g0hbWLTSIg-2Fp5Xet9-2FjrLsSw-3D-3D" style=3D"color: #db4=
+c3f; text-decoration: none;" target=3D"_blank">get.todoist.help</a> =E3=81=
+=8B=E3=82=89=E3=81=8A=E5=95=8F=E3=81=84=E5=90=88=E3=82=8F=E3=81=9B=E3=81=95=
+=E3=82=8C=E3=82=8B=E3=81=8B=E3=80=81=E3=81=93=E3=81=AE=E3=83=A1=E3=83=BC=E3=
+=83=AB=E3=81=AB=E3=81=94=E8=BF=94=E4=BF=A1=E3=81=8F=E3=81=A0=E3=81=95=E3=81=
+=84=E3=80=82=E3=81=84=E3=81=A4=E3=81=A7=E3=82=82=E3=81=94=E9=80=A3=E7=B5=A1=
+=E3=82=92=E3=81=8A=E5=BE=85=E3=81=A1=E3=81=97=E3=81=A6=E3=81=8A=E3=82=8A=E3=
+=81=BE=E3=81=99=E3=80=82
+
+    </li>
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    </ul>
+
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; font-size: 14px; mso-line-height=
+-rule: exactly; line-height: 24px; margin: 30px 0; ">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+                Todoist =E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=
+=AE=E6=A9=9F=E8=83=BD=E3=81=A7=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=8C=
+=E3=82=88=E3=82=8A=E7=94=9F=E7=94=A3=E7=9A=84=E3=81=AA 1 =E5=B9=B4=E3=82=92=
+=E9=81=8E=E3=81=94=E3=81=9B=E3=82=8B=E3=82=88=E3=81=86=E3=83=81=E3=83=BC=E3=
+=83=A0=E4=B8=80=E5=90=8C=E9=A1=98=E3=81=A3=E3=81=A6=E3=81=8A=E3=82=8A=E3=81=
+=BE=E3=81=99=E3=80=82=E7=A7=81=E3=81=9F=E3=81=A1=E3=81=AB=E4=BD=95=E3=81=8B=
+=E3=82=B5=E3=83=9D=E3=83=BC=E3=83=88=E3=81=A7=E3=81=8D=E3=82=8B=E3=81=93=E3=
+=81=A8=E3=81=8C=E3=81=82=E3=82=8C=E3=81=B0=E3=80=81=E3=81=84=E3=81=A4=E3=81=
+=A7=E3=82=82=E3=81=8A=E5=B0=8B=E3=81=AD=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    </p>
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; font-size: 14px; mso-line-height=
+-rule: exactly; line-height: 24px; margin: 30px 0; ">
+
+=20=20=20=20=20=20=20=20
+        =E4=BB=8A=E5=BE=8C=E3=81=A8=E3=82=82=E3=82=88=E3=82=8D=E3=81=97=E3=
+=81=8F=E3=81=8A=E9=A1=98=E3=81=84=E3=81=84=E3=81=9F=E3=81=97=E3=81=BE=E3=81=
+=99=E3=80=82 <br>=20=20=20=20=20
+    <span style=3D"font-weight: bold;">Keita =E3=81=A8=E3=82=B5=E3=83=9D=E3=
+=83=BC=E3=83=88 =E3=83=81=E3=83=BC=E3=83=A0=E4=B8=80=E5=90=8C=E3=82=88=E3=
+=82=8A</span>
+=20=20=20=20
+
+    </p>
+
+
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+            </td>
+        </tr>
+
+    </table>
+
+
+
+=20=20=20=20
+=20=20=20=20=20=20=20=20
+
+
+            </td>
+        </tr>
+    </table>
+
+
+    </div>
+
+
+=20=20=20=20=20=20=20=20
+    <div style=3D"margin-bottom: 20px">
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" style=3D"background: #ffffff=
+; border: 0; border-radius: 4px; width: 100%; ">
+        <tr>
+            <td align=3D"center" class=3D"tdo-card" style=3D"padding: 20px =
+50px;">
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" dir=3D"ltr" style=3D"border:=
+ 0; width: 100%; ">
+
+        <tr>
+            <td class=3D"" style=3D"padding: 0; text-align: left; color: #4=
+74747; font-family: sans-serif;">
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; font-size: 14px; mso-line-height=
+-rule: exactly; line-height: 24px; margin: 30px 0; margin: 0px;">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+    <span style=3D"font-weight: bold;">=E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=
+=E3=83=A0=E3=81=AE=E7=84=A1=E6=96=99=E6=9C=9F=E9=96=93=E3=82=92=E7=8D=B2=E5=
+=BE=97=E3=81=97=E3=82=88=E3=81=86=E2=9C=A8</span>
+=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    </p>
+
+
+
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; font-size: 14px; mso-line-height=
+-rule: exactly; line-height: 24px; margin: 30px 0; margin: 0">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+            =E7=B4=B9=E4=BB=8B=E3=81=97=E3=81=9F=E4=BA=BA=E3=81=8C=E3=83=97=
+=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=AB=E3=82=A2=E3=83=83=E3=83=97=E3=
+=82=B0=E3=83=AC=E3=83=BC=E3=83=89=E3=81=99=E3=82=8B=E3=81=9F=E3=81=B3=E3=81=
+=AB=E3=80=81=E3=83=97=E3=83=AC=E3=83=9F=E3=82=A2=E3=83=A0=E3=81=8C 2 =E3=81=
+=8B=E6=9C=88=E7=84=A1=E6=96=99=E3=81=AB=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=99=
+=E3=80=82
+            <br />
+            <a href=3D"https://em.todoist.net/wf/click?upn=3Dl9eRSOQLkZWFDN=
+i-2BITyEZyG76VmK0BNHawuJEPwGcKJY72wFA8-2BmLdBVfLTnS1Vc_3y3rMrYZJWJTyVSs3QSl=
+6UspMAir-2BQutsECKjyauQN1vlfF-2Fvxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkdzOpJT=
+NAxYaBbyLR9-2BGbh-2FEXWmlFLpykxM30SCfH1a640AoubO8dLXpoMORdG9EUmu97jrvUAub5v=
+X5KhmyJvqpmaWF-2BJXuTN3qZchdvQcEchbIZi5PYUM1yuBD8OpBJEMR5lujdpRI1YOlToFN20W=
+Z5ZRkjz-2BGt5nLyDpWhkJl6vgK6kaUJKsHh1Ok-2BXbjqQ-3D-3D" style=3D"color: #db4=
+c3f; text-decoration: none;" target=3D"_blank">=E3=81=95=E3=82=89=E3=81=AB=
+=E8=A9=B3=E3=81=97=E3=81=8F</a>
+=20=20=20=20=20=20=20=20
+=20=20=20=20
+
+    </p>
+
+
+
+=20=20=20=20
+
+            </td>
+        </tr>
+
+    </table>
+
+
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+
+
+            </td>
+        </tr>
+    </table>
+
+
+    </div>
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+
+=20=20=20=20
+
+=20=20=20=20
+
+    <table cellpadding=3D"0" cellspacing=3D"0" dir=3D"ltr" style=3D"border:=
+ 0; width: 100%; ">
+
+        <tr>
+            <td class=3D"" style=3D"padding: 20px 0; text-align: center; co=
+lor: #acacac; font-family: sans-serif; font-size: 12px; mso-line-height-rul=
+e: exactly; line-height: 20px;">
+
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; margin: 0;">
+
+=20=20=20=20=20=20=20=20
+                10 =E4=BB=A5=E4=B8=8A=E3=81=AE=E3=82=BF=E3=82=A4=E3=83=A0=
+=E3=82=BE=E3=83=BC=E3=83=B3=E3=81=AB=E3=81=BE=E3=81=9F=E3=81=8C=E3=82=8B <a=
+ href=3D"https://em.todoist.net/wf/click?upn=3Dl9eRSOQLkZWFDNi-2BITyEZ0EOw2=
+2KxjztTWHeH-2B6g2Uc-3D_3y3rMrYZJWJTyVSs3QSl6UspMAir-2BQutsECKjyauQN1vlfF-2F=
+vxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkTydjSB6jayHZ39m9uEextQEENCrrrtFJOr5nur=
+xiTQT6bkic7K8ZHQXRwpZAvlLZbXDwOJxtY0ixoZvPkZbXKmz4qtzl-2Fa7DIiwl8Hfyk-2FPkN=
+8V6Jmhf6WFaeR3SosyBoW5Ezd5MVH5C4y-2B970vsOvJwYrmf5QJKB1q2N5uGbOAw4R9jLCUYaq=
+nn35zIsKaFw-3D-3D" style=3D"color: #acacac; text-decoration: underline;" ta=
+rget=3D"_blank">Doist</a> &#x2661; =E3=83=81=E3=83=BC=E3=83=A0=E3=82=88=E3=
+=82=8A <br>
+                =E3=81=A9=E3=81=93=E3=81=A7=E3=82=82=E4=BD=BF=E3=81=88=E3=
+=82=8B Todoist =E2=80=94 <a href=3D"https://em.todoist.net/wf/click?upn=3Dl=
+9eRSOQLkZWFDNi-2BITyEZyWxP1VX2tdWpBJPDiqbodWz9d3fn-2BWycO5eBjuPbojPE8TPUD4e=
+0oPS7-2FzNR6fiJ1tkpvRoshdD666EQhSw10F2SbU-2FaTzjnjhNzxYh5tC3AyCUGCELEb-2F3A=
+Jk0P8l8Qg-3D-3D_3y3rMrYZJWJTyVSs3QSl6UspMAir-2BQutsECKjyauQN1vlfF-2Fvxave2L=
+r3qMxlDWDcZLtnqLAMJo0gpHYN6NXkYSzAj2rXRcbZA-2B9FzhKXnH3jtc5x4ukkyQxlRI3zKKx=
+sn1IzJsXDY04yBw8G9ZI-2FcynkV5JZ-2BqXpLhBxPFXmd5GaawqC3a0ycHwYJ8KZGVTETQTsOO=
+6HWWsIAeFw-2FpUBeY-2BxIIWkS-2FOsPYR-2F9zJClnDUUb28NaBeUHQRTsZ7-2BrIHy50HQ6D=
+XUo5aY2Rado-2F4w-3D-3D" style=3D"color: #acacac; text-decoration: underline=
+;" target=3D"_blank">=E3=82=A2=E3=83=97=E3=83=AA=E3=82=92=E3=83=80=E3=82=A6=
+=E3=83=B3=E3=83=AD=E3=83=BC=E3=83=89</a><br>
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+    </p>
+
+
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20
+
+    <p class=3D"" style=3D"margin: 20px 0; margin: 10px 0 0;">
+
+=20=20=20=20=20=20=20=20
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+    <a href=3D"https://em.todoist.net/wf/click?upn=3Dl9eRSOQLkZWFDNi-2BITyE=
+ZyBBNFePLUyEp1yIxwrwEtCKHftgeoWcg24W5tvOdV6CFpaC2arIQTsGyxMDn5w9kh5966SgSno=
+bqilxVUJc03a01Druuacw9zuSqraxZ1nxi81iXAy47kqoyF40n7h8cl7qsllz4GNDAvmEglH9PN=
+Rn2AxOG5IYWCi0VRPkwn9semjrPF-2F93J87E9-2BaVI9GNUJszo1Amnz8PbhW0HyPYUzJ7U0ht=
+A72Hrv2pN2uOfEc73AwHrPHTGstHD2BBdXRsgESHWLH6t6avML87XrkqIX2QF6ryxTc8moC2WXh=
+0CzFdODga3VmnGvcGzisNyLpeghh26faZCFmOby-2FBghyInVuwnahoHuG22LPymfiQlwDg5EfK=
+IFQRd5yT0H05axl-2BPQGV7KxruoS5ZxR3lx3w30-3D_3y3rMrYZJWJTyVSs3QSl6UspMAir-2B=
+QutsECKjyauQN1vlfF-2Fvxave2Lr3qMxlDWDcZLtnqLAMJo0gpHYN6NXkbLntdJ2-2F1YwTrK-=
+2FppPNWuGkmC31Nv-2BAcCt0Co3m7tQvEenahsXsjas-2FWwdg0Om3J9Bn2MrGaNhaVbh8CFRSn=
+qCC3S3CjMLG9HbwIhqVZXDMB2AFqe4cLp5DdWoEwxbaqEaecliisqeW3lLgV2b93EVOIrtBoJRW=
+HvNkJ65kKsibAO6ua2tJWGrqyysFKNYsYg-3D-3D" style=3D"color: #acacac; text-dec=
+oration: underline; "  target=3D"_blank">=E8=B3=BC=E8=AA=AD=E8=A7=A3=E9=99=
+=A4</a>
+=20=20=20=20=20=20=20=20
+
+    </p>
+
+
+
+=20=20=20=20
+
+            </td>
+        </tr>
+
+    </table>
+
+
+
+=20=20=20=20=20=20=20=20=20=20=20=20
+
+
+
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+
+
+=20=20=20=20=20=20=20=20
+
+=20=20=20=20
+<img src=3D"https://em.todoist.net/wf/open?upn=3D3y3rMrYZJWJTyVSs3QSl6UspMA=
+ir-2BQutsECKjyauQN1vlfF-2Fvxave2Lr3qMxlDWDORpIAIsZD-2F0aQc2bN0OnOiiNkSD7o4E=
+pjfkQSfacZksmQpmQIUOEIlqNw1zI0KkKZO9zjP5oxaerQOXzqDh4Sm-2F1BkBVGDmzhGqNKpPf=
+LWwkBAW79JiJUvzdavOPxryaxD8w8m5sE9jVR8kLOYujtvuGiWCoit2jpapuapqsNTHZZNkynIN=
+GEoX5YsDwrQEhrEKPfbFG5zDUm1uvVnJgNg-3D-3D" alt=3D"" width=3D"1" height=3D"1=
+" border=3D"0" style=3D"height:1px !important;width:1px !important;border-w=
+idth:0 !important;margin-top:0 !important;margin-bottom:0 !important;margin=
+-right:0 !important;margin-left:0 !important;padding-top:0 !important;paddi=
+ng-bottom:0 !important;padding-right:0 !important;padding-left:0 !important=
+;"/>
+</body>
+
+
+=20=20=20=20
+
+    </html>
+
+--2819ac08d1cdc7b9050a2e192fc814c0d41dffdce6340ab44a6ddccc9531--

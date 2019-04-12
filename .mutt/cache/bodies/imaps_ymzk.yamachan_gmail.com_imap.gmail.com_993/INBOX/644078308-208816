@@ -1,0 +1,142 @@
+Delivered-To: ymzk.yamachan@gmail.com
+Received: by 2002:a50:c358:0:0:0:0:0 with SMTP id q24csp1930838edb;
+        Thu, 17 Jan 2019 05:00:28 -0800 (PST)
+X-Google-Smtp-Source: ALg8bN7Sr787U57kEzf+57bubkmA1K7lDkeK/aj0B/5kALmOBatAqZwQQcLcBhe6dnRUtSY4fKCt
+X-Received: by 2002:a25:b843:: with SMTP id b3mr1685560ybm.118.1547730028137;
+        Thu, 17 Jan 2019 05:00:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1547730028; cv=none;
+        d=google.com; s=arc-20160816;
+        b=U11xUyyRWnKSzEGHarZuy1NBly/gebnCGkOXyv36k1NssQj3BU8iFUg0bjh5SGEK/O
+         Wlb7yCVGtnORSfM6ppI0TMlxd+13fQyqiye92K+FHqHWjS1gIN5R77lPVsJ5iadYScg4
+         iMHuG/wkA91+VzClqa8kV4GYlPKCEqKtpQDXr+TBNSmirVQNITLm9495hnmPleMKIMFf
+         NhkWgcxHs1GJsXd7/Rc0O3fPynzMgRFoJFW4BPQMVLhyWELaKRvQDcEFAk1uglVbYfiN
+         vyj8YLmxwaD6c8SEs7/X/afJlEKLyxVxnw9Zs6dYX0MihqyLIZS3whJZsEzCFf+RARdy
+         sfug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:from:references:in-reply-to
+         :message-id:errors-to:to:reply-to:date:subject;
+        bh=x+BFsAPq120MsOC7X2MklHSfeG5Py67W6RtVIoHTKJw=;
+        b=K26w6IHjNmV5hfl+VAd29cpJKimHLmw5JJbIUfp9eZbP5Xtz7SsmsbKIY1Dwh/IYuJ
+         rilDbHrSsFkdsQZaYqQJF+PN87pPiWG2/X/787U8Dz4VUqfW0RsTvDRpShxrymD8kset
+         2gVX3EqVW9Xv8Meldzd3ZxqgRLrlo7Ur/pCkYgrPFynDvvT+a3EG6FeQNQS5oCHQxBtE
+         UwRl/H34O4bOeWqhQ0DjJMqMmo6S74fV02cAzTzkKVLB4ddlMXtSA6lc0FJRGvpztUFq
+         Bng0X+GKWBoiEI2qSJqNhaUwfrLtIsWUF6PVQMCwpuen+5S7C8NF5jl2Timp8wjR8XMv
+         QHdw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=softfail (google.com: domain of transitioning wedding@funatsuru.com does not designate 218.251.78.57 as permitted sender) smtp.mailfrom=wedding@funatsuru.com
+Return-Path: <wedding@funatsuru.com>
+Received: from mdcharon.maildealer.jp (mdcharon.maildealer.jp. [218.251.78.57])
+        by mx.google.com with ESMTPS id k193si1239359ywe.17.2019.01.17.05.00.27
+        for <ymzk.yamachan@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 17 Jan 2019 05:00:27 -0800 (PST)
+Received-SPF: softfail (google.com: domain of transitioning wedding@funatsuru.com does not designate 218.251.78.57 as permitted sender) client-ip=218.251.78.57;
+Authentication-Results: mx.google.com;
+       spf=softfail (google.com: domain of transitioning wedding@funatsuru.com does not designate 218.251.78.57 as permitted sender) smtp.mailfrom=wedding@funatsuru.com
+Received: from localhost (localhost [127.0.0.1])
+	by mdcharon.maildealer.jp (Postfix) with ESMTP id 279761A0054
+	for <ymzk.yamachan@gmail.com>; Thu, 17 Jan 2019 22:00:26 +0900 (JST)
+subject: =?ISO-2022-JP?B?GyRCIVo7M3l1TU0hWxsoQiBGVU5BVFNVUlUbJEI6I0VEJEcbKEI=?=
+ =?ISO-2022-JP?B?GyRCJDQkNiQkJF4kORsoQg==?=
+date: Thu, 17 Jan 2019 22:00:26 +0900
+reply-to: wedding@funatsuru.com
+to: =?ISO-2022-JP?B?GyRCOzN5dU48TU0bKEI=?= <ymzk.yamachan@gmail.com>
+errors-to: <wedding@funatsuru.com>
+x-mailer: Mail_Dealer_version_12.3.1
+x-powered-by: Mail_Dealer_version_12.3.1
+message-id: <20190117220026.6100.postfix@mdcharon.maildealer.jp>
+in-reply-to: <a7a28ed2-9d22-4f66-95c6-0e1947fe6ac7@Spark>
+references: <a7a28ed2-9d22-4f66-95c6-0e1947fe6ac7@Spark>
+from: =?ISO-2022-JP?B?RlVOQVRTVVJVIEtZT1RPIEtBTU9HQVdBIFJFU09SVA==?= <wedding@funatsuru.com>
+mime-version: 1.0
+content-type: text/plain; charset="ISO-2022-JP"
+content-transfer-encoding: 7bit
+
+$B;3yu(B $BN<(B $BMM(B
+
+$B$$$D$bBgJQ$*@$OC$K$J$C$F$*$j$^$9!#(B
+FUNATSURU KYOTO KAMOGAWA RESORT$B$N:#ED$G$4$6$$$^$9!#(B
+$B@hDx$O$*EEOC$N$*;~4V$rD:BWCW$7$^$7$F$"$j$,$H$&$4$6$$$^$7$?!#(B
+$B$*EEOC$K$F$*OC$r$5$;$FD:$-$^$7$?%W%i%sJQ99$N7o$G%a!<%k$r$*Aw$j$7$F$*$j$^$9!#(B
+
+$B"!%W%i%sJQ99$K$D$$$F(B
+$B$*EEOC$K$F$44uK>$rD:$-$^$7$?5s<0$N$_$N<B;\$X$HJQ99$r>5$j$^$7$?!#(B
+$B!Z!!(B2019$BG/(B8$B7n(B16$BF|!!(B14$B;~5s<0%9%?!<%H!!![$X$H$*;~4V$rJQ99$r$*4j$$$7$?$/B8$8$^$9!#(B
+
+$B6b3[$G$4$6$$$^$9$,!"2<5-;2>H$/$@$5$$$^$;!#(B
+
+$B!&MNAu%W%i%s!!(B198,000$B1_!J>CHq@GJL!&%5!<%S%9NA9~!K(B
+$B!&OBAu%W%i%s!!(B288,000$B1_!J>CHq@GJL!&%5!<%S%9NA9~!K(B
+
+$B!&MNAu%W%i%s$K4^$^$l$k$b$N!'(B
+$B5s<0NA!&95<<NA!&0a>X!J%?%-%7!<%I(B5$BK|1_(B/$B%I%l%9(B25$BK|1_>e8B!K!&(B
+$BH~MFCeIU!J%a%$%/%j%O!<%5%k$J$7!K!&%"%F%s%I!&<0>lAu2V(B
+
+$B$?$@!"4{$K$*?69~$rD:BW$7$F$*$j$^$9!Z!!(B30$BK|1_!!![$H(B
+$B%W%i%sNA6b$H$N:93[$OJV6bCW$7$+$M$^$9;v$r$4N;>5$/$@$5$$!#(B
+
+$B$J$*!"5s<0$r<B;\$5$l$?$N$A$K$*$U$?$j$,$*?);v$r$44uK>$N>l9g$O(B
+$B%l%9%H%i%s$K$F$*?);v$r<B;\D:$/;v$K$J$j$^$9$?$a(B
+$BJLES$4NA6b$,I,MW$H$J$C$F$^$$$j$^$9!#(B
+$B4{$K$*?69~$N(B30$BK|1_$O$4:'NiHqMQ$N07$$$H$J$j$^$9$N$G(B
+$B$*?);vBe6b$O%l%9%H%i%s$X$N$*;YJ'$$$G$4$6$$$^$9!#(B
+
+$B$*EEOC$K$F$*OC$r$5$;$FD:$/J}$,EA$o$j$d$9$$FbMF$+$H;W$$(B
+$B$*EEOC$r:9$7>e$2$^$7$?$,!"$*$$$=$,$7$/$$$i$C$7$c$k%?%$%_%s%0$K$F(B
+$B?=$7Lu$4$6$$$^$;$s$G$7$?!#(B
+
+$BD>@\$4@bL@$r$5$;$FD:$/;v$b2DG=$G$4$6$$$^$9$N$G(B
+$B2?$J$j$H$*?=$7IU$1$/$@$5$$$^$;!#(B
+
+$B$4B?MQ$G$$$i$C$7$c$kCf!"62=L$G$O$4$6$$$^$9$,(B
+$B>e5-FbMF$K$D$$$F$43NG'$rD:$1$^$7$?$i$4JV?.$r$/$@$5$$$^$;!#(B
+$B0z$-B3$-!"$I$&$>$h$m$7$/$*4j$$$7$^$9!#(B
+
+$B!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!="#"""#(B
+FUNATSURU KYOTO KAMOGAWA RESORT
+$B:#ED(B $B:ZF`(B
+MAIL: wedding@funatsuru.com
+ $B")(B600-8015
+ $B5~ET;T2<5~6hLZ20D.DL>>86>e%kH~G;20D.(B180
+  TEL : 075-351-8544
+           075-353-0501 ($B$48+3XM=Ls@lMQ%@%$%d%k(B)
+  FAX : 075-351-8542
+ $B1D6H;~4V(B: $BJ?F|(B12:00$B!A(B19:00$B!J2PMK!&?eMKDj5Y!K(B
+$B!!!!!!!!!!EZF|=K(B10:00$B!A(B19:00
+  HP: http://www.funatsuru.com
+$B"#"""#!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=!=(B
+
+
+
+> FUNATSURU KYOTO KAMOGAWA RESORT
+> $B:#EDMM(B
+> 
+> $B$*@$OC$K$J$C$F$*$j$^$9!#(B
+> 
+> $B!Z(B2019$BG/(B8$B7n(B16$BF|!J6b!K(B11:00$B5s<0!!(B12:00$B2q?)!?(BVIP$B!!(BROOM$B![$G5s<0M=Dj$N;3:jN<$G$9!#(B
+> 
+> $BI=Bj$N7o$G$9$,!"(B
+> $B5s<0;22C<T$r(B10$BL>$H$7$F$*4j$$$7$F$*$j$^$7$?$,!"(B2$B?M$@$1$G5s<0$r9T$C$?>l9g$N8+@Q$b$j$r:n@.$7$F$$$?$@$1$^$9$G$7$g$&$+!#(B
+> $B$=$N;~!"(B
+> 1. 8$BL>J,$NITB-6b(B(12,000$B1_(B/$B?M(B)$B$"$j(B
+> 2. 8$BL>J,$NITB-6b$J$7(B
+> $B$N(B2$B%Q%?!<%s$N8+@Q$b$j$r:n@.$7$F$$$?$@$1$^$9$H9,$$$G$9!#(B
+> 
+> $B$^$?!"9g$o$;$F3NG'$7$?$$$N$G$9$,(B
+> $B8=>u$NOBAu%W%i%s$+$iMNAu$N%W%i%s$KJQ99$9$k$3$H$O2DG=$G$7$g$&$+!#(B
+> $B%"%s%F%j!<%Y2O86D.E9$G0aAu9g$o$;$r9T$C$?:]$K!"OBAu$h$jMNAu$NJ}$,;dC#$NM}A[$H$9$k<0$N%$%a!<%8$K9g$&$N$G$O$J$$$+$H$$$&$3$H$K$J$j$^$7$?!#(B
+> 
+> $BFMA3$N$4O"Mm$G?=$7Lu$"$j$^$;$s$,!"$4BP1~$NJ}!"59$7$/$*4j$$CW$7$^$9!#(B
+> 
+> $B;3:j(B
+> 
+> ============================================
+> $B;3:jN<(B
+> RYO Yamazaki
+> 
+> 090-4268-3938
+> ymzk.yamachan@gmail.com
+> ============================================
+> 
+
+
