@@ -41,3 +41,8 @@ Thumbs.db
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# mutt
+/mutt/.goobookrc
+/mutt/password.rc
+/.mutt/cache
