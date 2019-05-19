@@ -58,29 +58,27 @@ RPROMPT='%{${fg[cyan]}%}[%*]%{${reset_color}%}'
 
 # alias
 # brewの時、envを使わない
-alias brew="PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin brew"
+alias brew="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin brew"
+
 # 年月日別メモファイル作成
 alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
 
 # gcalcliのtoday-tomorrowを呼び出し
 alias gcal='gcalcli agenda now tomorrow'
 
-# 自作todoistのコマンド省略
-alias todoist='./main.py'
-
 # pyenv SETTING
 export PYENV_ROOT=/usr/local/var/pyenv
 eval "$(pyenv init -)"
 
 # goenv SETTING
-export GOENV_ROOT=$HOME/.goenv
-export PATH=$GOENV_ROOT/bin:$PATH
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
-
-export GOPATH=$HOME/go
-PATH=$PATH:$GOPATH/bin
 
 # rbenv SETTING
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 export PATH=$HOME/.rbenv/bin:$PATH
 eval "$(rbenv init -)"
+
+# nodebrew SETTING
+export PATH=$HOME/.nodebrew/current/bin:$PATH
