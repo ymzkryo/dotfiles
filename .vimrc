@@ -25,7 +25,7 @@ augroup fileTypeIndent
 	autocmd BufRead,BufNewFile *.go setfiletype go
 	autocmd BufRead,BufNewFile *.java setfiletype java
 	autocmd BufRead,BufNewFile *.js setfiletype javascript
-  autocmd BufRead,BufNewFile *.vue setfiletype vue
+    autocmd BufRead,BufNewFile *.vue setfiletype vue
 augroup END
 
 " 入力モード中に素早くjjと入力した場合はESCとみなす
