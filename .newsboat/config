@@ -1,0 +1,17 @@
+browser open -a safari %u
+ 
+auto-reload yes
+reload-time 10
+  
+bind-key k prev
+bind-key j next
+   
+show-read-feeds no
+feed-sort-order unreadarticlecount-asc
+
+color info default default reverse
+color listnormal_unread red default
+color listfocus blue default reverse bold
+color listfocus_unread blue default reverse bold
+
+text-width 80
