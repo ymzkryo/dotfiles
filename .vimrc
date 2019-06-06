@@ -81,6 +81,7 @@ if dein#load_state('~/.vim/dein')
   call dein#add('nathanaelkane/vim-indent-guides')
   call dein#add('itchyny/lightline.vim')
   call dein#add('posva/vim-vue')
+  call dein#add('iwataka/minidown.vim')
 
   " Required:
   call dein#end()
