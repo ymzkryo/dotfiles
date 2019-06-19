@@ -26,6 +26,7 @@ augroup fileTypeIndent
 	autocmd BufRead,BufNewFile *.java setfiletype java
 	autocmd BufRead,BufNewFile *.js setfiletype javascript
 	autocmd BufRead,BufNewFile *.vue setfiletype vue
+    autocmd BufNewFile,BufRead *.twig set filetype=htmljinja
 augroup END
 
 " 入力モード中に素早くjjと入力した場合はESCとみなす
@@ -82,7 +83,7 @@ if dein#load_state('~/.vim/dein')
   call dein#add('itchyny/lightline.vim')
   call dein#add('posva/vim-vue')
   call dein#add('iwataka/minidown.vim')
-
+  call dein#add('aklt/plantuml-syntax')
   " Required:
   call dein#end()
   call dein#save_state()
@@ -122,4 +123,3 @@ augroup vimrc-auto-mkdir  " {{{
         endif
     endfunction  " }}}
 augroup END  " }}}
-
