@@ -14,6 +14,7 @@ set softtabstop=4
 set expandtab
 set autoindent
 set smartindent
+set clipboard+=unnamed
 filetype plugin indent on
 augroup fileTypeIndent
 	autocmd!
