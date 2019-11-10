@@ -19,6 +19,12 @@ Session.vim
 *~
 *.orig
 *.bak
+chach.*
+.tmux/resurrenct
+.vim/dein/.chach
+.vim/dein/chache_vim
+.vim/dein/repos
+
 # OS dependent files
 #---------------------------
 .DS_Store
