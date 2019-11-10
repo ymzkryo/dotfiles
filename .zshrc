@@ -71,6 +71,7 @@ export PYENV_ROOT=/usr/local/var/pyenv
 eval "$(pyenv init -)"
 
 # goenv SETTING
+
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
@@ -83,6 +84,7 @@ eval "$(rbenv init -)"
 # nodebrew SETTING
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 
+# peco-function
 function peco-select-history() {
     local tac
     if which tac > /dev/null; then
