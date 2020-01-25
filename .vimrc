@@ -49,6 +49,7 @@ set matchpairs& matchpairs+=<:>
 " ノーマルモード時だけ ; と : を入れ替える
 noremap ; :
 nnoremap : ;
+
 "分割ウィンドウ時に移動を行う設定"
 noremap <C-H> <C-W>h
 noremap <C-J> <C-W>j
@@ -81,10 +82,12 @@ if dein#load_state('~/.vim/dein')
   "call dein#add('Shougo/neosnippet-snippets')
   call dein#add('scrooloose/nerdtree')
   call dein#add('nathanaelkane/vim-indent-guides')
-  call dein#add('itchyny/lightline.vim')
   call dein#add('posva/vim-vue')
   call dein#add('iwataka/minidown.vim')
   call dein#add('aklt/plantuml-syntax')
+  call dein#add('mattn/sonictemplate-vim')
+  call dein#add('vim-airline/vim-airline')
+  
   " Required:
   call dein#end()
   call dein#save_state()
@@ -111,9 +114,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") &&b:NERDTree.isTa
 "vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
 let g:indent_guides_enable_on_vim_startup = 1
 
-let g:lightline = {
-    \ 'colorscheme': 'solarized'
-      \ }
+let g:lightline = {'colorscheme': 'solarized'}
+
 augroup vimrc-auto-mkdir  " {{{
     autocmd!
     autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
@@ -124,3 +126,6 @@ augroup vimrc-auto-mkdir  " {{{
         endif
     endfunction  " }}}
 augroup END  " }}}
+
+" sonictemplate-vim
+let g:sonictempate_vim_template_dir = ['~/.vim/template']
