@@ -1,4 +1,7 @@
+###################################
 # peco-function
+###################################
+
 function peco-select-history() {
     local tac
     if which tac > /dev/null; then

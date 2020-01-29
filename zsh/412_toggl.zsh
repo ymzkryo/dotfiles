@@ -1,3 +1,7 @@
+###################################
+# sachaos/toggl function
+###################################
+
 function toggl-start-todoist () {
     local selected_item_id=`todoist --project-namespace --namespace list | peco | cut -d ' ' -f 1`
     if [ ! -n "$selected_item_id" ]; then
