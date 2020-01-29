@@ -16,3 +16,6 @@ alias homemail="neomutt -F ~/personal.rc"
 
 # yamazaki@dahaland.com
 alias workmail="neomutt -F ~/work.rc"
+
+# tmux3分割
+alias ide="~/.tmux/bin/ide"
