@@ -1,3 +1,22 @@
 ###################################
 # prompt
 ###################################
+
+#########################
+# POWERLEVEL9K_MODE
+#########################
+POWERLEVEL9K_MODE='nerdfont-complete'
+POWERLEVEL9K_HOME_ICON="\uf7db"
+POWERLEVEL9K_FOLDER_ICON="\ue5ff"
+POWERLEVEL9K_ETC_ICON=" \ue5fc"
+POWERLEVEL9K_HOST_ICON="\uF109"
+POWERLEVEL9K_SSH_ICON="\uF489"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir vcs pyenv)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time)
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
+POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="\u25B8 "
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+POWERLEVEL9K_TIME_FORMAT="%D{\uf455 %Y-%m-%d \uf017 %H:%M:%S}"
