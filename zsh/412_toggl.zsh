@@ -17,4 +17,14 @@ function toggl-start-todoist () {
 zle -N toggl-start-todoist
 bindkey '^xts' toggl-start-todoist
 
-
+function toggl_current() {
+  local tgc=$(toggl --cache --csv current)
+  local tgc_time=$(echo $tgc | grep Duration | cut -d ',' -f 2)
+  local tgc_dsc=$(echo $tgc | grep Description | cut -d ',' -f 2 | cut -c 1-20)
+  local short_tgc_dsc=$(if [ $(echo $tgc_dsc | wc -m) -lt 20 ]; then echo $tgc_dsc; else echo "${tgc_dsc}.."; fi)
+  if [ ! -n "$tgc_time" ]; then
+      echo "\ufa1d:NoTimeEntry"
+  else
+      echo "\uf608:[$tgc_time $short_tgc_dsc]"
+  fi
+}
