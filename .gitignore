@@ -20,10 +20,8 @@ Session.vim
 *.orig
 *.bak
 chach.*
-/.tmux/resurrenct/
-/.vim/dein/.chach/
-/.vim/dein/chache_vim/
-/.vim/dein/repos/
+/.tmux/resurrect/
+/.vim/dein/
 
 # OS dependent files
 #---------------------------
@@ -51,7 +49,6 @@ Temporary Items
 
 # newsboat
 /.newsboat/cache.db
-/.newsboat/cache.db.lock
 /.newsboat/history.cmdline
 /.newsboat/history.search
 
