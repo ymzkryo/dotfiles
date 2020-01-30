@@ -40,7 +40,6 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon battery dir vcs pyenv)
 #########################
 # POWERLEVEL9K_RIGHT_PROMPT
 #########################
-#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time dir_writable ip)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time)
 
 #########################
