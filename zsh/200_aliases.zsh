@@ -11,11 +11,5 @@ alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
 # gcalcliのtoday-tomorrowを呼び出し
 alias gcal='gcalcli agenda now tomorrow'
 
-# ymzk.yamachan@gmai.com
-alias homemail="neomutt -F ~/personal.rc"
-
-# yamazaki@dahaland.com
-alias workmail="neomutt -F ~/work.rc"
-
 # tmux3分割
 alias ide="~/.tmux/bin/ide"
