@@ -20,10 +20,10 @@ Session.vim
 *.orig
 *.bak
 chach.*
-.tmux/resurrenct
-.vim/dein/.chach
-.vim/dein/chache_vim
-.vim/dein/repos
+/.tmux/resurrenct/
+/.vim/dein/.chach/
+/.vim/dein/chache_vim/
+/.vim/dein/repos/
 
 # OS dependent files
 #---------------------------
@@ -32,6 +32,7 @@ Thumbs.db
 .AppleDouble
 .LSOverride
 ._*
+
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
@@ -48,13 +49,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# mutt
-/mutt/.goobookrc
-/mutt/password.rc
-/.mutt/cache
-
 # newsboat
 /.newsboat/cache.db
+/.newsboat/cache.db.lock
 /.newsboat/history.cmdline
 /.newsboat/history.search
 
