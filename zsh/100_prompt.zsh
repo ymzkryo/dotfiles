@@ -53,8 +53,8 @@ POWERLEVEL9K_TIME_FORMAT="%D{\uf455 %Y-%m-%d \uf017 %H:%M:%S}"
 
 #########################
 # CUSTOM
-# toggl
 #########################
+# toggl
 POWERLEVEL9K_CUSTOM_TOGGL="toggl_current"
 
 #########################
