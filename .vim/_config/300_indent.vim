@@ -10,6 +10,6 @@ augroup fileTypeIndent
 	autocmd BufRead,BufNewFile *.java setfiletype java
 	autocmd BufRead,BufNewFile *.js setfiletype javascript
 	autocmd BufRead,BufNewFile *.vue setfiletype vue
-    autocmd BufNewFile,BufRead *.twig set filetype=htmljinja
+    autocmd BufRead,BufNewFile *.twig set filetype=htmljinja
 augroup END
 
