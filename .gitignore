@@ -57,7 +57,4 @@ Temporary Items
 
 /my*/
 
-/.netrwhist
-
-# tmux-plugins
-.tmux/plugins/
+.netrwhist
