@@ -41,7 +41,7 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon battery dir vcs pyenv)
 #########################
 # POWERLEVEL9K_RIGHT_PROMPT
 #########################
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status custom_toggl)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status custom_toggl time)
 
 #########################
 # POWERLEVEL9K_COLOR
@@ -51,6 +51,8 @@ POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
 
 POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
 POWERLEVEL9K_TIME_FORMAT="%D{\uf455 %Y-%m-%d \uf017 %H:%M:%S}"
+
+POWERLEVEL9K_PYENV_BACKGROUND='green'
 
 #########################
 # CUSTOM
