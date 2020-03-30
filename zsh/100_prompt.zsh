@@ -52,7 +52,7 @@ POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
 POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
 POWERLEVEL9K_TIME_FORMAT="%D{\uf455 %Y-%m-%d \uf017 %H:%M:%S}"
 
-POWERLEVEL9K_PYENV_BACKGROUND='green'
+POWERLEVEL9K_PYENV_BACKGROUND='darkorange'
 
 #########################
 # CUSTOM
