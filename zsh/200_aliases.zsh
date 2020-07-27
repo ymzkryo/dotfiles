@@ -13,3 +13,13 @@ alias gcal='gcalcli agenda now tomorrow'
 
 # tmux3分割
 alias ide="~/.tmux/bin/ide"
+
+# AirPodsPros接続
+alias airp="BluetoothConnector --connect e4-76-84-3a-6a-7e --notify"
+
+# AirPodsPro接続解除
+alias airpd="BluetoothConnector --disconnect e4-76-84-3a-6a-7e --notify"
+
+# AirPorsPro接続確認
+alias airpc="BluetoothConnector --status e4-76-84-3a-6a-7e --notify"
+
