@@ -23,3 +23,5 @@ alias airpd="BluetoothConnector --disconnect e4-76-84-3a-6a-7e --notify"
 # AirPorsPro接続確認
 alias airpc="BluetoothConnector --status e4-76-84-3a-6a-7e --notify"
 
+# awsp
+alias awsp="source _awsp"

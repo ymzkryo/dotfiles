@@ -36,7 +36,7 @@ POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 #########################
 # POWERLEVEL9K_LEFT_PROMPT
 #########################
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon battery dir vcs pyenv)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon battery dir vcs pyenv custom_awsp)
 
 #########################
 # POWERLEVEL9K_RIGHT_PROMPT
@@ -59,6 +59,10 @@ POWERLEVEL9K_PYENV_BACKGROUND='darkorange'
 #########################
 # toggl
 POWERLEVEL9K_CUSTOM_TOGGL="toggl_current"
+
+# awsp
+POWERLEVEL9K_CUSTOM_AWSP="aws_prof"
+POWERLEVEL9K_CUSTOM_AWSP_BACKGROUND='deeppink3'
 
 #########################
 # POWERLEVEL9K_BATTERY
