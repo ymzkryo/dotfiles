@@ -1,2 +1,2 @@
 " sonictemplate-vim
-let g:sonictempate_vim_template_dir = ['~/.vim/template']
+let g:sonictemplate_vim_template_dir = ['~/dotfiles/template']
