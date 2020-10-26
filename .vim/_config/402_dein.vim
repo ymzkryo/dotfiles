@@ -15,13 +15,15 @@ if dein#load_state('~/.vim/dein')
   call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here like this:
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
   call dein#add('scrooloose/nerdtree')
-  call dein#add('nathanaelkane/vim-indent-guides')
-  call dein#add('mattn/sonictemplate-vim')
-  call dein#add('vim-airline/vim-airline')
-  
+  call dein#add('prabirshrestha/async.vim')
+  call dein#add('prabirshrestha/asyncomplete.vim')
+  call dein#add('prabirshrestha/asyncomplete-lsp.vim')
+  call dein#add('prabirshrestha/vim-lsp')
+  call dein#add('mattn/vim-lsp-settings')
+  call dein#add('mattn/vim-sonictemplate')
+  call dein#add('jiangmiao/auto-pairs')
+
   " Required:
   call dein#end()
   call dein#save_state()
@@ -36,4 +38,5 @@ if dein#check_install()
   call dein#install()
 endif
 
+call map(dein#check_clean(), "delete(v:val, 'rf')")
 "End dein Scripts-------------------------
