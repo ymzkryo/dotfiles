@@ -25,3 +25,6 @@ alias airpc="BluetoothConnector --status e4-76-84-3a-6a-7e --notify"
 
 # awsp
 alias awsp="source _awsp"
+
+# todoistで今日のタスク取得
+alias ttoday="todoist --color list --filter '(overdue | today)'"
