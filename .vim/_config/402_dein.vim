@@ -23,6 +23,7 @@ if dein#load_state('~/.vim/dein')
   call dein#add('mattn/vim-lsp-settings')
   call dein#add('mattn/vim-sonictemplate')
   call dein#add('jiangmiao/auto-pairs')
+  call dein#add('tyru/open-browser.vim')
   " filer
   call dein#add('Shougo/defx.nvim')
   call dein#add('roxma/nvim-yarp')
