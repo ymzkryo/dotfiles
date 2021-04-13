@@ -3,7 +3,7 @@
 ###################################
 
 # brewの時、envを使わない
-alias brew="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin brew"
+#alias brew="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin brew"
 
 # 年月日別メモファイル作成
 alias memo='vim ~/memo/$(date "+%Y/%m/%d.md")'
@@ -28,3 +28,6 @@ alias awsp="source _awsp"
 
 # todoistで今日のタスク取得
 alias ttoday="todoist --color list --filter '(overdue | today)'"
+
+# 天気
+alias wttr='() { curl -H "Accept-Language: ${LANG%_*}" ja.wttr.in/"${1:-Kyoto}" }'
