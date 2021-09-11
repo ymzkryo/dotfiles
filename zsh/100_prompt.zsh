@@ -90,8 +90,8 @@
     # ram                   # free RAM
     # load                  # CPU load
     # todo                  # todo items (https://github.com/todotxt/todo.txt-cli)
-    # custom_awsp
-    # custom_toggl            # toggl current
+    custom_awsp
+    custom_toggl            # toggl current
     time                    # current time
 
     # =========================[ Line #2 ]=========================

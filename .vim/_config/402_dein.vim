@@ -4,18 +4,20 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.vim/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('~/.vim/dein')
-  call dein#begin('~/.vim/dein')
+if dein#load_state('~/.vim/.cache/dein')
+  call dein#begin('~/.vim/.cache/dein')
 
   " Let dein manage dein
   " Required:
-  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('~/.vim/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here like this:
-"  call dein#add('scrooloose/nerdtree')
+  " call dein#add('Shougo/neosnippet.vim')
+  " call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('aklt/plantuml-syntax')
   call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/asyncomplete.vim')
   call dein#add('prabirshrestha/asyncomplete-lsp.vim')
@@ -25,12 +27,14 @@ if dein#load_state('~/.vim/dein')
   call dein#add('jiangmiao/auto-pairs')
   call dein#add('tyru/open-browser.vim')
   " filer
-  call dein#add('Shougo/defx.nvim')
-  call dein#add('roxma/nvim-yarp')
-  call dein#add('roxma/vim-hug-neovim-rpc')
+  call dein#add('preservim/nerdtree')
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('kristijanhusak/defx-git')
   call dein#add('kristijanhusak/defx-icons')
+  " markdown
+  call dein#add('godlygeek/tabular')
+  call dein#add('plasticboy/vim-markdown')
+  call dein#add('previm/previm')
   " Required:
   call dein#end()
   call dein#save_state()

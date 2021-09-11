@@ -2,6 +2,10 @@
 # zsh general setting
 ###################################
 
+autoload -Uz promptinit
+promptinit
+prompt powerlevel10k
+
 # キーバインド
 bindkey -v
 # エディタ

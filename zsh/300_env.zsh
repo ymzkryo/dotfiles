@@ -2,30 +2,30 @@
 # *env PATH setting
 ###################################
 
-# pyenv
-export PYENV_ROOT=/usr/local/var/pyenv
-eval "$(pyenv init -)"
+# jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+# eval "$(jenv init -)"
 
-# goenv
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export PATH="$GOROOT/bin:$PATH"
-export PATH="$PATH:$GOPATH/bin"
+# openjdk11
+export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 
-# rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-export PATH=$HOME/.rbenv/bin:$PATH
-eval "$(rbenv init -)"
+# go
+export GOENV_DISABLE_GOPATH=1
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
-# nodebrew
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+# ARM Homebrew
+export PATH="/opt/homebrew/bin:$PATH"
 
-# nodenv
-export PATH="$HOME/.nodenv/bin:$PATH"
-eval "$(nodenv init -)"
+# anyenv
+export PATH="$HOME/.anyenv/bin:$PATH"
+eval "$(anyenv init -)"
 
-# ergodox
-export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
-export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
+export PATH="/opt/homebrew/opt/ncurses/bin:$PATH"
 
+export LDFLAGS="-L/opt/homebrew/opt/ncurses/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/ncurses/include"
+
+export PKG_CONFIG_PATH="/opt/homebrew/opt/ncurses/lib/pkgconfig"
+
+export PYTHONPATH='/Users/ymzkryo/.anyenv/envs/pyenv/versions/3.9.1/lib/python3.9/site-packages'

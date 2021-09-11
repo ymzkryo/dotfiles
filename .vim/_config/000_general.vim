@@ -11,3 +11,5 @@ set textwidth=0         " 自動的に改行が入るのを無効化
 set colorcolumn=80      " その代わり100文字目にラインを入れる
 "対応括弧に'<'と'>'のペアを追加
 set matchpairs& matchpairs+=<:>
+
+let g:lsp_diagnostics_echo_cursor = 1

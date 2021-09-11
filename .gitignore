@@ -21,7 +21,8 @@ Session.vim
 *.bak
 chach.*
 /.tmux/resurrect/
-/.vim/dein/
+/.tmux/plugins/
+/.vim/.cache/
 
 # OS dependent files
 #---------------------------

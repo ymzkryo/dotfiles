@@ -1,0 +1,24 @@
+@startuml Two Modes - Technical View
+
+!define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/master/dist
+!include AWSPuml/AWSCommon.puml
+!include AWSPuml/General/Users.puml
+!include AWSPuml/Mobile/APIGateway.puml
+!include AWSPuml/SecurityIdentityAndCompliance/Cognito.puml
+!include AWSPuml/Compute/Lambda.puml
+!include AWSPuml/Database/DynamoDB.puml
+
+Users(sources, "Events", "millions of users")
+APIGateway(votingAPI, "Voting API", "user votes")
+Cognito(userAuth, "User Authentication", "jwt to submit votes")
+Lambda(generateToken, "User Credentials", "return jwt")
+Lambda(recordVote, "Record Vote", "enter or update vote per user")
+DynamoDB(voteDb, "Vote Database", "one entry per user")
+
+sources --> userAuth
+sources --> votingAPI
+userAuth <--> generateToken
+votingAPI --> recordVote
+recordVote --> voteDb
+
+@enduml

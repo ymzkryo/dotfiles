@@ -1,4 +1,4 @@
-browser open -a safari %u
+browser "open -a safari %u"
  
 auto-reload yes
 reload-time 10
