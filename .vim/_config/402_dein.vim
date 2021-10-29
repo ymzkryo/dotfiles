@@ -35,6 +35,9 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('godlygeek/tabular')
   call dein#add('plasticboy/vim-markdown')
   call dein#add('previm/previm')
+  " prisma
+  call dein#add('pantharshit00/vim-prisma')
+
   " Required:
   call dein#end()
   call dein#save_state()
