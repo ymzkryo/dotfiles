@@ -20,12 +20,3 @@ export PATH="/opt/homebrew/bin:$PATH"
 # anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
-
-export PATH="/opt/homebrew/opt/ncurses/bin:$PATH"
-
-export LDFLAGS="-L/opt/homebrew/opt/ncurses/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/ncurses/include"
-
-export PKG_CONFIG_PATH="/opt/homebrew/opt/ncurses/lib/pkgconfig"
-
-export PYTHONPATH='/Users/ymzkryo/.anyenv/envs/pyenv/versions/3.9.1/lib/python3.9/site-packages'
