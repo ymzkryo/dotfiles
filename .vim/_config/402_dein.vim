@@ -27,7 +27,11 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('jiangmiao/auto-pairs')
   call dein#add('tyru/open-browser.vim')
   " filer
-  call dein#add('preservim/nerdtree')
+  call dein#add('Shougo/defx.nvim')
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('kristijanhusak/defx-git')
   call dein#add('kristijanhusak/defx-icons')
