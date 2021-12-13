@@ -41,6 +41,9 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('previm/previm')
   " prisma
   call dein#add('pantharshit00/vim-prisma')
+  " airline
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
 
   " Required:
   call dein#end()
