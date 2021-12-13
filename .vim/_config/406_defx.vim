@@ -46,6 +46,8 @@ nnoremap <silent><C-n> :<C-u>Defx -split=vertical -winwidth=40 -search=`expand('
       \ defx#do_action('open', 'pedit')
       nnoremap <silent><buffer><expr> o
       \ defx#do_action('open_tree', 'toggle')
+      nnoremap <silent><buffer><expr> t
+      \ defx#do_action('open','tabnew')
       nnoremap <silent><buffer><expr> K
       \ defx#do_action('new_directory')
       nnoremap <silent><buffer><expr> N
