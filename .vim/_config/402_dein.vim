@@ -44,7 +44,8 @@ if dein#load_state('~/.vim/.cache/dein')
   " airline
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-
+  " twitter
+  call dein#add('twitvim/twitvim')
   " Required:
   call dein#end()
   call dein#save_state()
