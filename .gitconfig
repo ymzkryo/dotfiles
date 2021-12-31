@@ -8,3 +8,4 @@
 	branch = auto
 [core]
 	quotepath = false
+	editor = vim
