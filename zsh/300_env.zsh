@@ -20,3 +20,6 @@ export PATH="/opt/homebrew/bin:$PATH"
 # anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
+
+# pyenv-virtualenv
+eval "$(pyenv virtualenv-init -)"
