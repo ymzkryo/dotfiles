@@ -90,6 +90,7 @@
     # ram                   # free RAM
     # load                  # CPU load
     # todo                  # todo items (https://github.com/todotxt/todo.txt-cli)
+    custom_github
     custom_awsp
     custom_toggl            # toggl current
     time                    # current time
@@ -1141,6 +1142,9 @@
   typeset -g POWERLEVEL9K_CUSTOM_AWSP="aws_prof"
   typeset -g POWERLEVEL9K_CUSTOM_AWSP_FOREGROUND=220
   
+  # github
+  typeset -g POWERLEVEL9K_CUSTOM_GITHUB="github_current_user"
+  typeset -g POWERLEVEL9K_CUSTOM_GITHUB_FOREGROUND=300
   # If p10k is already loaded, reload configuration.
   # This works even with POWERLEVEL9K_DISABLE_HOT_RELOAD=true.
   (( ! $+functions[p10k] )) || p10k reload
