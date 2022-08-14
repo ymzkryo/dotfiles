@@ -17,6 +17,9 @@ if dein#load_state('~/.vim/.cache/dein')
   " Add or remove your plugins here like this:
   " call dein#add('Shougo/neosnippet.vim')
   " call dein#add('Shougo/neosnippet-snippets')
+  if !has('nvim')
+    call dein#add('rhysd/vim-healthcheck')
+  endif
   call dein#add('aklt/plantuml-syntax')
   call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/asyncomplete.vim')
@@ -27,14 +30,15 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('jiangmiao/auto-pairs')
   call dein#add('tyru/open-browser.vim')
   " filer
+  " call dein#add('preservim/nerdtree')
   call dein#add('Shougo/defx.nvim')
   if !has('nvim')
     call dein#add('roxma/nvim-yarp')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
-  call dein#add('ryanoasis/vim-devicons')
   call dein#add('kristijanhusak/defx-git')
   call dein#add('kristijanhusak/defx-icons')
+  call dein#add('ryanoasis/vim-devicons')
   " markdown
   call dein#add('godlygeek/tabular')
   call dein#add('plasticboy/vim-markdown')
@@ -46,6 +50,8 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('vim-airline/vim-airline-themes')
   " twitter
   call dein#add('twitvim/twitvim')
+  " terraform
+  call dein#add('hashivim/vim-terraform')
   " Required:
   call dein#end()
   call dein#save_state()
