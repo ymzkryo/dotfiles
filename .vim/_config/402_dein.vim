@@ -15,9 +15,6 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('~/.vim/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here like this:
-  if !has('nvim')
-    call dein#add('rhysd/vim-healthcheck')
-  endif
   call dein#add('aklt/plantuml-syntax')
   call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/asyncomplete.vim')
@@ -30,9 +27,6 @@ if dein#load_state('~/.vim/.cache/dein')
   " filer
   call dein#add('mattn/vim-molder')
   call dein#add('mattn/vim-molder-operations')
-  call dein#add('kristijanhusak/defx-git')
-  call dein#add('kristijanhusak/defx-icons')
-  call dein#add('ryanoasis/vim-devicons')
   " markdown
   call dein#add('godlygeek/tabular')
   call dein#add('plasticboy/vim-markdown')
