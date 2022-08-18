@@ -27,6 +27,7 @@ if dein#load_state('~/.vim/.cache/dein')
   " filer
   call dein#add('mattn/vim-molder')
   call dein#add('mattn/vim-molder-operations')
+  call dein#add('mattn/ctrlp-matchfuzzy')
   " markdown
   call dein#add('godlygeek/tabular')
   call dein#add('plasticboy/vim-markdown')
