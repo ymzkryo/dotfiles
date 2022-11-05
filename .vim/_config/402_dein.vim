@@ -32,15 +32,17 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('godlygeek/tabular')
   call dein#add('plasticboy/vim-markdown')
   call dein#add('previm/previm')
-  " prisma
-  call dein#add('pantharshit00/vim-prisma')
   " airline
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('ryanoasis/vim-devicons')
+  call dein#add('tpope/vim-fugitive')
   " twitter
   call dein#add('twitvim/twitvim')
   " terraform
   call dein#add('hashivim/vim-terraform')
+  " git
+  call dein#add('airblade/vim-gitgutter')
   " Required:
   call dein#end()
   call dein#save_state()
