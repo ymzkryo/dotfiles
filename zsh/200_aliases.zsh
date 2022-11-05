@@ -10,8 +10,8 @@
 alias ide="~/.tmux/bin/ide"
 
 # awsp
-alias awsp="source _awsp"
-alias awsp=aws_profile_update
+# alias awsp="source _awsp"
+# alias awsp=aws_profile_update
 
 # 天気
 alias wttr='() { curl -H "Accept-Language: ${LANG%_*}" ja.wttr.in/"${1:-Kyoto}" }'
