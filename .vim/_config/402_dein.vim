@@ -15,15 +15,16 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('~/.vim/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here like this:
-  call dein#add('aklt/plantuml-syntax')
+  " vim-lsp
+  call dein#add('prabirshrestha/vim-lsp')
+  call dein#add('mattn/vim-lsp-settings')
   call dein#add('prabirshrestha/async.vim')
   call dein#add('prabirshrestha/asyncomplete.vim')
   call dein#add('prabirshrestha/asyncomplete-lsp.vim')
-  call dein#add('prabirshrestha/vim-lsp')
-  call dein#add('mattn/vim-lsp-settings')
+  " template
   call dein#add('mattn/vim-sonictemplate')
+  " auto input
   call dein#add('jiangmiao/auto-pairs')
-  call dein#add('tyru/open-browser.vim')
   " filer
   call dein#add('mattn/vim-molder')
   call dein#add('mattn/vim-molder-operations')
@@ -32,15 +33,15 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('godlygeek/tabular')
   call dein#add('plasticboy/vim-markdown')
   call dein#add('previm/previm')
+  call dein#add('tyru/open-browser.vim')
   " airline
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('ryanoasis/vim-devicons')
   call dein#add('tpope/vim-fugitive')
-  " twitter
-  call dein#add('twitvim/twitvim')
-  " terraform
+  " syntax
   call dein#add('hashivim/vim-terraform')
+  call dein#add('aklt/plantuml-syntax')
   " git
   call dein#add('airblade/vim-gitgutter')
   " Required:
