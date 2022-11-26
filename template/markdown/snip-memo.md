@@ -1,6 +1,6 @@
-# {{_expr_:strftime('%Y-%m-%d', localtime())}} : memo
-
 ## Health
+
+{{_cursor_}}
 
 ## Work
 
