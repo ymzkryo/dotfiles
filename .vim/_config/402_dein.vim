@@ -30,8 +30,6 @@ if dein#load_state('~/.vim/.cache/dein')
   call dein#add('mattn/vim-molder-operations')
   call dein#add('mattn/ctrlp-matchfuzzy')
   " markdown
-  call dein#add('godlygeek/tabular')
-  call dein#add('plasticboy/vim-markdown')
   call dein#add('previm/previm')
   call dein#add('tyru/open-browser.vim')
   " airline
