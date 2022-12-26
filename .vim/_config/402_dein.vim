@@ -32,6 +32,7 @@ if dein#load_state('~/.vim/.cache/dein')
   " markdown
   call dein#add('previm/previm')
   call dein#add('tyru/open-browser.vim')
+  call dein#add('plasticboy/vim-markdown')
   " airline
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
