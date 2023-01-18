@@ -16,6 +16,7 @@ export PATH=$PATH:$GOPATH/bin
 
 # ARM Homebrew
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
 
 # anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
