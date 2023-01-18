@@ -8,7 +8,7 @@ set showmatch           " 対応する括弧などをハイライト表示する
 set matchtime=3         " 対応括弧のハイライト表示を3秒にする
 set wrap                " 長いテキストの折り返し
 set textwidth=0         " 自動的に改行が入るのを無効化
-set colorcolumn=80      " その代わり100文字目にラインを入れる
+set colorcolumn=100      " その代わり100文字目にラインを入れる
 "対応括弧に'<'と'>'のペアを追加
 set matchpairs& matchpairs+=<:>
 
