@@ -1,4 +1,5 @@
 call plug#begin()
+  " lsp
   Plug 'prabirshrestha/vim-lsp'
   Plug 'mattn/vim-lsp-settings'
   Plug 'prabirshrestha/async.vim'
@@ -26,4 +27,6 @@ call plug#begin()
   Plug 'aklt/plantuml-syntax'
   " git
   Plug 'airblade/vim-gitgutter'
-call plug#end()
+  " copilot
+  Plug 'github/copilot.vim'
+  call plug#end()
