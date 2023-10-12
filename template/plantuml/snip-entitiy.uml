@@ -1,0 +1,5 @@
+entity "{{_cursor_}}" as {{_expr_:(expand('%:t:r'))}} {
+    + {{_expr_:(expand('%:t:r'))}}_id[PK]
+    --
+}
+
