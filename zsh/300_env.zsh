@@ -24,3 +24,7 @@ eval "$(anyenv init -)"
 
 # pyenv-virtualenv
 eval "$(pyenv virtualenv-init -)"
+
+# chatgpt-api
+# 外部ファイルから読み込むように変更
+export CHATGPT_API_KEY=~/.config/chatgpt-api/api_key
