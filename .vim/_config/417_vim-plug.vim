@@ -1,3 +1,5 @@
+" vim-plug settings
+" ==================
 call plug#begin()
   " lsp
   Plug 'prabirshrestha/vim-lsp'
@@ -31,4 +33,4 @@ call plug#begin()
   Plug 'github/copilot.vim'
   " chatgpt
   Plug 'mattn/vim-chatgpt'
-  call plug#end()
+call plug#end()
