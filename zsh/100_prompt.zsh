@@ -92,7 +92,7 @@
     # todo                  # todo items (https://github.com/todotxt/todo.txt-cli)
     custom_github
     custom_awsp
-    # custom_toggl            # toggl current
+    custom_toggl            # toggl current
     time                    # current time
 
     # =========================[ Line #2 ]=========================
