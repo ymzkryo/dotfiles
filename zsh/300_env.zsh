@@ -15,3 +15,7 @@ export PATH="/opt/homebrew/sbin:$PATH"
 # chatgpt-api
 # 外部ファイルから読み込むように変更
 export CHATGPT_API_KEY=~/.config/chatgpt-api/api_key
+
+# bison
+export PATH="/opt/homebrew/opt/bison/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/bison/lib"
