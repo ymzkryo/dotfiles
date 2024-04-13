@@ -31,6 +31,4 @@ call plug#begin()
   Plug 'airblade/vim-gitgutter'
   " copilot
   Plug 'github/copilot.vim'
-  " chatgpt
-  Plug 'mattn/vim-chatgpt'
 call plug#end()
