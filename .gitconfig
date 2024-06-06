@@ -9,6 +9,5 @@
 [core]
 	quotepath = false
     editor = vim
-
-[includeIf "gitdir:~/PROJECTS/ambl/"]
-    path = ~/.gitconfig_ambl
+[credential]
+	helper = cache
