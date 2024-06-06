@@ -19,3 +19,6 @@ export CHATGPT_API_KEY=~/.config/chatgpt-api/api_key
 # bison
 export PATH="/opt/homebrew/opt/bison/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/bison/lib"
+
+# openai
+source $HOME/.config/chatgpt-api/api_key
