@@ -7,3 +7,6 @@ export LC_ALL=en_US.UTF-8
 
 # None beep
 setopt nobeep
+
+autoload -Uz compinit
+compinit

@@ -24,4 +24,5 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light trapd00r/LS_COLORS
 zinit light rupa/z
+zinit light zsh-users/zsh-completions
 
