@@ -16,7 +16,7 @@ export PATH="/opt/homebrew/opt/libiconv/bin:$PATH"
 
 # Golang
 export PATH="$PATH:$(go env GOPATH)/bin"
-# export GOPATH="$HOME/go"
+export GOPATH="$HOME/go"
 
 # Rust at asdf
-export PATH="$PATH:/Users/ymzkryo/.asdf/installs/rust/1.82.0/bin"
+export PATH="$PATH:$(asdf where rust)/bin"
