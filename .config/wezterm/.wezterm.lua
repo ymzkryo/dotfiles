@@ -10,4 +10,3 @@ config.color_scheme = 'Solarized (dark) (terminal.sexy)'
 config.automatically_reload_config = true
 
 return config
-

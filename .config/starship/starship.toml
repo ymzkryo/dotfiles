@@ -1,214 +1,100 @@
-# エディターの補完を設定スキーマに合わせて取得
-"$schema" = 'https://starship.rs/config-schema.json'
+# ~/.config/starship.toml
 
-#format = """
-#[╭─user───❯](bold blue) $username
-#[┣─system─❯](bold yellow) $hostname
-#[┣─project❯](bold red) $directory$rust$git_branch$git_status$package$golang$terraform$docker_context$python$docker_context$nodejs
-#[╰─cmd────❯](bold green) 
-#"""
-[username]
-style_user = "green bold"
-style_root = "red bold"
-format = "[$user]($style) "
-disabled = false
-show_always = true
+# General settings
+add_newline = true  # Adds a newline at the start of the prompt for readability
 
-[hostname]
-ssh_only = false
-format = 'on [$hostname](bold yellow) '
-trim_at = "."
-disabled = false
+command_timeout = 2000
 
-# Replace the "❯" symbol in the prompt with "➜"
-[character]                            # The name of the module we are configuring is "character"
-success_symbol = "[﬌](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
-error_symbol = "[✗](bold red)"
-#  
-# configure directory
-[directory]
-read_only = " "
-truncation_length = 10
-truncate_to_repo = true # truncates directory to root folder if in github repo
-style = "bold italic blue"
+format = """
+$os\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics
+$character
+"""
 
-[cmd_duration]
-min_time = 4
-show_milliseconds = false
-disabled = false
-style = "bold italic red"
-
-[aws]
-symbol = "  "
-
-[buf]
-symbol = " "
-
-[c]
-symbol = " "
-
-[conda]
-symbol = " "
-
-[crystal]
-symbol = " "
-
-[dart]
-symbol = " "
-
-[docker_context]
-symbol = " "
-
-[elixir]
-symbol = " "
-
-[elm]
-symbol = " "
-
-[fennel]
-symbol = " "
-
-[fossil_branch]
-symbol = " "
-
-[git_branch]
-symbol = " "
-
-[golang]
-symbol = " "
-
-[guix_shell]
-symbol = " "
-
-[haskell]
-symbol = " "
-
-[haxe]
-symbol = " "
-
-[hg_branch]
-symbol = " "
-
-[hostname]
-ssh_only = false
-ssh_symbol = "🌐"
-trim_at = "."
-detect_env_vars = []
-format = "[$ssh_symbol$hostname ]($style)"
-style = "bg:#9A348E"
-disabled = false
-
-[java]
-symbol = " "
-
-[julia]
-symbol = " "
-
-[kotlin]
-symbol = " "
-
-[lua]
-symbol = " "
-
-[memory_usage]
-symbol = "󰍛 "
-
-[meson]
-symbol = "󰔷 "
-
-[nim]
-symbol = "󰆥 "
-
-[nix_shell]
-symbol = " "
-
-[nodejs]
-symbol = " "
-
-[ocaml]
-symbol = " "
+right_format = """
+$python\
+$rust\
+$go\
+$nodejs
+$time\
+$memory_usage\
+$status\
+$jobs
+"""
 
 [os]
-format = "[$symbol]($style)"
-style = "bg:#9A348E"
 disabled = false
 
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
+[hostname]
+ssh_only = true
+format = "[$ssh_symbol$hostname]($style) "
+style = "bold dimmed red"
 
-[package]
-symbol = "󰏗 "
+[time]
+disabled = false
+format = "[$time]($style) "
+style = "bold dimmed cyan"
 
-[perl]
-symbol = " "
+[memory_usage]
+disabled = false
+threshold = 0
+format = "Mem: [$symbol$ram( $percentage%)]($style) "
 
-[php]
-symbol = " "
+[directory]
+truncation_length = 5
+truncate_to_repo = false
+truncation_symbol = "…/"
+style = "white"
 
-[pijul_channel]
-symbol = " "
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+style = "purple"
 
-[python]
-symbol = " "
+[git_status]
+style = "purple"
 
-[rlang]
-symbol = "󰟔 "
+[git_metrics]
+disabled = false
+added_style = "green"
+deleted_style = "red"
 
 [ruby]
-symbol = " "
+format = "[$symbol($version )]($style) "
+style = "red"
 
+# Python module
+[python]
+format = "via [🐍 $version]($style) "
+style = "bold yellow"
+
+# Node.js module
+[nodejs]
+format = "via [⬢ $version]($style) "
+style = "bold green"
+
+# Rust module
 [rust]
-symbol = "󱘗 "
+format = "via [🦀 $version]($style) "
+style = "bold red"
 
-[scala]
-symbol = " "
+# PHP module
+[php]
+format = "via [🐘 $version](bold purple) "
+style = "bold purple"
+detect_extensions = ["php"]
+detect_files = ["composer.json", ".php-version"]
+detect_folders = ["vendor"]
 
-[swift]
-symbol = " "
+# Status module (last command exit status)
+[status]
+format = '[Exit: $status](bold red) '
 
-[zig]
-symbol = " "
-
-
+# Jobs module (background jobs indicator)
+[jobs]
+format = "[$symbol$number]($style) "
+symbol = "⚙️ "
+style = "bold yellow"
