@@ -26,3 +26,4 @@ zinit light trapd00r/LS_COLORS
 zinit light rupa/z
 zinit light zsh-users/zsh-completions
 
+zstyle ':completion:*' mene select
