@@ -1,0 +1,100 @@
+# ~/.config/starship.toml
+
+# General settings
+add_newline = true  # Adds a newline at the start of the prompt for readability
+
+command_timeout = 2000
+
+format = """
+$os\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$git_metrics
+$character
+"""
+
+right_format = """
+$python\
+$rust\
+$go\
+$nodejs
+$time\
+$memory_usage\
+$status\
+$jobs
+"""
+
+[os]
+disabled = false
+
+[hostname]
+ssh_only = true
+format = "[$ssh_symbol$hostname]($style) "
+style = "bold dimmed red"
+
+[time]
+disabled = false
+format = "[$time]($style) "
+style = "bold dimmed cyan"
+
+[memory_usage]
+disabled = false
+threshold = 0
+format = "Mem: [$symbol$ram( $percentage%)]($style) "
+
+[directory]
+truncation_length = 5
+truncate_to_repo = false
+truncation_symbol = "…/"
+style = "white"
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+style = "purple"
+
+[git_status]
+style = "purple"
+
+[git_metrics]
+disabled = false
+added_style = "green"
+deleted_style = "red"
+
+[ruby]
+format = "[$symbol($version )]($style) "
+style = "red"
+
+# Python module
+[python]
+format = "via [🐍 $version]($style) "
+style = "bold yellow"
+
+# Node.js module
+[nodejs]
+format = "via [⬢ $version]($style) "
+style = "bold green"
+
+# Rust module
+[rust]
+format = "via [🦀 $version]($style) "
+style = "bold red"
+
+# PHP module
+[php]
+format = "via [🐘 $version](bold purple) "
+style = "bold purple"
+detect_extensions = ["php"]
+detect_files = ["composer.json", ".php-version"]
+detect_folders = ["vendor"]
+
+# Status module (last command exit status)
+[status]
+format = '[Exit: $status](bold red) '
+
+# Jobs module (background jobs indicator)
+[jobs]
+format = "[$symbol$number]($style) "
+symbol = "⚙️ "
+style = "bold yellow"
