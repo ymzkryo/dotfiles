@@ -10,4 +10,6 @@
 	quotepath = false
     editor = vim
 [credential]
-	helper = cache
+    helper = cache
+[includeIf "gitdir:~/PROJECTS/mirailabs/"]
+    path = ~/PROJECTS/mirailabs/.gitconfig_mirailabs
