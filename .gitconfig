@@ -11,5 +11,3 @@
     editor = vim
 [credential]
     helper = cache
-[includeIf "gitdir:~/PROJECTS/mirailabs/"]
-    path = ~/PROJECTS/mirailabs/.gitconfig_mirailabs
