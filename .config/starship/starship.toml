@@ -12,7 +12,6 @@ $directory\
 $git_branch\
 $git_status\
 $git_metrics
-$character
 """
 
 right_format = """
@@ -28,6 +27,13 @@ $jobs
 
 [os]
 disabled = false
+format = "[$symbol]($style)]"
+style = "bold white"
+
+[os.symbols]
+macos = "A"
+windows = "W"
+linux = "L"
 
 [hostname]
 ssh_only = true
@@ -48,7 +54,7 @@ format = "Mem: [$symbol$ram( $percentage%)]($style) "
 truncation_length = 5
 truncate_to_repo = false
 truncation_symbol = "…/"
-style = "white"
+style = "white dimmed fg:white bg:blue"
 
 [git_branch]
 format = "[$symbol$branch(:$remote_branch)]($style) "
