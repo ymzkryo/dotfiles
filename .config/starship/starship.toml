@@ -8,47 +8,53 @@ command_timeout = 2000
 format = """
 $os\
 $hostname\
-$directory\
+$directory
 $git_branch\
 $git_status\
 $git_metrics
 """
 
 right_format = """
-$python\
-$rust\
-$go\
-$nodejs
-$time\
 $memory_usage\
+$time\
 $status\
 $jobs
+$python
+$rust
+$golang
+$nodejs
 """
 
 [os]
 disabled = false
-format = "[$symbol]($style)]"
+format = "[$symbol]($style)"
 style = "bold white"
 
 [os.symbols]
-macos = "A"
-windows = "W"
-linux = "L"
+Macos = "\uf179"
+Windows = "\ue70f"
+Linux = "\ue712"
+Arch = "\uf08c7"
+Ubuntu = "\uef72"
+Kali = "\uf327"
 
 [hostname]
 ssh_only = true
+ssh_symbol = "\uf08c0"
 format = "[$ssh_symbol$hostname]($style) "
 style = "bold dimmed red"
 
 [time]
 disabled = false
-format = "[$time]($style) "
+time_format = "%T"
+format = "[\ue641 $time]($style) "
 style = "bold dimmed cyan"
 
 [memory_usage]
 disabled = false
 threshold = 0
-format = "Mem: [$symbol$ram( $percentage%)]($style) "
+symbol = "\uefc5"
+format = "[$symbol$ram( $percentage%)]($style) "
 
 [directory]
 truncation_length = 5
@@ -56,41 +62,75 @@ truncate_to_repo = false
 truncation_symbol = "…/"
 style = "white dimmed fg:white bg:blue"
 
+[directory.substitutions]
+"Documents" = "\uf1517"
+"Downloads" = "\uf409"
+"Music" = "\uf001"
+"Pictures" = "\uf03e"
+
 [git_branch]
-format = "[$symbol$branch(:$remote_branch)]($style) "
+format = "[$symbol $branch(:$remote_branch)]($style) "
+symbol = "\ue725"
 style = "purple"
 
 [git_status]
-style = "purple"
+format = '[$all_status$ahead_behind]($style) '
+style = "bold red"
+
+# 各ステータスごとのシンボルと表示方法を指定
+conflicted = '= '
+ahead = '↟:${count} '
+behind = '↡:${count} '
+diverged = '⇕:${count} '
+untracked = '?:${count} '
+stashed = '$:${count} '
+modified = '!:${count} '
+staged = '+:${count} '
+renamed = '»:${count} '
+deleted = '✘:${count} '
 
 [git_metrics]
 disabled = false
 added_style = "green"
 deleted_style = "red"
 
+[aws]
+symbol = "\ue7ad"
+
 [ruby]
-format = "[$symbol($version )]($style) "
+format = "[$symbol $version]($style) "
+symbol = "\ue739"
 style = "red"
 
 # Python module
 [python]
-format = "via [🐍 $version]($style) "
+format = "[$symbol $version]($style) "
+symbol = "\ue73c"
 style = "bold yellow"
 
 # Node.js module
 [nodejs]
-format = "via [⬢ $version]($style) "
+format = "[$symbol $version]($style) "
+symbol = "\ue719"
 style = "bold green"
 
 # Rust module
 [rust]
-format = "via [🦀 $version]($style) "
+format = "[$symbol ($version )]($style)"
+symbol = "\ue7a8"
 style = "bold red"
+
+# Go module
+[golang]
+format = "[$symbol $version]($style) "
+symbol = "\ue627"
+style = "bold cyan"
 
 # PHP module
 [php]
-format = "via [🐘 $version](bold purple) "
+format = "[$symbol $version](bold purple) "
 style = "bold purple"
+symbol = "\ue608"
 detect_extensions = ["php"]
 detect_files = ["composer.json", ".php-version"]
 detect_folders = ["vendor"]
