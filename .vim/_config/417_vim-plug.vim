@@ -31,6 +31,4 @@ call plug#begin()
   Plug 'airblade/vim-gitgutter'
   " copilot
   Plug 'github/copilot.vim'
-  " mail client
-  Plug 'pimalaya/himalaya-vim'
 call plug#end()

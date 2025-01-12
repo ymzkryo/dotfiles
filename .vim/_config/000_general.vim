@@ -12,6 +12,3 @@ set colorcolumn=100      " その代わり100文字目にラインを入れる
 "対応括弧に'<'と'>'のペアを追加
 set matchpairs& matchpairs+=<:>
 let g:lsp_diagnostics_echo_cursor = 1
-
-let g:himalaya_executable = '/Users/ymzkryo/.asdf/installs/rust/1.82.0/bin/himalaya'
-

@@ -27,7 +27,3 @@ augroup vimrc-auto-mkdir  " {{{
         endif
     endfunction  " }}}
 augroup END  " }}}
-
-let g:himalaya_debug = 1
-let g:himalaya_executable = "/Users/ymzkryo/.asdf/installs/rust/1.82.0/bin/himalaya"
-let g:himalaya_config_path = "~/.config/himalaya/config.toml"
