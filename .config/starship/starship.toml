@@ -135,7 +135,7 @@ style = "bold yellow"
 # Node.js module
 [nodejs]
 format = "[$symbol $version]($style) "
-symbol = "\ue719"
+symbol = "\ued0d"
 style = "bold green"
 
 # Rust module
