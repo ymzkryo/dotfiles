@@ -1,14 +1,41 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-iminfo=$(defaults read ~/Library/Preferences/com.apple.HIToolbox AppleSelectedInputSources)
-inputsourcekind=$(echo -e "$iminfo" | grep 'InputSourceKind' | grep -v 'Non Keyboard Input Method' |  sed -e 's/[^"]*"\([^"]*\)".*/\1/')
+iminfo=$(defaults read ~/Library/Preferences/com.apple.HIToolbox AppleSelectedInputSources 2>/dev/null)
+inputsourcekind=$(echo "$iminfo" | grep 'InputSourceKind' | grep -v 'Non Keyboard Input Method' \
+  | sed -E 's/[^"]*"([^"]*)".*/\1/')
 
-if [ "${inputsourcekind}" = "Input Mode" ]; then
-    inputmode=$(echo -e "$iminfo" | grep -v 'InputSourceKind' | grep 'Input Mode' | sed -e 's/^.*com/com/' | sed -e 's/.\{2\}$//' | sed -e 's/^.*\.//')
-    echo $inputmode
-elif [ "${inputsourcekind}" = "Keyboard Layout" ]; then
-    keyboardlayoutname=$(echo -e "$iminfo$" | grep -v 'InputSourceKind' | grep 'KeyboardLayout Name' | sed -e 's/^.*= //' | sed -e 's/.\{1\}$//')
-    echo $keyboardlayoutname
+if [ "$inputsourcekind" = "Input Mode" ]; then
+    inputmode=$(echo "$iminfo" | grep -v 'InputSourceKind' | grep 'Input Mode' \
+      | sed -E 's/^.*com/com/' \
+      | sed -E 's/.{2}$//' \
+      | sed -E 's/^.*\.//')
+    case "$inputmode" in
+      "ABC")
+        # 英字モードの場合 → アメリカ国旗
+        printf "\U0001F1FA\U0001F1F8"
+        ;;
+      "Japanese")
+        # 日本語モードの場合 → 日本国旗
+        printf "\u0001f1ef\u0001f1f5"
+        ;;
+      *)
+        echo "$inputmode"
+        ;;
+    esac
+elif [ "$inputsourcekind" = "Keyboard Layout" ]; then
+    layout=$(echo "$iminfo" | grep 'KeyboardLayout Name' \
+      | sed -E 's/^.*= (.*).$/\1/')
+    case "$layout" in
+      "ABC")
+        printf "\U0001F1FA\U0001F1F8"
+        ;;
+      "Japanese")
+        printf "\u0001f1ef\u0001f1f5"
+        ;;
+      *)
+        echo "$layout"
+        ;;
+    esac
 else
-    echo "Loading..."  # sometimes error occurs
+    echo "Loading..."
 fi
