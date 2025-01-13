@@ -108,7 +108,13 @@ deleted = '✘:${count} '
 
 [git_metrics]
 disabled = false
-format = "[\ue0b6](fg:#1e1e2e)[+$added ]($added_style)[-$deleted]($deleted_style)[\ue0b4 ](fg:#1e1e2e)"
+format = """
+([\ue0b6](fg:#1e1e2e)\
+[+$added ]($added_style)\
+[-$deleted]($deleted_style)\
+[\ue0b4 ](fg:#1e1e2e)\
+)
+"""
 added_style = "fg:#00f900 bg:#1e1e2e"
 deleted_style = "fg:#FF0000 bg:#1e1e2e"
 
