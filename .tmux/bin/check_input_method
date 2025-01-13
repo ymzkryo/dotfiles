@@ -16,7 +16,7 @@ if [ "$inputsourcekind" = "Input Mode" ]; then
         ;;
       "Japanese")
         # 日本語モードの場合 → 日本国旗
-        printf "\u0001f1ef\u0001f1f5"
+        printf "\U0001F1EF\U0001F1F5"
         ;;
       *)
         echo "$inputmode"
@@ -30,7 +30,7 @@ elif [ "$inputsourcekind" = "Keyboard Layout" ]; then
         printf "\U0001F1FA\U0001F1F8"
         ;;
       "Japanese")
-        printf "\u0001f1ef\u0001f1f5"
+        printf "\U0001F1EF\U0001F1F5"
         ;;
       *)
         echo "$layout"
