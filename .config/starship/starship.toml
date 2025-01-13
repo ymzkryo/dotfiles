@@ -96,14 +96,14 @@ style = "bg:none fg:#1e1e2e"
 
 # 各ステータスごとのシンボルと表示方法を指定
 conflicted = '= '
-ahead = '↟:${count} '
-behind = '↡:${count} '
-diverged = '⇕:${count} '
-untracked = '?:${count} '
-modified = '!:${count} '
-staged = '+:${count} '
-renamed = '»:${count} '
-deleted = '✘:${count} '
+ahead = '↟:{count} '
+behind = '↡:{count} '
+diverged = '⇕:{count} '
+untracked = '?:{count} '
+modified = '!:{count} '
+staged = '+:{count} '
+renamed = '»:{count} '
+deleted = '✘:{count} '
 
 [git_metrics]
 disabled = false
