@@ -14,6 +14,10 @@ Requirements:
 
 ## Terminal
 [wezterm](https://wezfurlong.org/wezterm/index.html)
+[tmux](https://github.com/tmux/tmux)
+
+## Editor
+[Vim](https://github.com/vim/vim)
 
 ## zsh + zinit
 [zinit](https://github.com/zdharma-continuum/zinit)
@@ -30,7 +34,14 @@ Requirements:
 ## memo
 [mattn/memo](https://github.com/mattn/memo)
 
+## others
+[powerline-extra-symbols ](https://github.com/ryanoasis/powerline-extra-symbols)
+[nerd-fonts](https://www.nerdfonts.com/cheat-sheet)
 
+
+Screenshots:
+------------
+![screenshot](screenshot/2025-01-14_dotfiles.png)
 
 Install:
 --------
