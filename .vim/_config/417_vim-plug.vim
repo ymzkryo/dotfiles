@@ -1,6 +1,9 @@
 " vim-plug settings
 " ==================
 call plug#begin()
+  " fzf
+  Plug '/opt/homebrew/opt/fzf'
+  Plug 'junegunn/fzf.vim'
   " lsp
   Plug 'prabirshrestha/vim-lsp'
   Plug 'mattn/vim-lsp-settings'
