@@ -1,0 +1,18 @@
+# account setting
+set imap_user = "ryo.yamazaki@katatsumuri.work"
+set imap_pass= "`op item get 'Himalaya-katatsumuri.work' --vault 'カタツムリワークス' --field imap-password --reveal`"
+set folder = "imaps://ryo.yamazaki@katatsumuri.work@imap.gmail.com:993"
+set spoolfile = "+INBOX"
+mailboxes "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+set record = "+[Gmail]/Sent Mail"
+set trash = "+[Gmail]/Trash"
+
+set smtp_url = "smtp://ryo.yamazaki@katatsumuri.work@smtp.gmail.com:587/"
+set realname = "Ryo Yamazaki"
+set from = "ryo.yamazaki@katatsumuri.work"
+set hostname = "katatsumuri.work"
+set smtp_pass = "`op item get 'Himalaya-katatsumuri.work' --vault 'カタツムリワークス' --field smtp-password --reveal`"
+
+# Hook
+account-hook $folder "set imap_user=ryo.yamazaki@katatsumuri.work"

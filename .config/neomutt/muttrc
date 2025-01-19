@@ -1,0 +1,61 @@
+########################
+#   メーラー基本設定   #
+########################
+# サイドバーの表示
+set sidebar_visible  = no
+
+# サイドバーの書式
+# set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+
+# 定期的にメールの状態をチェック
+# set mail_check_stats
+
+# 日付の降順でメール一覧を表示
+set sort=reverse-date
+set sort_aux = last-date-received
+
+# メールのFromヘッダを自動生成ON
+set use_from = yes
+
+# メールを書く時のエディタ
+# 環境変数EDITORに従う場合、`echo \$EDITOR`と記載
+set editor = "vim"
+
+# Terminal(およびメール送信時)で使用する文字コード
+set charset = "utf-8"
+
+# 文字コード指定がない場合のため、優先順位を設定
+set assumed_charset = "utf-8:iso-2022-jp:euc-jp:shift_jis"
+set attach_charset = "utf-8:iso-2022-jp:euc-jp:shift_jis"
+
+# メールの保存形式の指定
+# mbox=複数のメッセージが連結した形式で保存
+# maildir=mail1通がファイル1個
+set mbox_type = "maildir"
+
+# mailcapには、w3mを使ってHTMLメールを読む設定を記載
+# set mailcap_path = "~/.mutt/mailcap"
+# auto_view text/html
+# set new_mail_command="notify-send --icon='/usr/share/icons/hicolor/48x48/apps/neomutt.png' 'New Email' '%n new messages, %u unread.' &"
+ 
+# インデックスフォーマット デフォルト"%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
+set index_format="%4C %Z %<[y?%<[d?%[%H:%M           ]&%[%m/%d (%a) %H:%M]>&%[%Y/%m/%d %H:%M]> %-15.15L (%?l?%4l&%4c?) %s"
+
+##############################################################
+# キャッシュ設定(キャッシュ先ディレクトリを事前に作成する事) #
+##############################################################
+set header_cache = "~/.mutt/cache/headers" # headerキャッシュのPATHを指定
+set message_cachedir = "~/.mutt/cache/bodies" # IMAP経由で受信したメッセージのキャッシュPATHを指定
+
+##############################################################
+# アカウント別設定
+##############################################################
+
+# read ymzk.yamachan
+source ~/.config/neomutt/ymzk-yamachan.rc
+folder-hook ymzk-yamachan/ 'source ~/.config/neomutt/ymzk-yamachan.rc'
+
+# read katatsumuri
+source ~/.config/neomutt/katatsumuri.rc
+folder-hook $folder 'source ~/.config/neomutt/katatsumuri.rc'
+

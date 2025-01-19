@@ -1,0 +1,21 @@
+# account setting
+set imap_user = "ymzk.yamachan@gmail.com"
+set imap_pass = "`op item get 'Himalaya-ymzk.yamachan' --field imap-password --reveal`"
+set folder = "imaps://ymzk.yamachan@imap.gmail.com:993"
+set spoolfile = "+INBOX"
+mailboxes = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+set record = "+[Gmail]/Sent Mail"
+set trash = "+[Gmail]/Trash"
+
+set smtp_url = "smtp://ymzk.yamachan@gmail.com@smtp.gmail.com:587/"
+set realname = "ryo yamazaki"
+set from = "ymzk.yamachan@gmail.com"
+set hostname = "gmail.com"
+
+set smtp_pass = "`op item get 'Himalaya-ymzk.yamachan' --field smtp-password --reveal`"
+
+# IMAP Setting
+
+# Hook
+account-hook $folder "set imap_uset=ymzk.yamachan@gmail.com"
