@@ -17,6 +17,7 @@ call plug#begin()
   " filer
   Plug 'mattn/vim-molder'
   Plug 'mattn/vim-molder-operations'
+  Plug 'ctrlpvim/ctrlp.vim'
   Plug 'mattn/ctrlp-matchfuzzy'
   " markdown
   Plug 'previm/previm'
