@@ -1,5 +1,5 @@
 # Set editor
-export EDITER=/usr/local/bin/vim
+export EDITOR=/usr/local/bin/vim
 
 # SSH setting
 export LC_CTYPE=en_US.UTF-8
