@@ -1,5 +1,10 @@
 #! /bin/bash
+
+# get current directory name
+current_dir=$(basename $(pwd))
+
 if [ "$#" -eq 0 ]; then
+    tmux rename-window "$current_dir"
     tmux split-window -h
     tmux select-pane -t 1
     tmux resize-pane -L 60
@@ -13,6 +18,7 @@ if [ "$#" -eq 0 ]; then
 else
   case $1 in
     1)
+      tmux rename-window  $current_dir
       tmux split-window -v
       tmux split-window -h
       tmux resize-pane -D 15
@@ -20,6 +26,7 @@ else
       clear
       ;;
     2)
+      tmux rename-window  $current_dir
       tmux split-window -h
       tmux split-window -v
       tmux resize-pane -D 15
@@ -29,6 +36,7 @@ else
       clear
       ;;
     3)
+      tmux rename-window  $current_dir
       tmux split-window -v
       tmux resize-pane -D 15
       tmux select-pane -D
