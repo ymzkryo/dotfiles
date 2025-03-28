@@ -5,6 +5,38 @@ set -e
 DOTFILES_DIR=$(cd "$(dirname "$0")" && pwd)
 TARGET_DIR="$HOME"
 
+# デフォルト設定
+CONFIG_METHOD="individual"  # デフォルトは個別リンク
+
+# コマンドライン引数の解析
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --help|-h)
+      show_usage
+      exit 0
+      ;;
+    --config-method=*)
+      CONFIG_METHOD="${1#*=}"
+      shift
+      ;;
+    --config-method)
+      CONFIG_METHOD="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+# 設定値の検証
+if [[ "$CONFIG_METHOD" != "individual" && "$CONFIG_METHOD" != "whole" ]]; then
+  log_error "無効なCONFIG_METHOD: $CONFIG_METHOD"
+  log_info "有効な値: 'individual' または 'whole'"
+  show_usage
+  exit 1
+fi
+
 # OSの検出
 OS="unknown"
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -293,12 +325,77 @@ setup_symlinks() {
   mkdir -p "$TARGET_DIR/.vim"
   mkdir -p "$TARGET_DIR/.tmux"
   mkdir -p "$TARGET_DIR/.newsboat"
+  mkdir -p "$TARGET_DIR/.config"
   
+  # Vimの設定
   create_symlink "$DOTFILES_DIR/.vim/_config" "$TARGET_DIR/.vim/_config"
   create_symlink "$DOTFILES_DIR/.vim/colors" "$TARGET_DIR/.vim/colors"
+  
+  # tmuxの設定
   create_symlink "$DOTFILES_DIR/.tmux/bin" "$TARGET_DIR/.tmux/bin"
+  
+  # newboatの設定
   create_symlink "$DOTFILES_DIR/.newsboat/config" "$TARGET_DIR/.newsboat/config"
   create_symlink "$DOTFILES_DIR/.newsboat/urls" "$TARGET_DIR/.newsboat/urls"
+  
+  # .configディレクトリの設定
+  log_info ".configディレクトリの設定をリンク中..."
+
+  # CONFIG_METHODの値は起動時のコマンドライン引数で設定済み
+  # "individual"(個別ファイル) または "whole"(ディレクトリ全体)
+
+  if [ "$CONFIG_METHOD" = "whole" ]; then
+    # .configディレクトリ全体をリンクする方法
+    # 既存の.configディレクトリが存在し、シンボリックリンクでない場合はバックアップ
+    if [ -d "$TARGET_DIR/.config" ] && [ ! -L "$TARGET_DIR/.config" ]; then
+      log_warn "既存の.configディレクトリを検出しました"
+      mv "$TARGET_DIR/.config" "$TARGET_DIR/.config.backup"
+      log_info "既存の.configディレクトリをバックアップしました: .config.backup"
+    fi
+    
+    # ディレクトリ全体のシンボリックリンクを作成
+    rm -rf "$TARGET_DIR/.config"
+    create_symlink "$DOTFILES_DIR/.config" "$TARGET_DIR/.config"
+    log_success ".configディレクトリ全体をリンクしました"
+  else
+    # 個別のファイルとディレクトリをリンクする方法
+    
+    # starshipの設定
+    if [ -d "$DOTFILES_DIR/.config/starship" ]; then
+      mkdir -p "$TARGET_DIR/.config/starship"
+      create_symlink "$DOTFILES_DIR/.config/starship/starship.toml" "$TARGET_DIR/.config/starship/starship.toml"
+      log_success "starshipの設定をリンクしました"
+    fi
+    
+    # neomuttの設定
+    if [ -d "$DOTFILES_DIR/.config/neomutt" ]; then
+      mkdir -p "$TARGET_DIR/.config/neomutt"
+      for file in "$DOTFILES_DIR/.config/neomutt"/*; do
+        if [ -f "$file" ]; then
+          basename=$(basename "$file")
+          create_symlink "$file" "$TARGET_DIR/.config/neomutt/$basename"
+        fi
+      done
+      log_success "neomuttの設定をリンクしました"
+    fi
+    
+    # その他の.config以下のディレクトリを自動的にリンク
+    for dir in "$DOTFILES_DIR/.config"/*; do
+      if [ -d "$dir" ] && [ "$(basename "$dir")" != "starship" ] && [ "$(basename "$dir")" != "neomutt" ]; then
+        dirname=$(basename "$dir")
+        mkdir -p "$TARGET_DIR/.config/$dirname"
+        log_info "その他の設定ディレクトリをリンク中: $dirname"
+        
+        # ディレクトリ内のファイルをリンク
+        for file in "$dir"/*; do
+          if [ -f "$file" ]; then
+            basename=$(basename "$file")
+            create_symlink "$file" "$TARGET_DIR/.config/$dirname/$basename"
+          fi
+        done
+      fi
+    done
+  fi
   
   # Neovimの設定（存在する場合）
   if command -v nvim &>/dev/null; then
@@ -543,9 +640,26 @@ EOL
   fi
 }
 
+# 使用方法の表示
+show_usage() {
+  cat << EOF
+使用方法: $0 [オプション]
+
+オプション:
+  --config-method=METHOD  .configディレクトリの処理方法を指定します
+                          "individual": 各ファイルを個別にシンボリックリンク (デフォルト)
+                          "whole": .configディレクトリ全体をシンボリックリンク
+
+例:
+  $0                       # デフォルト設定でセットアップ
+  $0 --config-method=whole # .configディレクトリ全体をリンク
+EOF
+}
+
 # メイン処理
 main() {
   log_info "dotfiles セットアップを開始します... (検出されたOS: $OS)"
+  log_info "設定: CONFIG_METHOD=$CONFIG_METHOD"
   
   setup_package_manager
   install_packages
