@@ -20,3 +20,6 @@ export GOPATH="$HOME/go"
 
 # Rust at asdf
 export PATH="$PATH:$(asdf where rust)/bin"
+
+# himalaya path
+export PATH="$HOME/himalaya/target/release:$PATH"
