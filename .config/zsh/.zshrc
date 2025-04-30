@@ -7,3 +7,4 @@ fi
 for config_file in ~/.zsh/*.zsh; do
     source $config_file
 done
+alias claude="/Users/ymzkryo/.claude/local/claude"
