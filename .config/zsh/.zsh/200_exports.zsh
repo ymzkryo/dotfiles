@@ -15,8 +15,8 @@ export GDLIB_LIBS=$(pkg-config --libs gdlib)
 export PATH="/opt/homebrew/opt/libiconv/bin:$PATH"
 
 # Golang
-export PATH="$PATH:$(go env GOPATH)/bin"
 export GOPATH="$HOME/go"
+export PATH="$PATH:$(go env GOPATH)/bin"
 
 # Rust at asdf
 export PATH="$PATH:$(asdf where rust)/bin"
