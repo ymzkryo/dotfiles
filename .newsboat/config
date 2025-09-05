@@ -15,3 +15,5 @@ color listfocus blue default reverse bold
 color listfocus_unread blue default reverse bold
 
 text-width 80
+
+macro w set browser "~/dotfiles/scripts/newsboat-webclip %u \"%T\""; open-in-browser; set browser "open -a safari %u"; toggle-article-read
