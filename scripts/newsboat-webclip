@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# newsboat webclip script
+# Usage: newsboat-webclip <url> <title>
+# Saves [title](url) to ~/memo/0000_INBOX/yyyy-MM-dd-webクリップ.md
+
+URL="$1"
+TITLE="$2"
+
+
+if [[ -z "$URL" || -z "$TITLE" ]]; then
+    echo "Usage: $0 <url> <title>"
+    exit 1
+fi
+
+# Use title as is
+FORMATTED_TITLE="$TITLE"
+
+
+# Generate filename with current date
+DATE=$(date '+%Y-%m-%d')
+FILENAME="$HOME/memo/00000_INBOX/${DATE}-webクリップ.md"
+
+# Create markdown link
+LINK="- [$FORMATTED_TITLE]($URL)"
+
+# Append to file
+echo "$LINK" >> "$FILENAME"
+
+echo "Saved: $LINK"
+echo "To: $FILENAME"
