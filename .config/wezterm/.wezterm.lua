@@ -1,6 +1,19 @@
 local wezterm = require 'wezterm'
 local config = {}
 
+-- enable systembell
+config.audible_bell = "SystemBeep"
+
+-- config keys
+config.keys = {
+    -- Shift + Enter to new line
+    {
+        key = "Enter",
+        mods = "SHIFT",
+        action = wezterm.action.SendString("\n"),
+    },
+}
+
 if wezterm.config_builder then
     config = wezterm.config_builder()
 end
