@@ -3,7 +3,7 @@
 # 引数チェック
 if [ $# -ne 2 ]; then
     echo "Usage: $0 <keyword> <target_dir>"
-    echo "keyword: daily_report | oatmeal | coffee | run"
+    echo "keyword: daily_report | oatmeal | coffee | run | web"
     exit 1
 fi
 
@@ -24,6 +24,9 @@ case "$keyword" in
         ;;
     run)
         pattern="*-ランニング.md"
+        ;;
+    web)
+        pattern="*-webクリップ.md"
         ;;
     *)
         echo "Unknown keyword: $keyword"
