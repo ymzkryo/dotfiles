@@ -1,5 +1,11 @@
 runtime! _config/*.vim
 
+augroup DisableColorResp
+  autocmd!
+  " runtime 読み込み後に既存の ColorResp をクリア
+  autocmd VimEnter * augroup ColorResp | autocmd! | augroup END
+augroup END
+
 syntax on
 set encoding=utf-8
 set fileencoding=utf-8
