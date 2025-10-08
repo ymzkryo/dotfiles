@@ -24,6 +24,7 @@ $python
 $rust
 $golang
 $nodejs
+$custom
 [\ue0b2](fg:#140689)$time
 """
 
@@ -168,3 +169,11 @@ format = '[Exit: $status](bold red) '
 format = "[$symbol$number]($style) "
 symbol = "⚙️ "
 style = "bold yellow"
+
+# Custom module for GitHub CLI active account
+[custom.gh_account]
+command = "gh auth status 2>&1 | grep 'Active account: true' -B 1 | head -n 1 | sed -n 's/.*account \\([^ ]*\\).*/\\1/p'"
+when = "command -v gh"
+format = "[\uf408 $output]($style)"
+style = "bold fg:#ffffff bg:#6e40c9"
+description = "Display active GitHub CLI account"
