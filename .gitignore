@@ -64,3 +64,8 @@ Temporary Items
 .vim/pack/
 .vim/plugged/
 
+# カレンダー同期の設定ファイル（個人情報を含む）
+sync_calendar.conf
+
+# 個人情報を含むファイル
+/private/
