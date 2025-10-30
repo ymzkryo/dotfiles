@@ -93,6 +93,7 @@ style = "bg:none fg:#1e1e2e"
 # $all status$ahead_behind
 format = "[\ue0b6]($style)[$all_status$ahead_behind](bg:#1e1e2e fg:yellow)[\ue0b4 ]($style)"
 style = "bg:none fg:#1e1e2e"
+ignore_submodules = true
 
 # 各ステータスごとのシンボルと表示方法を指定
 conflicted = '= '
