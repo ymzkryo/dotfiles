@@ -1,3 +1,6 @@
 [submodule "private"]
 	path = private
 	url = git@github.com:ymzkryo/private-dotfiles.git
+[submodule ".tmux/plugins/tmux-battery"]
+	path = .tmux/plugins/tmux-battery
+	url = https://github.com/tmux-plugins/tmux-battery
