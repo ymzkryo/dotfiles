@@ -129,9 +129,14 @@ style = "red"
 
 # Python module
 [python]
-format = "[$symbol $version]($style) "
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 symbol = "\ue73c"
 style = "bold yellow"
+detect_extensions = ["py"]
+detect_files = ["pyproject.toml", "requirements.txt", ".python-version", "Pipfile"]
+detect_folders = [".venv"]
+pyenv_version_name = false
+python_binary = ["python", "python3"]
 
 # Node.js module
 [nodejs]
