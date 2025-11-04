@@ -93,6 +93,8 @@ while i < len(lines):
                     event_date = datetime.now().strftime('%Y-%m-%d')
                 elif date_part == 'tomorrow':
                     event_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+                elif date_part == 'day after tomorrow':
+                    event_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
                 else:
                     event_date = date_part
 
