@@ -1,0 +1,19 @@
+#!/bin/bash
+# Get AWS_PROFILE based on current pane's working directory
+
+# Get the current pane's working directory
+pane_current_path=$(tmux display-message -p '#{pane_current_path}')
+
+# Define directory-to-profile mappings (should match auto_aws_profile.zsh)
+case "$pane_current_path" in
+    "$HOME/PROJECTS/info-box"*)
+        echo "info-box"
+        ;;
+    # Add more mappings here as needed:
+    # "$HOME/PROJECTS/other-project"*)
+    #     echo "other-profile"
+    #     ;;
+    *)
+        echo "none"
+        ;;
+esac
