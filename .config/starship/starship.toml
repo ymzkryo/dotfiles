@@ -119,9 +119,6 @@ format = """
 added_style = "fg:#00f900 bg:#1e1e2e"
 deleted_style = "fg:#FF0000 bg:#1e1e2e"
 
-[aws]
-symbol = "\ue7ad"
-
 [ruby]
 format = "[$symbol $version]($style) "
 symbol = "\ue739"
