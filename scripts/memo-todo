@@ -36,6 +36,6 @@ if [ -e "$FILEPATH" ]; then
   exit 1
 fi
 
-# Create file and open with Vim, auto-expanding the snip-todo template
+# Create file and open with Vim, auto-expanding the base-todo template
 touch "$FILEPATH"
-vim +"Template snip-todo" "$FILEPATH"
+vim "+set filetype=markdown | Template base-todo" "$FILEPATH"

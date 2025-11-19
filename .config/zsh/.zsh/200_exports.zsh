@@ -22,3 +22,6 @@ export PATH="$PATH:$(asdf where rust)/bin"
 
 # himalaya path
 export PATH="$HOME/himalaya/target/release:$PATH"
+
+# Custom scripts
+export PATH="$HOME/dotfiles/scripts:$PATH"
