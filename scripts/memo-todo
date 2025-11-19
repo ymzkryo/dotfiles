@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+set -eu
+
+# INBOX directory path (customize this for your environment)
+INBOX="$HOME/memo/00000_INBOX"
+
+# Check if title argument is provided
+if [ $# -eq 0 ]; then
+  echo "Usage: memo-todo <title>"
+  exit 1
+fi
+
+TITLE="$1"
+DATE=$(date +%Y-%m-%d)
+
+# Generate slug from title
+# - Replace spaces (both full-width and half-width) with hyphens
+# - Convert to lowercase
+# - Remove problematic characters like /
+SLUG=$(echo "$TITLE" | \
+  sed 's/　/-/g' | \
+  sed 's/ /-/g' | \
+  tr '[:upper:]' '[:lower:]' | \
+  sed 's/\//-/g')
+
+FILENAME="${DATE}-todo-${SLUG}.md"
+FILEPATH="${INBOX}/${FILENAME}"
+
+# Create INBOX directory if it doesn't exist
+mkdir -p "$INBOX"
+
+# Check if file already exists
+if [ -e "$FILEPATH" ]; then
+  echo "File already exists: ${FILEPATH}"
+  exit 1
+fi
+
+# Create file and open with Vim, auto-expanding the snip-todo template
+touch "$FILEPATH"
+vim +"Template snip-todo" "$FILEPATH"
