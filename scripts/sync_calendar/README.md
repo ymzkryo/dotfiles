@@ -34,11 +34,31 @@
    ```
 
    以下の部分を実際のカレンダー名に変更：
+
+   **単一カレンダーの場合（従来形式）:**
    ```bash
    WORK_CALENDAR="your-work-email@company.com"  # ← あなたの会社カレンダー名
    PERSONAL_CALENDAR="your-personal-email@gmail.com"  # ← あなたの個人カレンダー名
    DAYS_AHEAD=7  # 今日から7日先まで同期
    ```
+
+   **複数カレンダーの場合（新形式）:**
+   ```bash
+   # 複数の同期元カレンダーを配列で指定
+   # 形式: "カレンダー名:プレフィックス"
+   WORK_CALENDARS=(
+       "work@company.com:dmm"           # → [dmm] タイトル
+       "project@example.com:project"    # → [project] タイトル
+       "team@company.com:team"          # → [team] タイトル
+   )
+   PERSONAL_CALENDAR="your-personal-email@gmail.com"
+   DAYS_AHEAD=7
+   ```
+
+   - `WORK_CALENDARS` を使うと複数の同期元を設定可能
+   - 各エントリは `カレンダー名:プレフィックス` の形式
+   - プレフィックスは同期先でのタイトルに `[プレフィックス]` として付与される
+   - `WORK_CALENDAR`（単数形）も後方互換性のためサポート
 
 4. **シンボリックリンクの作成**
 

@@ -1,0 +1,25 @@
+# カレンダー同期設定ファイル
+#
+# このファイルをコピーして設定してください:
+#   cp sync_calendar.conf.example ~/dotfiles/private/.config/sync_calendar/sync_calendar.conf
+#   ln -sf ~/dotfiles/private/.config/sync_calendar/sync_calendar.conf ~/.config/sync_calendar.conf
+
+# ===== 同期元カレンダー =====
+# 方法1: 単一カレンダー（シンプル）
+# WORK_CALENDAR="work@company.com"
+
+# 方法2: 複数カレンダー（配列形式）
+# 形式: "カレンダー名:プレフィックス"
+# プレフィックスは同期先のタイトルに [プレフィックス] として付与される
+WORK_CALENDARS=(
+    "work@company.com:work"           # → [work] 会議タイトル
+    # "project@example.com:project"   # → [project] 会議タイトル
+    # "team@company.com:team"         # → [team] 会議タイトル
+)
+
+# ===== 同期先カレンダー =====
+PERSONAL_CALENDAR="personal@gmail.com"
+
+# ===== オプション =====
+# 何日先まで同期するか（デフォルト: 7）
+DAYS_AHEAD=7
