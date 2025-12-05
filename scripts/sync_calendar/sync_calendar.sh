@@ -81,6 +81,9 @@ if [ "$MODE" = "forward" ]; then
     export WORK_CALENDARS_STR
     WORK_CALENDARS_STR=$(printf '%s\n' "${WORK_CALENDARS[@]}")
 
+    # 逆方向同期のタイトル（これを除外するため）
+    export REVERSE_SYNC_TITLE="${REVERSE_SYNC_TITLE:-予定あり}"
+
     # Pythonスクリプトを使用
     python3 <<PYTHON
 import subprocess
@@ -93,6 +96,7 @@ WORK_CALENDARS_STR = os.environ.get("WORK_CALENDARS_STR", "")
 PERSONAL_CALENDAR = "${PERSONAL_CALENDAR}"
 DAYS_AHEAD = "${DAYS_AHEAD}"
 DRY_RUN = os.environ.get("DRY_RUN", "false") == "true"
+REVERSE_SYNC_TITLE = os.environ.get("REVERSE_SYNC_TITLE", "予定あり")
 
 if DRY_RUN:
     print("【dry-run モード】実際の同期は行いません\n", flush=True)
@@ -146,6 +150,11 @@ for cal in calendars:
         # 予定タイトル（• で始まる）
         if line.startswith('•'):
             title = line[1:].strip()
+
+            # 逆方向同期で追加した予定は除外（循環同期を防ぐ）
+            if title == REVERSE_SYNC_TITLE:
+                i += 1
+                continue
 
             # 次の行が日時情報
             if i + 1 < len(lines):
