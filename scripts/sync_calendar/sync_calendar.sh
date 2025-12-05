@@ -4,14 +4,25 @@
 # 会社のGoogleカレンダーから個人のGoogleカレンダーに予定をコピー
 #
 # 使い方:
-#   sync_calendar.sh           # 順方向同期（会社→個人）
-#   sync_calendar.sh --reverse # 逆方向同期（個人→会社）
+#   sync_calendar.sh              # 順方向同期（会社→個人）
+#   sync_calendar.sh --reverse    # 逆方向同期（個人→会社）
+#   sync_calendar.sh --dry-run    # 実行せずに確認（-n でも可）
+#   sync_calendar.sh -r -n        # 逆方向のdry-run
 
 # 引数の解析
 MODE="forward"
-if [ "$1" = "--reverse" ] || [ "$1" = "-r" ]; then
-    MODE="reverse"
-fi
+DRY_RUN="false"
+
+for arg in "$@"; do
+    case $arg in
+        --reverse|-r)
+            MODE="reverse"
+            ;;
+        --dry-run|-n)
+            DRY_RUN="true"
+            ;;
+    esac
+done
 
 # 設定ファイルのパス
 CONFIG_FILE="$HOME/.config/sync_calendar.conf"
@@ -54,7 +65,13 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
 
-log "=== カレンダー同期開始 ==="
+if [ "$DRY_RUN" = "true" ]; then
+    log "=== カレンダー同期開始（dry-run モード） ==="
+else
+    log "=== カレンダー同期開始 ==="
+fi
+
+export DRY_RUN
 
 # ===== 順方向同期（会社→個人） =====
 if [ "$MODE" = "forward" ]; then
@@ -75,6 +92,10 @@ from datetime import datetime, timedelta
 WORK_CALENDARS_STR = os.environ.get("WORK_CALENDARS_STR", "")
 PERSONAL_CALENDAR = "${PERSONAL_CALENDAR}"
 DAYS_AHEAD = "${DAYS_AHEAD}"
+DRY_RUN = os.environ.get("DRY_RUN", "false") == "true"
+
+if DRY_RUN:
+    print("【dry-run モード】実際の同期は行いません\n", flush=True)
 
 # カレンダー設定をパース（形式: "カレンダー名:プレフィックス"）
 calendars = []
@@ -205,25 +226,32 @@ tell application "Calendar"
 end tell
 '''
 
-    try:
-        result = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=10)
-        if "COPIED" in result.stdout:
-            copied_count += 1
-            print(f"コピー: [{prefix}] {title} ({event_date} {start_time}-{end_time})", flush=True)
-        elif "SKIPPED" in result.stdout:
-            skipped_count += 1
-        elif result.returncode != 0:
-            print(f"エラー: {title} - {result.stderr.strip()}", flush=True)
-    except Exception as e:
-        print(f"エラー: {title} - {e}", flush=True)
+    if DRY_RUN:
+        # dry-runモード: 実行せずに表示のみ
+        print(f"  → [{prefix}] {title} ({event_date} {start_time}-{end_time})", flush=True)
+        copied_count += 1
+    else:
+        try:
+            result = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=10)
+            if "COPIED" in result.stdout:
+                copied_count += 1
+                print(f"コピー: [{prefix}] {title} ({event_date} {start_time}-{end_time})", flush=True)
+            elif "SKIPPED" in result.stdout:
+                skipped_count += 1
+            elif result.returncode != 0:
+                print(f"エラー: {title} - {result.stderr.strip()}", flush=True)
+        except Exception as e:
+            print(f"エラー: {title} - {e}", flush=True)
 
-print(f"コピー: {copied_count}件, スキップ: {skipped_count}件", flush=True)
-
-# 通知
-if copied_count > 0:
-    subprocess.run(["osascript", "-e", f'display notification "{copied_count}件の予定を同期しました" with title "カレンダー同期完了"'])
+if DRY_RUN:
+    print(f"\n同期予定: {copied_count}件", flush=True)
 else:
-    subprocess.run(["osascript", "-e", 'display notification "新しい予定はありませんでした" with title "カレンダー同期完了"'])
+    print(f"コピー: {copied_count}件, スキップ: {skipped_count}件", flush=True)
+    # 通知
+    if copied_count > 0:
+        subprocess.run(["osascript", "-e", f'display notification "{copied_count}件の予定を同期しました" with title "カレンダー同期完了"'])
+    else:
+        subprocess.run(["osascript", "-e", 'display notification "新しい予定はありませんでした" with title "カレンダー同期完了"'])
 
 PYTHON
 fi
@@ -272,6 +300,10 @@ PERSONAL_CALENDAR = os.environ.get("PERSONAL_CALENDAR", "")
 REVERSE_SYNC_TARGET = os.environ.get("REVERSE_SYNC_TARGET", "")
 REVERSE_SYNC_TITLE = os.environ.get("REVERSE_SYNC_TITLE", "予定あり")
 DAYS_AHEAD = os.environ.get("DAYS_AHEAD", "7")
+DRY_RUN = os.environ.get("DRY_RUN", "false") == "true"
+
+if DRY_RUN:
+    print("\n【dry-run モード】実際の同期は行いません", flush=True)
 
 print(f"\n逆方向同期: {PERSONAL_CALENDAR} → {REVERSE_SYNC_TARGET}", flush=True)
 print(f"タイトル: {REVERSE_SYNC_TITLE}", flush=True)
@@ -372,23 +404,31 @@ tell application "Calendar"
 end tell
 '''
 
-    try:
-        result = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=10)
-        if "COPIED" in result.stdout:
-            copied_count += 1
-            print(f"コピー: {REVERSE_SYNC_TITLE} ({event_date} {start_time}-{end_time})", flush=True)
-        elif "SKIPPED" in result.stdout:
-            skipped_count += 1
-        elif result.returncode != 0:
-            print(f"エラー: {result.stderr.strip()}", flush=True)
-    except Exception as e:
-        print(f"エラー: {e}", flush=True)
+    if DRY_RUN:
+        # dry-runモード: 実行せずに表示のみ
+        title = event['title']
+        print(f"  → {REVERSE_SYNC_TITLE} ← {title} ({event_date} {start_time}-{end_time})", flush=True)
+        copied_count += 1
+    else:
+        try:
+            result = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=10)
+            if "COPIED" in result.stdout:
+                copied_count += 1
+                print(f"コピー: {REVERSE_SYNC_TITLE} ({event_date} {start_time}-{end_time})", flush=True)
+            elif "SKIPPED" in result.stdout:
+                skipped_count += 1
+            elif result.returncode != 0:
+                print(f"エラー: {result.stderr.strip()}", flush=True)
+        except Exception as e:
+            print(f"エラー: {e}", flush=True)
 
-print(f"逆方向同期 - コピー: {copied_count}件, スキップ: {skipped_count}件", flush=True)
-
-# 通知
-if copied_count > 0:
-    subprocess.run(["osascript", "-e", f'display notification "逆方向: {copied_count}件の予定を同期しました" with title "カレンダー同期完了"'])
+if DRY_RUN:
+    print(f"\n同期予定: {copied_count}件", flush=True)
+else:
+    print(f"逆方向同期 - コピー: {copied_count}件, スキップ: {skipped_count}件", flush=True)
+    # 通知
+    if copied_count > 0:
+        subprocess.run(["osascript", "-e", f'display notification "逆方向: {copied_count}件の予定を同期しました" with title "カレンダー同期完了"'])
 
 REVERSE_PYTHON
 fi
