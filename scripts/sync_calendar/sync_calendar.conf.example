@@ -27,8 +27,16 @@ DAYS_AHEAD=7
 
 # ===== 逆方向同期（個人→会社） =====
 # WORK_CALENDARSで :true を指定したカレンダーに同期される
+
 # 同期時のタイトル（デフォルト: "予定あり"）
 # REVERSE_SYNC_TITLE="予定あり"
+
+# 同期対象のプレフィックス（省略時はプレフィックスなしの予定が対象）
+# 例: [private] や [block] がついた予定だけを同期
+# REVERSE_SYNC_PREFIXES=("private" "block")
+#
+# 単一の場合は以下も可（後方互換性）
+# REVERSE_SYNC_PREFIX="private"
 
 # 後方互換性: WORK_CALENDARSで指定しない場合は以下も使用可
 # REVERSE_SYNC_TARGET="work@company.com"
