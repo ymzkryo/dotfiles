@@ -415,8 +415,8 @@ tell application "Calendar"
     set startDateTime to date "{event_date} {start_time}:00"
     set endDateTime to date "{event_date} {end_time}:00"
 
-    -- 既存イベントをチェック（同じタイトル・開始時刻）
-    set existingEvents to (every event of workCal whose summary is "{escaped_title}" and start date is startDateTime)
+    -- 既存イベントをチェック（同じタイトル・開始時刻・終了時刻）
+    set existingEvents to (every event of workCal whose summary is "{escaped_title}" and start date is startDateTime and end date is endDateTime)
 
     if (count of existingEvents) > 0 then
         return "SKIPPED"
