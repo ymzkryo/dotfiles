@@ -97,13 +97,16 @@ DRY_RUN = os.environ.get("DRY_RUN", "false") == "true"
 if DRY_RUN:
     print("【dry-run モード】実際の同期は行いません\n", flush=True)
 
-# カレンダー設定をパース（形式: "カレンダー名:プレフィックス"）
+# カレンダー設定をパース（形式: "カレンダー名:プレフィックス:逆方向同期フラグ"）
 calendars = []
 for line in WORK_CALENDARS_STR.strip().split('\n'):
     if not line:
         continue
-    if ':' in line:
-        cal_name, prefix = line.rsplit(':', 1)
+    parts = line.split(':')
+    if len(parts) >= 2:
+        cal_name = parts[0]
+        prefix = parts[1]
+        # 3番目以降（逆方向同期フラグ）は無視
         calendars.append({'name': cal_name, 'prefix': prefix})
     else:
         # プレフィックスが指定されていない場合はカレンダー名から生成
