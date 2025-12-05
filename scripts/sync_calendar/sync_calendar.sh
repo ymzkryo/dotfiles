@@ -2,6 +2,16 @@
 
 # カレンダー同期スクリプト（icalBuddy + Python使用）
 # 会社のGoogleカレンダーから個人のGoogleカレンダーに予定をコピー
+#
+# 使い方:
+#   sync_calendar.sh           # 順方向同期（会社→個人）
+#   sync_calendar.sh --reverse # 逆方向同期（個人→会社）
+
+# 引数の解析
+MODE="forward"
+if [ "$1" = "--reverse" ] || [ "$1" = "-r" ]; then
+    MODE="reverse"
+fi
 
 # 設定ファイルのパス
 CONFIG_FILE="$HOME/.config/sync_calendar.conf"
@@ -46,12 +56,16 @@ log() {
 
 log "=== カレンダー同期開始 ==="
 
-# WORK_CALENDARSを環境変数としてエクスポート（改行区切り）
-export WORK_CALENDARS_STR
-WORK_CALENDARS_STR=$(printf '%s\n' "${WORK_CALENDARS[@]}")
+# ===== 順方向同期（会社→個人） =====
+if [ "$MODE" = "forward" ]; then
+    log "順方向同期（会社→個人）"
 
-# Pythonスクリプトを使用
-python3 <<PYTHON
+    # WORK_CALENDARSを環境変数としてエクスポート（改行区切り）
+    export WORK_CALENDARS_STR
+    WORK_CALENDARS_STR=$(printf '%s\n' "${WORK_CALENDARS[@]}")
+
+    # Pythonスクリプトを使用
+    python3 <<PYTHON
 import subprocess
 import re
 import os
@@ -212,5 +226,171 @@ else:
     subprocess.run(["osascript", "-e", 'display notification "新しい予定はありませんでした" with title "カレンダー同期完了"'])
 
 PYTHON
+fi
+
+# ===== 逆方向同期（個人→会社） =====
+if [ "$MODE" = "reverse" ]; then
+    # WORK_CALENDARSから逆方向同期先を探す（形式: カレンダー名:プレフィックス:true）
+    REVERSE_TARGET=""
+    for entry in "${WORK_CALENDARS[@]}"; do
+        IFS=':' read -r cal_name prefix reverse_flag <<< "$entry"
+        if [ "$reverse_flag" = "true" ]; then
+            REVERSE_TARGET="$cal_name"
+            break
+        fi
+    done
+
+    # WORK_CALENDARSで見つからなければ、REVERSE_SYNC_TARGETを使用（後方互換性）
+    if [ -z "$REVERSE_TARGET" ] && [ -n "$REVERSE_SYNC_TARGET" ]; then
+        REVERSE_TARGET="$REVERSE_SYNC_TARGET"
+    fi
+
+    if [ -z "$REVERSE_TARGET" ]; then
+        echo "エラー: 逆方向同期先が設定されていません"
+        echo "WORK_CALENDARSで ':true' を指定するか、REVERSE_SYNC_TARGETを設定してください"
+        exit 1
+    fi
+
+    log "逆方向同期（個人→会社）: $REVERSE_TARGET"
+
+    # デフォルト値
+    REVERSE_SYNC_TITLE=${REVERSE_SYNC_TITLE:-"予定あり"}
+
+    export REVERSE_SYNC_TARGET="$REVERSE_TARGET"
+    export REVERSE_SYNC_TITLE
+    export PERSONAL_CALENDAR
+    export DAYS_AHEAD
+
+    python3 <<'REVERSE_PYTHON'
+import subprocess
+import re
+import os
+from datetime import datetime, timedelta
+
+# 環境変数から設定を取得
+PERSONAL_CALENDAR = os.environ.get("PERSONAL_CALENDAR", "")
+REVERSE_SYNC_TARGET = os.environ.get("REVERSE_SYNC_TARGET", "")
+REVERSE_SYNC_TITLE = os.environ.get("REVERSE_SYNC_TITLE", "予定あり")
+DAYS_AHEAD = os.environ.get("DAYS_AHEAD", "7")
+
+print(f"\n逆方向同期: {PERSONAL_CALENDAR} → {REVERSE_SYNC_TARGET}", flush=True)
+print(f"タイトル: {REVERSE_SYNC_TITLE}", flush=True)
+
+# icalBuddyで個人カレンダーから予定を取得
+cmd = ["icalBuddy", "-nc", "-iep", "title,datetime", "-df", "%Y-%m-%d", "-tf", "%H:%M", "-ic", PERSONAL_CALENDAR, f"eventsToday+{DAYS_AHEAD}"]
+result = subprocess.run(cmd, capture_output=True, text=True)
+
+if result.returncode != 0 or not result.stdout.strip():
+    print("個人カレンダーの予定: 0件", flush=True)
+    exit(0)
+
+# 予定をパース
+lines = result.stdout.strip().split('\n')
+events = []
+i = 0
+
+while i < len(lines):
+    line = lines[i].strip()
+
+    # 予定タイトル（• で始まる）
+    if line.startswith('•'):
+        title = line[1:].strip()
+
+        # プレフィックス付き（[xxx]）の予定は除外（会社からコピーした予定）
+        if re.match(r'^\[.+?\]', title):
+            i += 1
+            continue
+
+        # 次の行が日時情報
+        if i + 1 < len(lines):
+            i += 1
+            datetime_line = lines[i].strip()
+
+            # 日時をパース
+            match = re.match(r'(.+?)\s+at\s+(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})', datetime_line)
+
+            if match:
+                date_part = match.group(1)
+                start_time = match.group(2)
+                end_time = match.group(3)
+
+                # 日付を変換
+                if date_part == 'today':
+                    event_date = datetime.now().strftime('%Y-%m-%d')
+                elif date_part == 'tomorrow':
+                    event_date = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+                elif date_part == 'day after tomorrow':
+                    event_date = (datetime.now() + timedelta(days=2)).strftime('%Y-%m-%d')
+                else:
+                    event_date = date_part
+
+                events.append({
+                    'title': title,
+                    'date': event_date,
+                    'start_time': start_time,
+                    'end_time': end_time
+                })
+
+    i += 1
+
+print(f"個人カレンダーの予定（プレフィックス除く）: {len(events)}件", flush=True)
+
+if not events:
+    exit(0)
+
+# 各予定を会社カレンダーにコピー
+copied_count = 0
+skipped_count = 0
+
+for event in events:
+    event_date = event['date']
+    start_time = event['start_time']
+    end_time = event['end_time']
+
+    # 特殊文字のエスケープ
+    escaped_title = REVERSE_SYNC_TITLE.replace('"', '\\"')
+
+    applescript = f'''
+tell application "Calendar"
+    set workCal to first calendar whose name is "{REVERSE_SYNC_TARGET}"
+
+    -- 開始・終了日時を設定
+    set startDateTime to date "{event_date} {start_time}:00"
+    set endDateTime to date "{event_date} {end_time}:00"
+
+    -- 既存イベントをチェック（同じタイトル・開始時刻）
+    set existingEvents to (every event of workCal whose summary is "{escaped_title}" and start date is startDateTime)
+
+    if (count of existingEvents) > 0 then
+        return "SKIPPED"
+    else
+        tell workCal
+            make new event with properties {{summary:"{escaped_title}", start date:startDateTime, end date:endDateTime, description:"[個人カレンダーより同期]"}}
+        end tell
+        return "COPIED"
+    end if
+end tell
+'''
+
+    try:
+        result = subprocess.run(["osascript", "-e", applescript], capture_output=True, text=True, timeout=10)
+        if "COPIED" in result.stdout:
+            copied_count += 1
+            print(f"コピー: {REVERSE_SYNC_TITLE} ({event_date} {start_time}-{end_time})", flush=True)
+        elif "SKIPPED" in result.stdout:
+            skipped_count += 1
+        elif result.returncode != 0:
+            print(f"エラー: {result.stderr.strip()}", flush=True)
+    except Exception as e:
+        print(f"エラー: {e}", flush=True)
+
+print(f"逆方向同期 - コピー: {copied_count}件, スキップ: {skipped_count}件", flush=True)
+
+# 通知
+if copied_count > 0:
+    subprocess.run(["osascript", "-e", f'display notification "逆方向: {copied_count}件の予定を同期しました" with title "カレンダー同期完了"'])
+
+REVERSE_PYTHON
+fi
 
 log "=== カレンダー同期終了 ==="

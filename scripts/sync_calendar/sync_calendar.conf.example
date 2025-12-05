@@ -9,12 +9,13 @@
 # WORK_CALENDAR="work@company.com"
 
 # 方法2: 複数カレンダー（配列形式）
-# 形式: "カレンダー名:プレフィックス"
-# プレフィックスは同期先のタイトルに [プレフィックス] として付与される
+# 形式: "カレンダー名:プレフィックス:逆方向同期フラグ"
+#   - プレフィックス: 同期先のタイトルに [プレフィックス] として付与
+#   - 逆方向同期フラグ: true のカレンダーに --reverse で個人予定を同期
 WORK_CALENDARS=(
-    "work@company.com:work"           # → [work] 会議タイトル
-    # "project@example.com:project"   # → [project] 会議タイトル
-    # "team@company.com:team"         # → [team] 会議タイトル
+    "work@company.com:work:true"      # → [work] 会議タイトル、逆方向同期先
+    # "project@example.com:project"   # → [project] 会議タイトル（フラグ省略可）
+    # "team@company.com:team:false"   # → [team] 会議タイトル
 )
 
 # ===== 同期先カレンダー =====
@@ -23,3 +24,11 @@ PERSONAL_CALENDAR="personal@gmail.com"
 # ===== オプション =====
 # 何日先まで同期するか（デフォルト: 7）
 DAYS_AHEAD=7
+
+# ===== 逆方向同期（個人→会社） =====
+# WORK_CALENDARSで :true を指定したカレンダーに同期される
+# 同期時のタイトル（デフォルト: "予定あり"）
+# REVERSE_SYNC_TITLE="予定あり"
+
+# 後方互換性: WORK_CALENDARSで指定しない場合は以下も使用可
+# REVERSE_SYNC_TARGET="work@company.com"
