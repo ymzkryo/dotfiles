@@ -37,18 +37,41 @@ if [[ "$CONFIG_METHOD" != "individual" && "$CONFIG_METHOD" != "whole" ]]; then
   exit 1
 fi
 
+# WSL検出関数
+is_wsl() {
+  # 複数の方法でWSLを検出
+  # 1. WSL_DISTRO_NAME環境変数（WSL2で設定される）
+  if [[ -n "$WSL_DISTRO_NAME" ]]; then
+    return 0
+  fi
+  # 2. uname -r にMicrosoft/microsoft/WSLが含まれる
+  if [[ "$(uname -r 2>/dev/null)" == *[Mm]icrosoft* ]] || [[ "$(uname -r 2>/dev/null)" == *WSL* ]]; then
+    return 0
+  fi
+  # 3. /proc/version にMicrosoft/microsoft/WSLが含まれる
+  if [[ -f /proc/version ]] && grep -qiE "(microsoft|wsl)" /proc/version 2>/dev/null; then
+    return 0
+  fi
+  # 4. /proc/sys/fs/binfmt_misc/WSLInterop が存在する
+  if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
+    return 0
+  fi
+  return 1
+}
+
 # OSの検出
 OS="unknown"
 if [[ "$OSTYPE" == "darwin"* ]]; then
   OS="macos"
+elif is_wsl; then
+  # WSLはDebianベース（Ubuntu等）の前に検出する必要がある
+  OS="wsl"
 elif [[ -f /etc/arch-release ]]; then
   OS="arch"
 elif [[ -f /etc/debian_version ]]; then
   OS="debian"
 elif [[ -f /etc/redhat-release ]]; then
   OS="redhat"
-elif [[ "$(uname -r)" == *Microsoft* || "$(uname -r)" == *microsoft* ]]; then
-  OS="wsl"
 elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
   OS="windows"
 fi
@@ -359,14 +382,19 @@ setup_symlinks() {
     log_success ".configディレクトリ全体をリンクしました"
   else
     # 個別のファイルとディレクトリをリンクする方法
-    
-    # starshipの設定
-    if [ -d "$DOTFILES_DIR/.config/starship" ]; then
-      mkdir -p "$TARGET_DIR/.config/starship"
-      create_symlink "$DOTFILES_DIR/.config/starship/starship.toml" "$TARGET_DIR/.config/starship/starship.toml"
+
+    # starshipの設定 (~/.config/starship.toml)
+    if [ -f "$DOTFILES_DIR/.config/starship/starship.toml" ]; then
+      create_symlink "$DOTFILES_DIR/.config/starship/starship.toml" "$TARGET_DIR/.config/starship.toml"
       log_success "starshipの設定をリンクしました"
     fi
-    
+
+    # weztermの設定 (~/.wezterm.lua)
+    if [ -f "$DOTFILES_DIR/.config/wezterm/.wezterm.lua" ]; then
+      create_symlink "$DOTFILES_DIR/.config/wezterm/.wezterm.lua" "$TARGET_DIR/.wezterm.lua"
+      log_success "weztermの設定をリンクしました"
+    fi
+
     # neomuttの設定
     if [ -d "$DOTFILES_DIR/.config/neomutt" ]; then
       mkdir -p "$TARGET_DIR/.config/neomutt"
@@ -378,10 +406,11 @@ setup_symlinks() {
       done
       log_success "neomuttの設定をリンクしました"
     fi
-    
+
     # その他の.config以下のディレクトリを自動的にリンク
+    # starship, wezterm, neomuttは個別処理済みなのでスキップ
     for dir in "$DOTFILES_DIR/.config"/*; do
-      if [ -d "$dir" ] && [ "$(basename "$dir")" != "starship" ] && [ "$(basename "$dir")" != "neomutt" ]; then
+      if [ -d "$dir" ] && [ "$(basename "$dir")" != "starship" ] && [ "$(basename "$dir")" != "neomutt" ] && [ "$(basename "$dir")" != "wezterm" ]; then
         dirname=$(basename "$dir")
         mkdir -p "$TARGET_DIR/.config/$dirname"
         log_info "その他の設定ディレクトリをリンク中: $dirname"
