@@ -12,6 +12,7 @@
 # 形式: "カレンダー名:プレフィックス:逆方向同期フラグ"
 #   - プレフィックス: 同期先のタイトルに [プレフィックス] として付与
 #   - 逆方向同期フラグ: true のカレンダーに --reverse で個人予定を同期
+#     逆方向同期時、そのカレンダー自身のプレフィックスの予定は除外される（循環防止）
 WORK_CALENDARS=(
     "work@company.com:work:true"      # → [work] 会議タイトル、逆方向同期先
     # "project@example.com:project"   # → [project] 会議タイトル（フラグ省略可）
@@ -27,16 +28,13 @@ DAYS_AHEAD=7
 
 # ===== 逆方向同期（個人→会社） =====
 # WORK_CALENDARSで :true を指定したカレンダーに同期される
+# 個人カレンダーの全予定が "予定あり" として同期される
+# ただし、ターゲットカレンダー自身のプレフィックスが付いた予定は除外（循環防止）
+#
+# 例: "work@company.com:work:true" の場合
+#   [work] 会議 → 除外（自分由来）
+#   [other] 打合せ → "予定あり" として同期
+#   個人の予定 → "予定あり" として同期
 
 # 同期時のタイトル（デフォルト: "予定あり"）
 # REVERSE_SYNC_TITLE="予定あり"
-
-# 同期対象のプレフィックス（省略時はプレフィックスなしの予定が対象）
-# 例: [private] や [block] がついた予定だけを同期
-# REVERSE_SYNC_PREFIXES=("private" "block")
-#
-# 単一の場合は以下も可（後方互換性）
-# REVERSE_SYNC_PREFIX="private"
-
-# 後方互換性: WORK_CALENDARSで指定しない場合は以下も使用可
-# REVERSE_SYNC_TARGET="work@company.com"

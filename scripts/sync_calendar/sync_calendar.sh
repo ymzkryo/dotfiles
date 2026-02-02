@@ -303,16 +303,10 @@ if [ "$MODE" = "reverse" ]; then
     # デフォルト値
     REVERSE_SYNC_TITLE=${REVERSE_SYNC_TITLE:-"予定あり"}
 
-    # 複数プレフィックス対応: REVERSE_SYNC_PREFIXESが未設定の場合、REVERSE_SYNC_PREFIXから生成
-    if [ ${#REVERSE_SYNC_PREFIXES[@]} -eq 0 ] && [ -n "$REVERSE_SYNC_PREFIX" ]; then
-        REVERSE_SYNC_PREFIXES=("$REVERSE_SYNC_PREFIX")
-    fi
-
     export REVERSE_SYNC_TARGETS_STR
     REVERSE_SYNC_TARGETS_STR=$(printf '%s\n' "${REVERSE_TARGETS[@]}")  # 形式: "カレンダー名:プレフィックス"
     export REVERSE_SYNC_TITLE
-    export REVERSE_SYNC_PREFIXES_STR
-    REVERSE_SYNC_PREFIXES_STR=$(printf '%s\n' "${REVERSE_SYNC_PREFIXES[@]}")
+
     export PERSONAL_CALENDAR
     export DAYS_AHEAD
 
@@ -337,8 +331,6 @@ for line in REVERSE_SYNC_TARGETS_STR.strip().split('\n'):
         REVERSE_SYNC_TARGETS.append({'name': line, 'own_prefix': ''})
 
 REVERSE_SYNC_TITLE = os.environ.get("REVERSE_SYNC_TITLE", "予定あり")
-REVERSE_SYNC_PREFIXES_STR = os.environ.get("REVERSE_SYNC_PREFIXES_STR", "")
-REVERSE_SYNC_PREFIXES = [p for p in REVERSE_SYNC_PREFIXES_STR.strip().split('\n') if p]
 DAYS_AHEAD = os.environ.get("DAYS_AHEAD", "7")
 DRY_RUN = os.environ.get("DRY_RUN", "false") == "true"
 
@@ -348,11 +340,9 @@ if DRY_RUN:
 targets_str = ', '.join([t['name'] for t in REVERSE_SYNC_TARGETS])
 print(f"\n逆方向同期: {PERSONAL_CALENDAR} → {targets_str}", flush=True)
 print(f"タイトル: {REVERSE_SYNC_TITLE}", flush=True)
-if REVERSE_SYNC_PREFIXES:
-    prefixes_str = ', '.join([f'[{p}]' for p in REVERSE_SYNC_PREFIXES])
-    print(f"対象: {prefixes_str} プレフィックス付きの予定のみ", flush=True)
-else:
-    print("対象: プレフィックスなしの予定", flush=True)
+for t in REVERSE_SYNC_TARGETS:
+    if t['own_prefix']:
+        print(f"除外: [{t['own_prefix']}] プレフィックス付きの予定（{t['name']} への同期時）", flush=True)
 
 # icalBuddyで個人カレンダーから予定を取得
 cmd = ["icalBuddy", "-nc", "-iep", "title,datetime", "-df", "%Y-%m-%d", "-tf", "%H:%M", "-ic", PERSONAL_CALENDAR, f"eventsToday+{DAYS_AHEAD}"]
@@ -374,23 +364,10 @@ while i < len(lines):
     if line.startswith('•'):
         title = line[1:].strip()
 
-        # プレフィックスのチェック
+        # プレフィックスのチェック（ターゲットごとの除外判定で使用）
         prefix_match = re.match(r'^\[(.+?)\]', title)
         source_prefix = prefix_match.group(1) if prefix_match else ''
-
-        if REVERSE_SYNC_PREFIXES:
-            # 特定プレフィックスモード: 指定されたプレフィックスの予定だけを対象
-            if not prefix_match or prefix_match.group(1) not in REVERSE_SYNC_PREFIXES:
-                i += 1
-                continue
-            # プレフィックスを除去してタイトルを取得
-            clean_title = re.sub(r'^\[.+?\]\s*', '', title)
-        else:
-            # デフォルトモード: プレフィックスなしの予定だけを対象
-            if prefix_match:
-                i += 1
-                continue
-            clean_title = title
+        clean_title = title
 
         # 次の行が日時情報
         if i + 1 < len(lines):
