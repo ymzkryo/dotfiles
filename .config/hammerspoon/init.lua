@@ -5,7 +5,7 @@ require("modules._config")
 require("modules.window")
 require("modules.monitor")
 require("modules.wezterm")
-require("modules.chrome")
+require("modules.browser")
 require("modules.autolaunch")
 
 -- 最後に通知を表示

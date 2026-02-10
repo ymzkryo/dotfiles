@@ -10,8 +10,8 @@ Config.screenMap = {
     ["4"] = "LG HDR WQHD"
 }
 
--- Chrome自動配置のターゲットを定義
-Config.chromeMainMonitor = Config.screenMap["3"]
+-- ブラウザ自動配置のターゲットを定義
+Config.browserMainMonitor = Config.screenMap["3"]
 
 -- アプリごとのデフォルト配置モニタ設定 (Config.screenMapのキーを指定)
 Config.appLayout = {
@@ -20,6 +20,7 @@ Config.appLayout = {
     ["Discord"]      = "2",
     ["LINE"]         = "1",
     ["Google Chrome"] = "3",
+    ["Safari"]        = "3",
     ["Mail"]         = "1",
     ["iCal"]     = "1",
     ["Zoom.us"]      = "3",
