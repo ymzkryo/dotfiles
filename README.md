@@ -4,7 +4,13 @@ dotfiles
 Usage:
 ------
 
-TBD
+### Update submodule
+
+```bash
+git submodule update --remote private
+git add private
+git commit -m "Update: private submodule"
+```
 
 Requirements:
 -------------
