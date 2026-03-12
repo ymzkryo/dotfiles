@@ -88,3 +88,28 @@ https://bonno.idi-s.com/?feed=rss2
 https://blog.lai.so/feed
 https://unknownplace.org/static/feeds/blog.xml
 https://www.favomate.jp/feed
+# --- Backend / Languages ---
+https://go.dev/blog/feed.atom
+https://blog.rust-lang.org/feed.xml
+https://blog.python.org/feeds/posts/default?alt=rss
+https://lucumr.pocoo.org/feed.atom
+https://eli.thegreenplace.net/feeds/all.atom.xml
+https://threedots.tech/index.xml
+# --- Infrastructure / Cloud ---
+https://aws.amazon.com/blogs/aws/feed/
+https://kubernetes.io/feed.xml
+https://www.hashicorp.com/blog/feed.xml
+https://jvns.ca/atom.xml
+https://fly.io/blog/feed.xml
+# --- AI / LLM ---
+https://openai.com/blog/rss.xml
+https://www.anthropic.com/feed.xml
+https://simonwillison.net/atom/everything/
+https://thegradient.pub/rss/
+https://huggingface.co/blog/feed.xml
+# --- Security ---
+https://krebsonsecurity.com/feed/
+https://feeds.feedburner.com/TheHackersNews
+https://blog.trailofbits.com/feed/
+https://googleprojectzero.blogspot.com/feeds/posts/default
+https://portswigger.net/research/rss
