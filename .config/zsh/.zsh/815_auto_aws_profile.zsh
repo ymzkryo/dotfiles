@@ -6,19 +6,35 @@ function auto_switch_aws_profile() {
     local -A aws_dir_profiles
     aws_dir_profiles=(
         "$HOME/PROJECTS/info-box" "info-box"
-        # Add more mappings here as needed:
-        # "$HOME/PROJECTS/other-project" "other-profile"
+        "$HOME/PROJECTS/outarc" "outarc"
+        "$HOME/PROJECTS/ksd" "ksd"
     )
 
-    # Check if current directory matches any mapping
+    # Also check parent directory patterns (e.g., outarc/*, ksd/*)
+    local -A aws_parent_profiles
+    aws_parent_profiles=(
+        "$HOME/PROJECTS/outarc" "outarc"
+        "$HOME/PROJECTS/ksd" "ksd"
+    )
+
+    # Check direct mappings first
     local matched_profile=""
     for dir_path profile in ${(kv)aws_dir_profiles}; do
-        # Check if we're in the directory or its subdirectories
         if [[ "$current_dir" == "$dir_path"* ]]; then
             matched_profile="$profile"
             break
         fi
     done
+
+    # Check parent directory mappings (match subdirs but not the parent itself)
+    if [[ -z "$matched_profile" ]]; then
+        for dir_path profile in ${(kv)aws_parent_profiles}; do
+            if [[ "$current_dir" == "$dir_path/"* ]]; then
+                matched_profile="$profile"
+                break
+            fi
+        done
+    fi
 
     # Set or unset AWS_PROFILE
     if [[ -n "$matched_profile" ]]; then

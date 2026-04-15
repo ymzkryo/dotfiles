@@ -163,6 +163,12 @@ detect_extensions = ["php"]
 detect_files = ["composer.json", ".php-version"]
 detect_folders = ["vendor"]
 
+# AWS module
+[aws]
+format = '[$symbol($profile )]($style)'
+symbol = "\uf270 "
+style = "bold yellow"
+
 # Status module (last command exit status)
 [status]
 format = '[Exit: $status](bold red) '

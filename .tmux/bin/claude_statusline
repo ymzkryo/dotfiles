@@ -53,7 +53,8 @@ def main():
     with open("/tmp/claude-usage.txt", "w") as f:
         f.write(tmux_line)
 
-    print(tmux_line)
+    # Output a space so Claude Code keeps calling this command
+    print(" ")
 
 
 if __name__ == "__main__":

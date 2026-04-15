@@ -9,10 +9,12 @@ case "$pane_current_path" in
     "$HOME/PROJECTS/info-box"*)
         echo "info-box"
         ;;
-    # Add more mappings here as needed:
-    # "$HOME/PROJECTS/other-project"*)
-    #     echo "other-profile"
-    #     ;;
+    "$HOME/PROJECTS/outarc/"*)
+        echo "outarc"
+        ;;
+    "$HOME/PROJECTS/ksd/"*)
+        echo "ksd"
+        ;;
     *)
         echo "none"
         ;;
