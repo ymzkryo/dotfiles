@@ -1,0 +1,26 @@
+#!/bin/sh
+# Read Claude Code usage from the file written by claude_statusline.
+# Falls back to "-" if no data or file is stale (>6h).
+
+FILE="/tmp/claude-usage.txt"
+
+if [ ! -f "$FILE" ]; then
+    echo "-"
+    exit 0
+fi
+
+# Check staleness (6 hours = 21600 seconds)
+if [ "$(uname)" = "Darwin" ]; then
+    mod=$(stat -f %m "$FILE" 2>/dev/null || echo 0)
+else
+    mod=$(stat -c %Y "$FILE" 2>/dev/null || echo 0)
+fi
+now=$(date +%s)
+age=$(( now - mod ))
+
+if [ "$age" -gt 21600 ]; then
+    echo "-"
+    exit 0
+fi
+
+cat "$FILE"

@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""Claude Code status line command.
+
+Receives session JSON on stdin from Claude Code's statusLine feature,
+writes rate limit info to /tmp/claude-usage.txt for tmux consumption,
+and outputs a status line string for Claude Code itself.
+"""
+
+import json
+import sys
+import time
+from datetime import datetime, timezone
+
+
+def format_remaining(resets_at):
+    """Format time remaining from a unix timestamp."""
+    now = time.time()
+    diff = max(0, resets_at - now)
+    total_min = int(diff // 60)
+    hours, mins = divmod(total_min, 60)
+    if hours > 0:
+        return f"{hours}h{mins:02d}m"
+    return f"{mins}m"
+
+
+def main():
+    try:
+        data = json.load(sys.stdin)
+    except (json.JSONDecodeError, EOFError, ValueError):
+        return
+
+    rate_limits = data.get("rate_limits", {})
+    five_hour = rate_limits.get("five_hour", {})
+    used_pct = five_hour.get("used_percentage")
+    resets_at = five_hour.get("resets_at")
+
+    if used_pct is None:
+        output = "N/A"
+    else:
+        output = f"{used_pct}%"
+
+    reset_str = ""
+    if resets_at:
+        try:
+            reset_str = format_remaining(resets_at)
+        except (ValueError, TypeError):
+            pass
+
+    tmux_line = output
+    if reset_str:
+        tmux_line += f"|{reset_str}"
+
+    with open("/tmp/claude-usage.txt", "w") as f:
+        f.write(tmux_line)
+
+    print(tmux_line)
+
+
+if __name__ == "__main__":
+    main()

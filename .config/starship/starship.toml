@@ -20,6 +20,7 @@ $character
 right_format = """
 $status
 $jobs
+$aws
 $python
 $rust
 $golang
