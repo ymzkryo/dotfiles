@@ -1,6 +1,10 @@
 local wezterm = require 'wezterm'
 local config = {}
 
+if wezterm.config_builder then
+    config = wezterm.config_builder()
+end
+
 -- enable systembell
 config.audible_bell = "SystemBeep"
 
@@ -14,9 +18,26 @@ config.keys = {
     },
 }
 
-if wezterm.config_builder then
-    config = wezterm.config_builder()
-end
+-- URL を自動検出してハイパーリンク化
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+-- Cmd 押下中はアプリのマウスレポートを bypass して WezTerm 側でクリックを処理
+config.bypass_mouse_reporting_modifiers = 'CMD'
+
+-- Cmd + 左クリックで URL をブラウザで開く
+config.mouse_bindings = {
+    {
+        event = { Up = { streak = 1, button = "Left" } },
+        mods = "CMD",
+        action = wezterm.action.OpenLinkAtMouseCursor,
+    },
+    -- Cmd+Click の Down イベントを抑制（Up イベントで open するため）
+    {
+        event = { Down = { streak = 1, button = "Left" } },
+        mods = "CMD",
+        action = wezterm.action.Nop,
+    },
+}
 
 -- font  FireCode Nerd Font
 config.font = wezterm.font("FiraCode Nerd Font")
