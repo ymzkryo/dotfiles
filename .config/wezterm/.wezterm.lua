@@ -5,8 +5,8 @@ if wezterm.config_builder then
     config = wezterm.config_builder()
 end
 
--- enable systembell
-config.audible_bell = "SystemBeep"
+-- disable system bell (tmux prefix+number で存在しない window 番号に飛んだ時の BEL を無音化)
+config.audible_bell = "Disabled"
 
 -- config keys
 config.keys = {
