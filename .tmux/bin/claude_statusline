@@ -37,7 +37,10 @@ def main():
     if used_pct is None:
         output = "N/A"
     else:
-        output = f"{used_pct}%"
+        try:
+            output = f"{float(used_pct):.2f}%"
+        except (ValueError, TypeError):
+            output = f"{used_pct}%"
 
     reset_str = ""
     if resets_at:
