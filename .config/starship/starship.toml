@@ -127,11 +127,11 @@ style = "red"
 
 # Python module
 [python]
-format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+format = "[$symbol $version]($style) "
 symbol = "\ue73c"
 style = "bold yellow"
 detect_extensions = ["py"]
-detect_files = ["pyproject.toml", "requirements.txt", ".python-version", "Pipfile"]
+detect_files = ["pyproject.toml", "requirements.txt", ".python-version", "Pipfile", ".tool-versions"]
 detect_folders = [".venv"]
 pyenv_version_name = false
 python_binary = ["python", "python3"]
@@ -141,18 +141,26 @@ python_binary = ["python", "python3"]
 format = "[$symbol $version]($style) "
 symbol = "\ued0d"
 style = "bold green"
+detect_extensions = ["js", "mjs", "cjs", "ts", "mts", "cts"]
+detect_files = ["package.json", ".node-version", ".nvmrc", ".tool-versions"]
+detect_folders = ["node_modules"]
 
 # Rust module
 [rust]
-format = "[$symbol ($version )]($style)"
+format = "[$symbol $version]($style) "
 symbol = "\ue7a8"
 style = "bold red"
+detect_extensions = ["rs"]
+detect_files = ["Cargo.toml", ".tool-versions"]
 
 # Go module
 [golang]
 format = "[$symbol $version]($style) "
 symbol = "\ue627"
 style = "bold cyan"
+detect_extensions = ["go"]
+detect_files = ["go.mod", "go.sum", "go.work", ".go-version", "glide.yaml", "Gopkg.yml", "Gopkg.lock", ".tool-versions"]
+detect_folders = ["Godeps"]
 
 # PHP module
 [php]
