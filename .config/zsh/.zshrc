@@ -7,7 +7,7 @@ fi
 for config_file in ~/.zsh/*.zsh; do
     source $config_file
 done
-alias claude="~/.local/bin/claude"
+alias claude="/opt/homebrew/bin/claude"
 
 # pnpm
 export PNPM_HOME="/Users/ymzkryo/Library/pnpm"

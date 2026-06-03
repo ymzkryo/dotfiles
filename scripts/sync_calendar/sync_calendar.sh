@@ -9,6 +9,9 @@
 #   sync_calendar.sh --dry-run    # 実行せずに確認（-n でも可）
 #   sync_calendar.sh -r -n        # 逆方向のdry-run
 
+# launchd 経由実行時に Homebrew のパスを通す（icalBuddy 等を見つけるため）
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
 # 引数の解析
 MODE="forward"
 DRY_RUN="false"
