@@ -4,6 +4,27 @@
 # cpython のビルドには GitHub attestation が無いため検証を無効化
 python.github_attestations = false
 
+[env]
+# --- macOS で mise の asdf:php プラグインが PHP をビルドできるようにするための設定 ---
+# プラグインは古い formula 名(icu4c 無印 / openssl@1.1)を前提にしており、現行の
+# Homebrew(icu4c@77 / openssl@3)を検出できず configure に失敗するため、ここで補う。
+#
+# (1) ICU: intl 拡張のビルドに必要。プラグインは `brew ls --versions icu4c`(無印)で
+#     探すが実体は icu4c@77 のため見つからず PKG_CONFIG_PATH に入らない。
+# (2) OpenSSL: プラグインは openssl@1.1 を探すが実体は openssl@3。openssl が無効だと
+#     https ストリームラッパーが無く、PEAR インストール(https ダウンロード)で失敗する。
+# 両方の pkg-config パスを通す。(/opt/homebrew/opt/xxx は linked keg を指すシンボリックリンク)
+PKG_CONFIG_PATH = "/opt/homebrew/opt/icu4c/lib/pkgconfig:/opt/homebrew/opt/openssl@3/lib/pkgconfig:{{env.PKG_CONFIG_PATH | default(value='')}}"
+
+# PEAR は legacy でこのプロジェクトは Composer 運用のためスキップ(https 依存の失敗も回避)。
+# プラグインは composer を別途セットアップするので支障なし。
+PHP_WITHOUT_PEAR = "yes"
+
+# プラグインの os_based オプションを上書きし、openssl@3 と主要拡張を明示的に有効化する。
+# (--enable-* 系や curl/gd/zip 等は global_config 側で常に付与されるのでここには不要)
+# openssl は上の PKG_CONFIG_PATH 経由で openssl@3 を pkg-config が解決する。
+PHP_CONFIGURE_OPTIONS = "--with-openssl --with-sodium=/opt/homebrew/opt/libsodium --with-gmp=/opt/homebrew/opt/gmp --with-gettext=/opt/homebrew/opt/gettext --with-readline=/opt/homebrew/opt/readline --with-iconv=/opt/homebrew/opt/libiconv"
+
 [tools]
 go        = "1.24.3"
 rust      = "1.93.1"
