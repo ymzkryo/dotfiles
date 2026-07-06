@@ -1,0 +1,16 @@
+# mise グローバル設定（旧 ~/.tool-versions から移行）
+# 参考: https://mise.jdx.dev/configuration.html
+[settings]
+# cpython のビルドには GitHub attestation が無いため検証を無効化
+python.github_attestations = false
+
+[tools]
+go        = "1.24.3"
+rust      = "1.93.1"
+node      = "23.10.0"
+python    = "3.12.0"
+java      = "temurin-17.0.6+10"
+terraform = "1.14.6"
+gcloud    = "558.0.0"
+# awscli 2.31.15 は aqua レジストリの保持範囲外だったため最新にピン留め（v2 は後方互換高）
+awscli    = "2.35.15"
