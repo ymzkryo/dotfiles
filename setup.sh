@@ -179,7 +179,7 @@ install_packages() {
       # AURパッケージのインストール
       log_info "AURパッケージをインストール中..."
       yay -S --needed --noconfirm \
-        asdf-vm starship
+        mise starship
         
       log_success "Archパッケージのインストールが完了しました"
       ;;
@@ -196,10 +196,10 @@ install_packages() {
       log_info "Starshipをインストール中..."
       curl -sS https://starship.rs/install.sh | sh -s -- -y
       
-      # asdfのインストール
-      if [ ! -d "$HOME/.asdf" ]; then
-        log_info "asdfをインストール中..."
-        git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.11.3
+      # miseのインストール
+      if ! command -v mise &>/dev/null; then
+        log_info "miseをインストール中..."
+        curl https://mise.run | sh
       fi
       
       log_success "Debian/Ubuntuパッケージのインストールが完了しました"
@@ -473,8 +473,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # Homebrew
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# asdf (macOS)
-. $(brew --prefix asdf)/libexec/asdf.sh
+# mise (macOS)
+eval "$(mise activate zsh)"
 
 # 基本エイリアス
 alias ll='ls -la'
@@ -499,8 +499,8 @@ eval "$(starship init zsh)"
 # PATH設定
 export PATH="$HOME/.local/bin:$PATH"
 
-# asdf (Arch Linux)
-. /opt/asdf-vm/asdf.sh
+# mise (Arch Linux)
+eval "$(mise activate zsh)"
 
 # 基本エイリアス
 alias ll='ls -la'
@@ -527,8 +527,8 @@ eval "$(starship init zsh)"
 # PATH設定
 export PATH="$HOME/.local/bin:$PATH"
 
-# asdf (Debian/Ubuntu/WSL)
-. $HOME/.asdf/asdf.sh
+# mise (Debian/Ubuntu/WSL)
+eval "$(mise activate zsh)"
 
 # 基本エイリアス
 alias ll='ls -la'

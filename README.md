@@ -15,8 +15,19 @@ git commit -m "Update: private submodule"
 Requirements:
 -------------
 
-## VM
-[asdf](https://asdf-vm.com)
+## Version manager
+[mise](https://mise.jdx.dev/)
+
+ツールのバージョンは以下で管理する。
+
+- グローバル: `.config/mise/config.toml`
+- プロジェクト個別: 各リポジトリの `mise.toml`
+
+```bash
+mise install          # 設定に従ってツールを導入
+mise ls               # 導入済みのバージョンを確認
+mise use -g node@24   # グローバルのバージョンを変更
+```
 
 ## Terminal
 [wezterm](https://wezfurlong.org/wezterm/index.html)
