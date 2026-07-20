@@ -43,7 +43,8 @@ ghq-cache-refresh() {
   __ghq_build_list && print "ghq キャッシュを更新しました: $(wc -l < $GHQ_CACHE_FILE | tr -d ' ') 件"
 }
 
-fzf-ghq-cd() {
+# fzf でリポジトリを1つ選んで絶対パスを返す。選ばなければ非 0。
+__ghq_select() {
   emulate -L zsh
 
   if ! command -v fzf >/dev/null 2>&1; then
@@ -55,24 +56,36 @@ fzf-ghq-cd() {
     return 1
   fi
 
+  local header=${1:-'Enter: 選択 / Ctrl-C: キャンセル'}
   local selected
   selected=$(
     __ghq_list_cached \
     | sed "s|^$HOME|~|" \
     | fzf --height=60% --layout=reverse --border \
           --prompt='repo> ' \
-          --header='Enter: cd / Ctrl-C: キャンセル' \
+          --header="$header" \
           --preview="git -C \$(printf %s {} | sed 's|^~|$HOME|') log --oneline --decorate -15 2>/dev/null || ls -la \$(printf %s {} | sed 's|^~|$HOME|')" \
           --preview-window='right:55%'
-  ) || return 0
-  [[ -n $selected ]] || return 0
+  ) || return 1
+  [[ -n $selected ]] || return 1
 
   local dest=${selected/#\~/$HOME}
   if [[ ! -d $dest ]]; then
     # キャッシュが古い（移動・削除済み）
-    print -u2 "見つかりません: $dest（ghq-cache-refresh を実行してください）"
+    print -u2 "見つかりません: ${dest/#$HOME/~}（ghq-cache-refresh を実行してください）"
     return 1
   fi
+  print -r -- "$dest"
+}
+
+# ウィンドウへのジャンプは 700_tmux_jump.zsh の fzf-jump-window（Ctrl-]）に集約した。
+# このファイルは候補の供給元（__ghq_list_cached）と clone（repo-get）を担当する。
+
+# 移動せずに cd だけしたいとき用（キーバインドは無し）
+fzf-ghq-cd() {
+  emulate -L zsh
+  local dest
+  dest=$(__ghq_select 'Enter: cd / Ctrl-C: キャンセル') || return 0
   cd -- "$dest"
 }
 
@@ -147,12 +160,5 @@ repo-get() {
   cd -- "$dest"
 }
 
-# Ctrl-G でリポジトリ移動
-# （Ctrl-] は 700_tmux_jump.zsh、Ctrl-T/Ctrl-R は fzf、Ctrl-P は peco 履歴で使用中）
-fzf-ghq-cd-widget() {
-  fzf-ghq-cd
-  zle reset-prompt
-}
-zle -N fzf-ghq-cd-widget
-bindkey '^g' fzf-ghq-cd-widget          # emacs / insert mode
-bindkey -M vicmd '^g' fzf-ghq-cd-widget # vi コマンドモード
+# キーバインドは Ctrl-] のみ（700_tmux_jump.zsh で定義）。
+# Ctrl-G は元の list-expand に戻したので、ここでは何も割り当てない。
