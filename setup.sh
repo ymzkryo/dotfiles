@@ -199,7 +199,7 @@ install_packages() {
       # miseのインストール
       if ! command -v mise &>/dev/null; then
         log_info "miseをインストール中..."
-        curl https://mise.run | sh
+        curl -fsSL https://mise.run | sh
       fi
       
       log_success "Debian/Ubuntuパッケージのインストールが完了しました"
@@ -409,6 +409,32 @@ setup_symlinks() {
 }
 
 # 追加ツールのインストール
+# miseで管理しているツール(言語ランタイム等)のインストール
+# symlink配置後に実行すること(~/.config/mise/config.toml が必要なため)
+install_mise_tools() {
+  if [ "$OS" = "windows" ]; then
+    log_info "Windowsではmiseのセットアップをスキップします"
+    return
+  fi
+
+  # curl経由でインストールした直後は PATH に載っていないことがあるため補う
+  if ! command -v mise &>/dev/null && [ -x "$HOME/.local/bin/mise" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+  fi
+
+  if ! command -v mise &>/dev/null; then
+    log_warn "miseが見つからないため、ツールのインストールをスキップします"
+    return
+  fi
+
+  log_info "miseでツールをインストール中..."
+  if mise install; then
+    log_success "miseのツールインストールが完了しました"
+  else
+    log_warn "miseのツールインストールに失敗しました。後で 'mise install' を実行してください"
+  fi
+}
+
 install_additional_tools() {
   log_info "追加ツールのインストール中..."
   
@@ -474,7 +500,9 @@ export PATH="$HOME/.local/bin:$PATH"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # mise (macOS)
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
 # 基本エイリアス
 alias ll='ls -la'
@@ -500,7 +528,9 @@ eval "$(starship init zsh)"
 export PATH="$HOME/.local/bin:$PATH"
 
 # mise (Arch Linux)
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
 # 基本エイリアス
 alias ll='ls -la'
@@ -528,7 +558,9 @@ eval "$(starship init zsh)"
 export PATH="$HOME/.local/bin:$PATH"
 
 # mise (Debian/Ubuntu/WSL)
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
 # 基本エイリアス
 alias ll='ls -la'
@@ -664,6 +696,7 @@ main() {
   setup_package_manager
   install_packages
   setup_symlinks
+  install_mise_tools
   install_additional_tools
   
   # Windows固有の設定
