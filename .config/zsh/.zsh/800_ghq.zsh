@@ -1,0 +1,158 @@
+# ghq + fzf でリポジトリを横断移動
+#
+# ghq.root は ~/PROJECTS（.gitconfig で設定）。ツリーは ~/PROJECTS/<会社ラベル>/<repo>
+# のフラット構造で統一し、host セグメントは使わない（理由は後述の repo-get 参照）。
+# ghq は「一覧を作るインデックス」として使い、clone には使わない。
+# 既存の ~/PROJECTS/<org>/<repo> 形式も ghq list が拾ってくれるので移行は不要。
+# 加えて ~/dotfiles や ~/vim のようなホーム直下のリポジトリも候補に混ぜる。
+#
+# ghq list は 40〜50 リポジトリで 2 秒以上かかるため、結果をキャッシュして
+# 10 分より古ければバックグラウンドで裏更新する（体感は常に即時）。
+
+typeset -g GHQ_CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/ghq/list"
+
+# 候補一覧を作り直してキャッシュに書く
+__ghq_build_list() {
+  emulate -L zsh
+  command -v ghq >/dev/null 2>&1 || return 1
+
+  local dir=${GHQ_CACHE_FILE:h}
+  [[ -d $dir ]] || mkdir -p -- "$dir" || return 1
+
+  local tmp="${GHQ_CACHE_FILE}.$$"
+  {
+    ghq list -p
+    print -l -- $HOME/*/.git(N:h)   # ホーム直下のリポジトリ（dotfiles, vim, ...）
+  } | awk 'NF && !seen[$0]++' > "$tmp" && command mv -f "$tmp" "$GHQ_CACHE_FILE"
+}
+
+# キャッシュを標準出力へ。無ければ同期生成、古ければ裏で更新。
+__ghq_list_cached() {
+  emulate -L zsh
+  if [[ ! -s $GHQ_CACHE_FILE ]]; then
+    __ghq_build_list || return 1
+  else
+    local -a fresh=( ${GHQ_CACHE_FILE}(Nms-10) )   # 10 分以内に更新済みか
+    (( $#fresh )) || ( __ghq_build_list &> /dev/null & )
+  fi
+  command cat -- "$GHQ_CACHE_FILE"
+}
+
+# 手動でキャッシュを作り直す（ghq get 直後など）
+ghq-cache-refresh() {
+  __ghq_build_list && print "ghq キャッシュを更新しました: $(wc -l < $GHQ_CACHE_FILE | tr -d ' ') 件"
+}
+
+fzf-ghq-cd() {
+  emulate -L zsh
+
+  if ! command -v fzf >/dev/null 2>&1; then
+    print -u2 "fzf が見つかりません: brew install fzf"
+    return 1
+  fi
+  if ! command -v ghq >/dev/null 2>&1; then
+    print -u2 "ghq が見つかりません: brew install ghq"
+    return 1
+  fi
+
+  local selected
+  selected=$(
+    __ghq_list_cached \
+    | sed "s|^$HOME|~|" \
+    | fzf --height=60% --layout=reverse --border \
+          --prompt='repo> ' \
+          --header='Enter: cd / Ctrl-C: キャンセル' \
+          --preview="git -C \$(printf %s {} | sed 's|^~|$HOME|') log --oneline --decorate -15 2>/dev/null || ls -la \$(printf %s {} | sed 's|^~|$HOME|')" \
+          --preview-window='right:55%'
+  ) || return 0
+  [[ -n $selected ]] || return 0
+
+  local dest=${selected/#\~/$HOME}
+  if [[ ! -d $dest ]]; then
+    # キャッシュが古い（移動・削除済み）
+    print -u2 "見つかりません: $dest（ghq-cache-refresh を実行してください）"
+    return 1
+  fi
+  cd -- "$dest"
+}
+
+# ---------------------------------------------------------------------------
+# 新規取得は ghq get ではなく repo-get を使う
+#
+# ghq get は必ず <root>/<host>/<owner>/<repo> に置く（host を外すオプションは無い）。
+# だがここのツリーは ~/PROJECTS/<会社ラベル>/<repo> であり、会社ラベルは GitHub の
+# owner 名と一致しない（sumasuma-app → info-box, KDDIsmartdrone-dev → ksd など）。
+# URL からは決して導けない情報なので、対応表を持って clone 先を決める。
+
+# GitHub の owner → ~/PROJECTS 配下のディレクトリ名
+typeset -gA REPO_GROUP=(
+  [apple-world]=appleworld
+  [Yamazaki-R-apw]=appleworld
+  [sumasuma-app]=info-box
+  [KDDIsmartdrone-dev]=ksd
+  [mirailabs-co-jp]=mirailabs
+  [SoftRoid-Inc]=softroid
+  [outarc-inc]=outarc
+  [GLIIIM]=gliiim
+  [Azure-Samples]=galirage
+  [galirage]=galirage
+  [ymzkryo]=snail
+  [katatsumuri-work]=katatsumuri-work
+)
+
+# ディレクトリ名 → clone に使う SSH ホスト（~/.ssh/config のアカウント別エイリアス）
+typeset -gA REPO_SSH_HOST=(
+  [appleworld]=github.com.appleworld
+  [info-box]=github.com.infobox
+  [mirailabs]=github.com.mirailabs
+)
+
+# repo-get <owner>/<repo> [配置先ディレクトリ名]
+#   例) repo-get apple-world/apple-core   → ~/PROJECTS/appleworld/apple-core
+#       repo-get ymzkryo/foo dmm          → ~/PROJECTS/dmm/foo
+repo-get() {
+  emulate -L zsh
+
+  local spec=$1
+  if [[ -z $spec ]]; then
+    print -u2 "usage: repo-get <owner>/<repo> [group]"
+    return 1
+  fi
+
+  # URL / host 付き / owner/repo のいずれも受け付けて owner と repo に分解する
+  local trimmed=${spec%.git}
+  trimmed=${trimmed##*(git@|https://|http://|ssh://git@)}
+  trimmed=${trimmed/:/\/}
+  local -a parts=( ${(s:/:)trimmed} )
+  if (( $#parts < 2 )); then
+    print -u2 "owner/repo の形で指定してください: $spec"
+    return 1
+  fi
+  local repo=${parts[-1]} owner=${parts[-2]}
+
+  local group=${2:-${REPO_GROUP[$owner]:-$owner}}
+  local host=${REPO_SSH_HOST[$group]:-github.com}
+  local dest="$HOME/PROJECTS/$group/$repo"
+
+  if [[ -d $dest ]]; then
+    print "既にあります: ${dest/#$HOME/~}"
+    cd -- "$dest"
+    return 0
+  fi
+
+  print "clone: git@${host}:${owner}/${repo}.git → ${dest/#$HOME/~}"
+  command git clone "git@${host}:${owner}/${repo}.git" "$dest" || return $?
+
+  __ghq_build_list
+  cd -- "$dest"
+}
+
+# Ctrl-G でリポジトリ移動
+# （Ctrl-] は 700_tmux_jump.zsh、Ctrl-T/Ctrl-R は fzf、Ctrl-P は peco 履歴で使用中）
+fzf-ghq-cd-widget() {
+  fzf-ghq-cd
+  zle reset-prompt
+}
+zle -N fzf-ghq-cd-widget
+bindkey '^g' fzf-ghq-cd-widget          # emacs / insert mode
+bindkey -M vicmd '^g' fzf-ghq-cd-widget # vi コマンドモード

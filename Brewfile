@@ -40,6 +40,8 @@ brew "gcc"
 brew "gd"
 # GitHub command-line tool
 brew "gh"
+# Remote repository management made easy
+brew "ghq"
 # Asynchronous event library
 brew "libevent"
 # Fast linters runner for Go
