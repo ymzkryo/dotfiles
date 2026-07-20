@@ -26,8 +26,10 @@ PHP_WITHOUT_PEAR = "yes"
 PHP_CONFIGURE_OPTIONS = "--with-openssl --with-sodium=/opt/homebrew/opt/libsodium --with-gmp=/opt/homebrew/opt/gmp --with-gettext=/opt/homebrew/opt/gettext --with-readline=/opt/homebrew/opt/readline --with-iconv=/opt/homebrew/opt/libiconv"
 
 [tools]
+# rust は rustup(~/.rustup, ~/.cargo)で管理する。mise の core:rust は rustup が居ると
+# ~/.cargo/bin へのシンボリックリンクを張るだけでバージョンを固定できないため、ここには置かない。
+# ツールチェーンの切り替えは `rustup default <version>` を使う
 go        = "1.24.3"
-rust      = "1.93.1"
 node      = "23.10.0"
 python    = "3.12.0"
 java      = "temurin-17.0.6+10"
@@ -35,3 +37,9 @@ terraform = "1.14.6"
 gcloud    = "558.0.0"
 # awscli 2.31.15 は aqua レジストリの保持範囲外だったため最新にピン留め（v2 は後方互換高）
 awscli    = "2.35.15"
+# 以下は asdf から移行（asdf 側のバージョンをそのまま引き継ぎ）
+poetry    = "2.1.3"
+pnpm      = "11.15.0"
+# hugo は既定の aqua:gohugoio/hugo が標準ビルドしか持たず、SCSS のトランスパイルに
+# 必要な extended ビルドを取得できないため、asdf バックエンドを明示する
+"asdf:NeoHsu/asdf-hugo" = "extended-0.161.1"

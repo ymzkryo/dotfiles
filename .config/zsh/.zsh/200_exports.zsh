@@ -17,8 +17,8 @@ export PATH="/opt/homebrew/opt/libiconv/bin:$PATH"
 export GOPATH="$HOME/go"
 export PATH="$PATH:$(go env GOPATH)/bin"
 
-# Rust at asdf
-export PATH="$PATH:$(asdf where rust)/bin"
+# Rust（ツールチェーンは mise が PATH に通すため、ここでは cargo install したバイナリのみ）
+export PATH="$PATH:$HOME/.cargo/bin"
 
 # himalaya path
 export PATH="$HOME/himalaya/target/release:$PATH"
