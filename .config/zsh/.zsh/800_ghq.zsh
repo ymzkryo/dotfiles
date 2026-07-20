@@ -11,6 +11,11 @@
 
 typeset -g GHQ_CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/ghq/list"
 
+# git 管理ではない作業ディレクトリを候補に入れるときの除外設定。
+# （~/PROJECTS/outarc/nss_rag のように .git が無いが日常的に開くものがあるため）
+typeset -ga GHQ_DIR_EXCLUDE_GROUP=( _data )                 # このラベル配下は丸ごと除外
+typeset -ga GHQ_DIR_EXCLUDE_NAME=( node_modules _data tmp temp )
+
 # 候補一覧を作り直してキャッシュに書く
 __ghq_build_list() {
   emulate -L zsh
@@ -23,7 +28,23 @@ __ghq_build_list() {
   {
     ghq list -p
     print -l -- $HOME/*/.git(N:h)   # ホーム直下のリポジトリ（dotfiles, vim, ...）
+    __projects_plain_dirs           # git 管理ではない作業ディレクトリ
   } | awk 'NF && !seen[$0]++' > "$tmp" && command mv -f "$tmp" "$GHQ_CACHE_FILE"
+}
+
+# ~/PROJECTS/<ラベル>/<ディレクトリ> のうち git 管理でないものを列挙する。
+# ドットディレクトリ（.claude など）は zsh のグロブが最初から拾わない。
+__projects_plain_dirs() {
+  emulate -L zsh
+  local d group
+  for d in $HOME/PROJECTS/*/*(N/); do
+    [[ -e $d/.git ]] && continue                       # git リポジトリは ghq list 側で出る
+    group=${${d:h}:t}
+    (( ${GHQ_DIR_EXCLUDE_GROUP[(I)$group]} )) && continue
+    (( ${GHQ_DIR_EXCLUDE_NAME[(I)${d:t}]} )) && continue
+    [[ -e ${d:h}/.git ]] && continue                   # 親自体がリポジトリ = ただの下位ディレクトリ
+    print -r -- "$d"
+  done
 }
 
 # キャッシュを標準出力へ。無ければ同期生成、古ければ裏で更新。
