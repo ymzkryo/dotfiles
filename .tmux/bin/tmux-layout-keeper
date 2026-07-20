@@ -1,0 +1,51 @@
+#!/bin/sh
+# tmux-layout-keeper
+#
+# モニタ切り替え（端末のセル数変化）でペインの分割比率が崩れるのを防ぐ。
+#
+# 仕組み:
+#   save    … ユーザーが意図的に分割/リサイズしたときの「良い比率」の
+#             レイアウト文字列(#{window_layout})をウィンドウ変数 @keep_layout に保存する。
+#   restore … client-resized 等のタイミングで保存済みレイアウトを select-layout で再適用する。
+#             select-layout は現在のウィンドウサイズに合わせて比率を保ったまま
+#             スケールし直すので、tmux のロスありクランプを経由せず比率が復元される。
+#
+# 使い方:
+#   tmux-layout-keeper save      # カレントウィンドウの比率を保存
+#   tmux-layout-keeper restore   # 保存済みの全ウィンドウの比率を復元
+#
+# 通常は .tmux.conf の set-hook から自動で呼ばれる。
+
+set -eu
+
+OPT="@keep_layout"
+
+save() {
+	# フックから呼ばれると対象ウィンドウは #{hook_window} / カレント。
+	# 1ペインだけなら比率という概念が無いので保存しない。
+	panes=$(tmux display-message -p '#{window_panes}')
+	[ "$panes" -ge 2 ] || return 0
+
+	layout=$(tmux display-message -p '#{window_layout}')
+	tmux set-option -w "$OPT" "$layout"
+}
+
+restore() {
+	# @keep_layout を持つ全ウィンドウを対象に復元する
+	# （非アクティブなウィンドウもリサイズで崩れるため）。
+	tmux list-windows -a -F '#{window_id} #{@keep_layout}' | while IFS=' ' read -r wid layout; do
+		[ -n "$layout" ] || continue
+		# ペイン構成が変わっていると select-layout は失敗する。
+		# その場合は無視して次回 save まで待つ（害はない）。
+		tmux select-layout -t "$wid" "$layout" 2>/dev/null || true
+	done
+}
+
+case "${1:-}" in
+	save)    save ;;
+	restore) restore ;;
+	*)
+		echo "usage: tmux-layout-keeper {save|restore}" >&2
+		exit 2
+		;;
+esac
