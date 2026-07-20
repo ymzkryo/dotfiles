@@ -38,9 +38,12 @@ rust だけは例外で [rustup](https://rustup.rs/) が管理する。mise の 
 バージョンを固定したい CLI は mise 側に置く（役割分担は Brewfile の冒頭コメントを参照）。
 
 ```bash
-brew bundle                  # Brewfile に従って導入
-brew bundle dump --force     # 実態と乖離したら再生成
+brew bundle                                          # Brewfile に従って導入
+brew bundle dump --force --formula --cask --tap      # 実態と乖離したら再生成
 ```
+
+再生成時は種別を絞ること。フラグを付けないと go / cargo / uv / npm のグローバル
+パッケージまで書き出され、ローカルの絶対パスを含む行が混ざる。
 
 ## Terminal
 [wezterm](https://wezfurlong.org/wezterm/index.html)

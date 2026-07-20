@@ -3,9 +3,12 @@
 # 役割分担:
 #   - 言語ランタイム・バージョンを固定したい CLI は mise で管理する
 #     (~/.config/mise/config.toml を参照。node / python / go / terraform / awscli / gcloud など)
+#     npm / cargo / go のグローバルパッケージも mise の該当バックエンドに置く
 #   - GUI アプリと、バージョン固定が不要なシステム寄りのツールは Brewfile で管理する
 #
-# 実態と乖離したら `brew bundle dump --force` で再生成する
+# 実態と乖離したら以下で再生成する。種別を絞らないと go / cargo / uv / npm の
+# エントリまで混ざり、ローカル絶対パスを含む行が出てしまうので必ずフラグを付ける
+#   brew bundle dump --force --formula --cask --tap
 
 tap "asmvik/formulae", "https://github.com/asmvik/homebrew-formulae.git"
 tap "bufbuild/buf"
@@ -116,6 +119,7 @@ cask "docker-desktop"
 cask "dropbox"
 cask "font-fira-code-nerd-font"
 # Set of tools to manage resources and applications hosted on Google Cloud
+cask "gcloud-cli"
 # Web browser
 cask "google-chrome"
 # Desktop automation application
@@ -141,13 +145,3 @@ cask "todoist-app"
 cask "wezterm"
 # Video communication and virtual meeting platform
 cask "zoom"
-go "cmd/go"
-go "cmd/gofmt"
-cargo "snail"
-uv "sync-calendar", source: "file:///Users/ymzkryo/PROJECTS/snail/sync-calendar"
-npm "@anthropic-ai/claude-code"
-npm "@github/copilot"
-npm "@google/gemini-cli"
-npm "@openai/codex"
-npm "corepack"
-npm "yarn"
