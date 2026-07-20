@@ -26,8 +26,10 @@ PHP_WITHOUT_PEAR = "yes"
 PHP_CONFIGURE_OPTIONS = "--with-openssl --with-sodium=/opt/homebrew/opt/libsodium --with-gmp=/opt/homebrew/opt/gmp --with-gettext=/opt/homebrew/opt/gettext --with-readline=/opt/homebrew/opt/readline --with-iconv=/opt/homebrew/opt/libiconv"
 
 [tools]
+# rust は rustup(~/.rustup, ~/.cargo)で管理する。mise の core:rust は rustup が居ると
+# ~/.cargo/bin へのシンボリックリンクを張るだけでバージョンを固定できないため、ここには置かない。
+# ツールチェーンの切り替えは `rustup default <version>` を使う
 go        = "1.24.3"
-rust      = "1.93.1"
 node      = "23.10.0"
 python    = "3.12.0"
 java      = "temurin-17.0.6+10"
