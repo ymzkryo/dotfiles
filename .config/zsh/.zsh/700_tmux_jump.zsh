@@ -161,7 +161,7 @@ fzf-jump-window() {
 }
 
 # パスから会社・プロジェクトのラベルを取る。~/PROJECTS 配下の第1階層。
-#   ~/PROJECTS/outarc/nss_rag  → outarc
+#   ~/PROJECTS/<label>/<repo>  → <label>
 #   ~/PROJECTS/lukas           → lukas（PROJECTS 直下のプロジェクトはそれ自体がラベル）
 #   ~/dotfiles                 → 非 0 で返す（ラベル無し）
 __projects_label() {

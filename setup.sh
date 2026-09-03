@@ -406,6 +406,38 @@ setup_symlinks() {
   # テンプレートディレクトリ
   mkdir -p "$TARGET_DIR/.local/share"
   create_symlink "$DOTFILES_DIR/template" "$TARGET_DIR/.local/share/template"
+
+  setup_private_symlinks
+}
+
+# private サブモジュール内の設定を dotfiles ツリーの所定の位置にリンクする
+#
+# 会社名やメールアドレスを含む設定は private リポジトリで管理し、公開リポジトリ側には
+# ロジックだけを置く。リンク先は .gitignore 済みなので、実体が入っても追跡されない。
+# private を clone していない場合は警告だけ出して続行する（設定側で存在チェック済み）。
+setup_private_symlinks() {
+  local private_dir="$DOTFILES_DIR/private/.config"
+
+  if [ ! -d "$private_dir" ]; then
+    log_warn "private サブモジュールが未取得のため、会社別設定はスキップします"
+    log_info "取得するには: git submodule update --init private"
+    return
+  fi
+
+  log_info "private の設定をリンク中..."
+
+  # zsh: ~/.zsh/*.zsh のソート順で、利用側(815/820/800)より先に読ませる
+  create_symlink "$private_dir/zsh/.zsh/050_work_profiles.zsh" \
+    "$DOTFILES_DIR/.config/zsh/.zsh/050_work_profiles.zsh"
+
+  # hammerspoon: modules/_config.lua が require("modules.private") で読む
+  create_symlink "$private_dir/hammerspoon/private.lua" \
+    "$DOTFILES_DIR/.config/hammerspoon/modules/private.lua"
+
+  # neomutt: muttrc が private/accounts.rc を読む。配下を丸ごとリンクする
+  create_symlink "$private_dir/neomutt" "$DOTFILES_DIR/.config/neomutt/private"
+
+  log_success "private の設定をリンクしました"
 }
 
 # 追加ツールのインストール

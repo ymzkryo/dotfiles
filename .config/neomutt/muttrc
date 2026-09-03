@@ -51,11 +51,7 @@ set message_cachedir = "~/.mutt/cache/bodies" # IMAP経由で受信したメッ�
 # アカウント別設定
 ##############################################################
 
-# read ymzk.yamachan
-source ~/.config/neomutt/ymzk-yamachan.rc
-folder-hook ymzk-yamachan/ 'source ~/.config/neomutt/ymzk-yamachan.rc'
-
-# read katatsumuri
-source ~/.config/neomutt/katatsumuri.rc
-folder-hook $folder 'source ~/.config/neomutt/katatsumuri.rc'
+# メールアドレスや 1Password の項目名を含むため、アカウント定義は private リポジトリに置く。
+# バッククォートでファイルの有無を見て、無ければ /dev/null を読ませて起動を止めない。
+source `test -f ~/.config/neomutt/private/accounts.rc && echo ~/.config/neomutt/private/accounts.rc || echo /dev/null`
 
