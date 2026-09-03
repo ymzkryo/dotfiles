@@ -66,3 +66,9 @@ Temporary Items
 
 # 個人情報を含むファイル
 /private/
+
+# private リポジトリから setup.sh が張るシンボリックリンク
+# （実体は private/.config/ 以下にあり、こちらは追跡しない）
+/.config/zsh/.zsh/050_work_profiles.zsh
+/.config/hammerspoon/modules/private.lua
+/.config/neomutt/private

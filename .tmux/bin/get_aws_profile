@@ -1,21 +1,27 @@
 #!/bin/bash
 # Get AWS_PROFILE based on current pane's working directory
+#
+# 対応表は private リポジトリの 050_work_profiles.zsh が WORK_AWS_PROFILES として持つ。
+# 定義を二重に持たないよう、ここでは zsh 経由で引くだけにする。
+# private が無い場合は none を返す。
 
-# Get the current pane's working directory
 pane_current_path=$(tmux display-message -p '#{pane_current_path}')
 
-# Define directory-to-profile mappings (should match auto_aws_profile.zsh)
 case "$pane_current_path" in
-    "$HOME/PROJECTS/info-box"*)
-        echo "info-box"
-        ;;
-    "$HOME/PROJECTS/outarc/"*)
-        echo "outarc"
-        ;;
-    "$HOME/PROJECTS/ksd/"*)
-        echo "ksd"
+    "$HOME/PROJECTS/"*)
+        rest="${pane_current_path#"$HOME"/PROJECTS/}"
+        label="${rest%%/*}"
         ;;
     *)
         echo "none"
+        exit 0
         ;;
 esac
+
+profile=$(zsh -c '
+    [[ -f ~/.zsh/050_work_profiles.zsh ]] || exit
+    source ~/.zsh/050_work_profiles.zsh
+    print -r -- "${WORK_AWS_PROFILES[$1]}"
+' -- "$label" 2>/dev/null)
+
+echo "${profile:-none}"

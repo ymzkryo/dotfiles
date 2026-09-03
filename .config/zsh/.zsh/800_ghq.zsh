@@ -12,7 +12,7 @@
 typeset -g GHQ_CACHE_FILE="${XDG_CACHE_HOME:-$HOME/.cache}/ghq/list"
 
 # git 管理ではない作業ディレクトリを候補に入れるときの除外設定。
-# （~/PROJECTS/outarc/nss_rag のように .git が無いが日常的に開くものがあるため）
+# （~/PROJECTS/<ラベル>/<repo> のように .git が無いが日常的に開くものがあるため）
 typeset -ga GHQ_DIR_EXCLUDE_GROUP=( _data )                 # このラベル配下は丸ごと除外
 typeset -ga GHQ_DIR_EXCLUDE_NAME=( node_modules _data tmp temp )
 
@@ -115,31 +115,14 @@ fzf-ghq-cd() {
 #
 # ghq get は必ず <root>/<host>/<owner>/<repo> に置く（host を外すオプションは無い）。
 # だがここのツリーは ~/PROJECTS/<会社ラベル>/<repo> であり、会社ラベルは GitHub の
-# owner 名と一致しない（sumasuma-app → info-box, KDDIsmartdrone-dev → ksd など）。
-# URL からは決して導けない情報なので、対応表を持って clone 先を決める。
-
-# GitHub の owner → ~/PROJECTS 配下のディレクトリ名
-typeset -gA REPO_GROUP=(
-  [apple-world]=appleworld
-  [Yamazaki-R-apw]=appleworld
-  [sumasuma-app]=info-box
-  [KDDIsmartdrone-dev]=ksd
-  [mirailabs-co-jp]=mirailabs
-  [SoftRoid-Inc]=softroid
-  [outarc-inc]=outarc
-  [GLIIIM]=gliiim
-  [Azure-Samples]=galirage
-  [galirage]=galirage
-  [ymzkryo]=snail
-  [katatsumuri-work]=katatsumuri-work
-)
-
-# ディレクトリ名 → clone に使う SSH ホスト（~/.ssh/config のアカウント別エイリアス）
-typeset -gA REPO_SSH_HOST=(
-  [appleworld]=github.com.appleworld
-  [info-box]=github.com.infobox
-  [mirailabs]=github.com.mirailabs
-)
+# owner 名と一致しない。URL からは決して導けない情報なので、対応表を持って clone 先を決める。
+#
+# 対応表そのものは会社名を含むため private リポジトリの 050_work_profiles.zsh に置く。
+#   WORK_REPO_GROUP     : GitHub の owner → ~/PROJECTS 配下のディレクトリ名
+#   WORK_REPO_SSH_HOST  : ディレクトリ名 → clone に使う SSH ホスト
+# private を持たないマシンでは空になり、owner 名がそのままディレクトリ名になる。
+typeset -gA REPO_GROUP=( ${(kv)WORK_REPO_GROUP} )
+typeset -gA REPO_SSH_HOST=( ${(kv)WORK_REPO_SSH_HOST} )
 
 # repo-get <owner>/<repo> [配置先ディレクトリ名]
 #   例) repo-get apple-world/apple-core   → ~/PROJECTS/appleworld/apple-core
