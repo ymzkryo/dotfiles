@@ -58,9 +58,6 @@ brew bundle dump --force --formula --cask --tap      # 実態と乖離したら�
 ## starship
 [starship](https://starship.rs)
 
-## Todist
-[chaosteil/doist](https://github.com/chaosteil/doist)
-
 ## toggl
 [watercooler-labs/toggl-cli](https://github.com/watercooler-labs/toggl-cli)
 
