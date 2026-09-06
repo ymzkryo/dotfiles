@@ -96,6 +96,8 @@ brew "poppler"
 brew "pre-commit"
 # Generate C-based recognizers from regular expressions
 brew "re2c"
+# Static analysis and lint tool, for (ba)sh scripts
+brew "shellcheck"
 # Cross-shell prompt for astronauts
 brew "starship"
 # Display directories as trees (with optional color/HTML output)
@@ -109,6 +111,8 @@ cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
 cask "aerospace"
+# Terminal interface for Antigravity agents (scripts/ja のバックエンド)
+cask "antigravity-cli"
 # Virtual Audio Driver
 cask "blackhole-2ch"
 # Open links in any browser

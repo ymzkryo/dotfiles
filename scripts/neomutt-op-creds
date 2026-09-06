@@ -1,0 +1,38 @@
+#!/bin/sh
+# neomutt-op-creds <1password-item> [vault]
+#
+# 1Password から imap-password / smtp-password を「1回の op 呼び出しで」取得し、
+# neomutt の set 文として標準出力に吐く。
+#
+# neomutt 側からはコマンド出力を設定として読み込む形で使う:
+#   source "$HOME/dotfiles/scripts/neomutt-op-creds 'item-name' 'vault-name'|"
+#
+# op item get は 1 回あたり 2 秒前後かかるため、フィールドごとに
+# 呼ぶと倍のコストになる。ここで 1 回にまとめている。
+#
+# 値は neomutt の文字列リテラルとして安全になるよう \ と " をエスケープする。
+
+set -eu
+
+if [ $# -lt 1 ]; then
+  echo "usage: neomutt-op-creds <1password-item> [vault]" >&2
+  exit 64
+fi
+
+item=$1
+vault=${2:-}
+
+fields='label=imap-password,label=smtp-password'
+
+if [ -n "$vault" ]; then
+  json=$(op item get "$item" --vault "$vault" --fields "$fields" --reveal --format json)
+else
+  json=$(op item get "$item" --fields "$fields" --reveal --format json)
+fi
+
+printf '%s' "$json" | jq -r '
+  def esc: tostring | gsub("\\\\"; "\\\\") | gsub("\""; "\\\"");
+  (map({(.label): .value}) | add) as $f
+  | "set imap_pass = \"" + ($f["imap-password"] | esc) + "\"",
+    "set smtp_pass = \"" + ($f["smtp-password"] | esc) + "\""
+'

@@ -1,0 +1,44 @@
+##############################################################
+# ja 連携 - 開いているメールを日本語に翻訳して読む
+##############################################################
+# Esc j でデコード済みの本文を ja へ流し、less -R で読む。q で neomutt に戻る。
+# index / pager の両方で使える。
+#
+# T にしなかった理由:
+#   index では <tag-pattern>、pager では <toggle-quoted> が既定で T を使っており、
+#   さらに vim-keys.rc が「T = パターンで選択」を前提にコメントしている。
+#   Esc j なら既定でも vim-keys.rc でも未使用で、既存の Esc 系退避キー
+#   (\eg \eG \eD \eU \eN) と並びが揃う。
+
+# pipe-message にデコード済みの本文を渡す。
+# no のままだと生の MIME(base64 や quoted-printable)がそのまま流れてしまう。
+set pipe_decode = yes
+
+# ヘッダを ignore の設定に従って間引く。
+# 現状 ignore を書いていないので全ヘッダが渡る(Subject も翻訳対象になる)。
+set pipe_decode_weed = yes
+
+# neomutt 20250905 で実測した「パイプに何が渡るか」:
+#
+#   multipart/mixed(multipart/alternative + 添付ファイル)
+#     -> ヘッダ + デコード済みの text/plain のみ。
+#        HTML 版の alternative も添付ファイルの中身も渡らない。
+#        quoted-printable はデコード済み、UTF-8 も壊れない。
+#
+#   text/html のみのメール
+#     -> 本文が空になり、ヘッダだけが渡る。
+#        muttrc で mailcap / `auto_view text/html` を設定していないため。
+#        HTML メールも訳したいなら w3m 等を入れて mailcap を書く必要があるが、
+#        それはメール閲覧全体の挙動を変えるので、ここでは設定しない。
+#
+# wait_key は既定(yes)のまま。ja が失敗したときのエラーメッセージを読めるよう、
+# less を抜けたあとにキー入力待ちで止まってくれるほうが都合が良い。
+#
+# index で複数メールをタグ付けしている場合、auto_tag = yes なので
+# <pipe-message> はタグ付けした全メールをまとめて 1 回の ja に流す
+# (pipe_split が既定の no のため)。
+#
+# 【注意】本文はクラウドへ送信される。社外送信禁止のメールには使わないこと。
+#         詳細は dotfiles の README を参照。
+
+macro index,pager \ej "<pipe-message>ja | less -R<enter>" "本文を日本語に翻訳して読む"
