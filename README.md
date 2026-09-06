@@ -192,6 +192,78 @@ undo 履歴も変わらない。結果は使い捨てバッファに出る(`q` �
 
 翻訳中は Vim が固まる(`system()` の同期実行)。man ページ規模だと数十秒かかる。
 
+### NeoMutt からメールを memo へクリップ
+
+`Esc m` で、開いている(またはカーソル位置の)メールを memo の INBOX へ Markdown で保存します。
+`Esc M` なら `ja` で日本語へ翻訳してから保存します。`newsboat-webclip` の NeoMutt 版という位置づけです。
+
+```
+~/memo/00000_INBOX/YYYY-MM-DD-mail-<件名のスラッグ>.md
+```
+
+`pipe_decode` に乗るので、渡ってくる時点で RFC2047 のエンコードヘッダ(`=?UTF-8?B?...?=`)は
+デコード済み、ISO-2022-JP などの本文も UTF-8 へ変換済みです。
+
+ファイル名は CLAUDE.md の命名規則に従い、全角記号とエスケープが要る記号を使いません。
+かな・漢字はそのまま残します。
+
+```
+【重要】9/10 の打ち合わせ資料について (Re: Q3)
+  -> 2026-09-06-mail-重要-9-10-の打ち合わせ資料について-Re-Q3.md
+```
+
+日付は「クリップした日」で、`newsboat-webclip` や `memo-todo` と揃えています。
+元メールの `Date` はファイルの中に残ります。同名があれば連番を振り、上書きしません。
+長い件名は 50 文字で切ります。
+
+#### frontmatter
+
+**memo リポジトリの GitHub Actions は、INBOX に置かれたファイルへ frontmatter を後付けしません。**
+`build_frontmatter` を持つのは自分でファイルを生成するスクリプト(`daily_actions.py` など)だけで、
+`organize_files.py` は読んで振り分けるだけ、`validate_vault.py` は検査するだけです。
+そのため `neomutt-memo-clip` 側で memo の規約どおりの frontmatter を出しています。
+
+```yaml
+---
+title: "【重要】9/10 の打ち合わせ資料について (Re: Q3)"
+date: 2026-09-06
+status:
+review_date:
+due_date:
+estimate:
+project: ""
+tags: [type/mail]
+context:
+---
+```
+
+キーの並びは memo 側の `daily_actions.build_frontmatter` に合わせています。
+`title` はダブルクォートで囲みます(件名は `Re:` のようにコロンを含むのが普通なため)。
+
+`type/mail` は memo 側の `config.toml` の `[tags].types` に追加してあります。
+別の扱いにしたいときは `MEMO_CLIP_TAGS` で差し替えます。
+
+```sh
+MEMO_CLIP_TAGS='type/meeting' neomutt-memo-clip < mail
+```
+
+`clippings` は付けていません。memo の `tag_rules`(`clippings` → `00400_webクリップ`)は、
+`lib/parse_frontmatter` がインライン記法 `tags: [a, b]` を**文字列**として返すため空振りします
+(リストで返るブロック記法のときしか一致しない)。付けても移動しないうえ、メールは
+web クリップではないので意味も合いません。
+
+そのため、クリップしたメールは **INBOX に残ります**。`organize_files.py` の
+`destinations` はファイル名の型(`YYYY-MM-DD-<型>.md` の `<型>`)で引きますが、
+こちらの型は `mail-<件名のスラッグ>` と 1 通ごとに違うので一致しません。
+振り分けは手動か、`project:` を書いて `organize_by_project` に載せる形になります。
+
+保存先は `MEMO_INBOX` で変更できます。設定は
+[.config/neomutt/memo.rc](.config/neomutt/memo.rc) と
+[scripts/neomutt-memo-clip](scripts/neomutt-memo-clip)。
+
+index で複数メールをタグ付けしている場合、`auto_tag = yes` なので全件がまとめて
+1 つのファイルになります。
+
 ### ja / jman のセキュリティとプライバシー
 
 - **`ja` へ渡した内容はクラウド(Gemini)へ送信される。** メール本文、ソースコード、
@@ -210,8 +282,9 @@ undo 履歴も変わらない。結果は使い捨てバッファに出る(`q` �
 ### テスト
 
 ```bash
-./tests/ja_test.sh          # 実ネットワークへは接続しない
-shellcheck scripts/ja tests/ja_test.sh
+./tests/ja_test.sh                  # 実ネットワークへは接続しない
+./tests/neomutt_memo_clip_test.sh   # 実の memo ディレクトリにも触らない
+shellcheck scripts/ja scripts/neomutt-memo-clip tests/*.sh
 ```
 
 `PATH` の先頭に fake なバックエンドを差し込み、`JA_CLI` で `ja` に掴ませて、

@@ -1,0 +1,30 @@
+##############################################################
+# memo 連携 - 開いているメールを memo の INBOX へクリップする
+##############################################################
+# Esc m  そのまま保存
+# Esc M  ja で日本語に翻訳してから保存(本文はクラウドへ送信される)
+#
+# index / pager の両方で使える。保存先とファイル名は
+# scripts/neomutt-memo-clip を参照。
+#
+#   ~/memo/00000_INBOX/YYYY-MM-DD-mail-<件名のスラッグ>.md
+#
+# newsboat-webclip の neomutt 版という位置づけ。あとで memo_mv.sh などで
+# 00600_面談資料 や 00700_メモ へ振り分ける流れに乗せる想定。
+#
+# キーの選定:
+#   Esc m / Esc M は neomutt の既定でも vim-keys.rc でも未使用。
+#   既存の Esc 系(\eg \eG \eD \eU \eN)や ja.rc の \ej と並びが揃う。
+#
+# 本文のデコードは ja.rc が設定している pipe_decode / pipe_decode_weed に
+# 乗る。そのため渡ってくる時点でヘッダは RFC2047 デコード済み、本文は
+# UTF-8 へ変換済みで、HTML の alternative と添付は除外されている。
+#
+# wait_key は既定(yes)のまま。保存先のパスを読めるように、
+# パイプの後にキー入力待ちで止まってくれるほうが都合が良い。
+#
+# index で複数メールをタグ付けしている場合、auto_tag = yes なので
+# 全件がまとめて 1 つのファイルになる点に注意(pipe_split が既定の no のため)。
+
+macro index,pager \em "<pipe-message>neomutt-memo-clip<enter>"             "メールを memo へクリップ"
+macro index,pager \eM "<pipe-message>neomutt-memo-clip --translate<enter>" "メールを翻訳して memo へクリップ"

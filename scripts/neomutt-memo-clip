@@ -1,0 +1,223 @@
+#!/bin/sh
+# neomutt-memo-clip - 開いているメールを memo の INBOX へ Markdown で保存する
+#
+# neomutt から <pipe-message> で呼ぶ。標準入力にはヘッダ + 本文が渡る。
+#
+#   macro index,pager \em "<pipe-message>neomutt-memo-clip<enter>" "..."
+#
+# muttrc 側で pipe_decode = yes にしてあるため、渡ってくる時点で
+#   - RFC2047 のエンコードヘッダ(=?UTF-8?B?...?=)はデコード済み
+#   - ISO-2022-JP などの本文も UTF-8 へ変換済み
+#   - base64 / quoted-printable もデコード済み
+#   - HTML の alternative と添付ファイルは除外済み
+# となる(neomutt 20250905 で実測)。
+#
+# 保存先: ~/memo/00000_INBOX/YYYY-MM-DD-mail-<件名のスラッグ>.md
+#
+# memo リポジトリの GitHub Actions は、INBOX に置かれたファイルへ frontmatter を
+# 後付けしない(自分でファイルを生成するスクリプトが自前で書くだけ)。
+# frontmatter が無いと validate_vault.py に「キー欠落」「type/ が無い」で報告され、
+# organize_files.py もタグを見つけられず INBOX に残り続ける。
+# そのためここで memo の規約どおりの frontmatter を出す。
+# キーの並びは memo 側の daily_actions.build_frontmatter に合わせている。
+#
+# tags は既定で `type/mail`。memo の config.toml の [tags].types に mail を
+# 追加してあるので validate_vault.py を通る。
+#
+# clippings は付けない。memo の tag_rules(clippings -> 00400_webクリップ)は、
+# lib/parse_frontmatter がインライン記法 `tags: [a, b]` を文字列として返すため
+# 空振りする(リストで返るブロック記法のときしか一致しない)。付けても移動しない
+# うえに、メールは web クリップではないので意味も合わない。
+#
+# ファイル名は CLAUDE.md の命名規則に従う。すなわち全角記号を使わず、
+# シェルやパスでエスケープが要る記号も使わない。かな・漢字はそのまま残す。
+#   【重要】9/10 の打ち合わせ資料について (Re: Q3)
+#     -> 2026-09-06-mail-重要-9-10-の打ち合わせ資料について-Re-Q3.md
+#
+# 環境変数:
+#   MEMO_INBOX      保存先ディレクトリ (既定: ~/memo/00000_INBOX)
+#   MEMO_CLIP_TAGS  frontmatter の tags (既定: type/mail)
+#   JA_CLI          --translate で使う翻訳コマンド (既定: ja)
+#
+# 【注意】--translate を付けると本文がクラウドへ送信される。
+#         詳細は README.md の「ja / jman のセキュリティとプライバシー」を参照。
+
+set -eu
+
+PROG=neomutt-memo-clip
+INBOX=${MEMO_INBOX:-$HOME/memo/00000_INBOX}
+CLIP_TAGS=${MEMO_CLIP_TAGS:-type/mail}
+TRANSLATE=no
+
+usage() {
+  cat <<'USAGE'
+使い方: <メール> | neomutt-memo-clip [--translate]
+
+neomutt の <pipe-message> から呼ぶ前提のフィルターです。
+標準入力のメールを Markdown にして memo の INBOX へ保存し、保存先を表示します。
+
+  --translate  本文を ja で日本語へ翻訳してから保存する
+
+環境変数:
+  MEMO_INBOX      保存先ディレクトリ (既定: ~/memo/00000_INBOX)
+  MEMO_CLIP_TAGS  frontmatter の tags (既定: type/mail)
+
+終了コード:
+  0    保存した
+  64   使い方が誤っている (引数不正、端末から直接起動した)
+  65   入力がメールとして読めなかった (空、ヘッダが無い)
+  70   保存に失敗した / 翻訳に失敗した
+USAGE
+}
+
+die() {
+  printf '%s: %s\n' "$PROG" "$1" >&2
+  exit "${2:-1}"
+}
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    --translate)
+      TRANSLATE=yes
+      shift
+      ;;
+    *)
+      usage >&2
+      die "知らない引数です: $1" 64
+      ;;
+  esac
+done
+
+if [ -t 0 ]; then
+  usage >&2
+  die '標準入力がパイプではなく端末です。neomutt の <pipe-message> から呼んでください。' 64
+fi
+
+input=$(cat)
+
+case $input in
+  *[![:space:]]*) ;;
+  *) die '入力が空です。' 65 ;;
+esac
+
+# ヘッダ(最初の空行まで)と本文に分ける。
+headers=$(printf '%s\n' "$input" | LC_ALL=C awk '/^[[:space:]]*$/ {exit} {print}')
+body=$(printf '%s\n' "$input" | LC_ALL=C awk 'f {print} !f && /^[[:space:]]*$/ {f=1}')
+
+if [ -z "$headers" ]; then
+  die 'ヘッダが見つかりません。メールとして読めませんでした。' 65
+fi
+
+# 折り返された(継続行が空白で始まる)ヘッダを 1 行に戻してから引く。
+unfolded=$(printf '%s\n' "$headers" | LC_ALL=C awk '
+  /^[ \t]/ { sub(/^[ \t]+/, " "); printf "%s", $0; next }
+  NR > 1   { printf "\n" }
+             { printf "%s", $0 }
+  END      { printf "\n" }
+')
+
+# 主要ヘッダが 1 つも無ければメールとして扱わない。
+# これが無いと、ただのテキストを流し込んだときに no-subject のファイルができる。
+if ! printf '%s\n' "$unfolded" | LC_ALL=C grep -qiE '^(from|subject|date|to|message-id):'; then
+  die 'From / Subject / Date のいずれも見つかりません。メールとして読めませんでした。' 65
+fi
+
+get_header() {
+  # get_header <ヘッダ名> : 最初に見つかった 1 つを返す
+  printf '%s\n' "$unfolded" | LC_ALL=C awk -v k="$1:" '
+    tolower(substr($0, 1, length(k))) == tolower(k) {
+      sub(/^[^:]*:[ \t]*/, "")
+      print
+      exit
+    }
+  '
+}
+
+subject=$(get_header Subject)
+from=$(get_header From)
+to=$(get_header To)
+cc=$(get_header Cc)
+mdate=$(get_header Date)
+msgid=$(get_header Message-ID)
+
+# 件名からファイル名用のスラッグを作る。
+# 文字(かな・漢字含む)と数字と _ - だけ残し、それ以外は - に潰す。
+# 長すぎるファイル名を避けるため 50 文字で切る。
+slug=$(printf '%s' "$subject" | perl -CSD -e '
+  my $s = do { local $/; <STDIN> };
+  $s =~ s/\R//g;
+  $s =~ s/[^\p{L}\p{N}_-]+/-/g;
+  $s =~ s/-+/-/g;
+  $s =~ s/^-+|-+$//g;
+  $s = substr($s, 0, 50);
+  $s =~ s/-+$//;
+  $s = "no-subject" if $s eq "";
+  print $s;
+')
+
+if [ "$TRANSLATE" = yes ]; then
+  ja_cli=${JA_CLI_WRAPPER:-ja}
+  if ! command -v "$ja_cli" >/dev/null 2>&1; then
+    die "翻訳コマンド '$ja_cli' が見つかりません。" 70
+  fi
+  if translated=$(printf '%s\n' "$body" | "$ja_cli"); then
+    body=$translated
+  else
+    die '翻訳に失敗したため保存しませんでした。' 70
+  fi
+fi
+
+mkdir -p "$INBOX" || die "保存先を作れません: $INBOX" 70
+
+# ファイル名の日付は「クリップした日」。newsboat-webclip や memo-todo と揃える。
+date_prefix=$(date '+%Y-%m-%d')
+base="${date_prefix}-mail-${slug}"
+path="${INBOX}/${base}.md"
+
+# 同名があれば連番を振る(上書きしない)
+n=2
+while [ -e "$path" ]; do
+  path="${INBOX}/${base}-${n}.md"
+  n=$((n + 1))
+done
+
+title=${subject:-(件名なし)}
+
+# frontmatter の title はダブルクォートで囲む。
+# メールの件名は "Re: ..." のようにコロンを含むのが普通なので、素で書くと YAML が壊れる。
+title_escaped=$(printf '%s' "$title" | LC_ALL=C sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')
+
+{
+  # memo の規約に合わせた frontmatter。キーの並びと空値の書き方(末尾に空白を
+  # 置かない)は validate_vault.py の検査に合わせている。
+  printf -- '---\n'
+  printf -- 'title: "%s"\n' "$title_escaped"
+  printf -- 'date: %s\n' "$date_prefix"
+  printf -- 'status:\n'
+  printf -- 'review_date:\n'
+  printf -- 'due_date:\n'
+  printf -- 'estimate:\n'
+  printf -- 'project: ""\n'
+  printf -- 'tags: [%s]\n' "$CLIP_TAGS"
+  printf -- 'context:\n'
+  printf -- '---\n'
+
+  printf '# %s\n\n' "$title"
+  if [ -n "$from" ];  then printf -- '- From: %s\n' "$from"; fi
+  if [ -n "$to" ];    then printf -- '- To: %s\n' "$to"; fi
+  if [ -n "$cc" ];    then printf -- '- Cc: %s\n' "$cc"; fi
+  if [ -n "$mdate" ]; then printf -- '- Date: %s\n' "$mdate"; fi
+  if [ -n "$msgid" ]; then printf -- '- Message-ID: %s\n' "$msgid"; fi
+  printf -- '- Clipped: %s\n' "$(date '+%Y-%m-%d %H:%M')"
+  if [ "$TRANSLATE" = yes ]; then
+    printf -- '- Note: 本文は ja で翻訳したものです。原文は元メールを参照してください。\n'
+  fi
+  printf '\n## 本文\n\n'
+  printf '%s\n' "$body"
+} > "$path" || die "書き込みに失敗しました: $path" 70
+
+printf '%s: 保存しました\n%s\n' "$PROG" "$path"
