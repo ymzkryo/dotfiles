@@ -1,0 +1,92 @@
+##############################################################
+# Vim ライクなキーバインド
+##############################################################
+# neomutt のデフォルトは元々そこそこ Vim 寄り（j/k/:/ / n/H）なので、
+# 足りないところだけを埋める。
+#
+# 既定のまま使えるもの:
+#   j k        次/前のメール
+#   J K        次/前のエントリ（削除済みもスキップしない）
+#   : / n H    コマンド / 検索 / 次の一致 / 画面上端
+#   Esc /      逆方向検索（Vim の ? 相当。? は help のまま残す）
+#
+# 下で潰しているデフォルト:
+#   index  g   group-reply    -> Esc g へ退避
+#   index  G   fetch-mail     -> Esc G へ退避
+#   index  ^D  delete-thread  -> Esc D へ退避
+#   index  ^U  undelete-thread-> Esc U へ退避
+#   index  V   show-version   -> 廃止（Esc V の collapse-all は残る）
+#   index  N   toggle-new     -> Esc N へ退避
+#   pager  N   mark-as-new    -> Esc N へ退避
+
+##############################################################
+# 移動
+##############################################################
+# `gg` を入れる前に `g` を空ける。空けないと neomutt が
+#   "Binding 'gg' will alias 'g'"
+# を出して bind を拒否する（ファイル全体が「読めなかった」扱いになる）。
+bind index,pager,browser,attach,alias g   noop
+bind index,pager,browser,attach,alias gg  first-entry
+bind index,pager,browser,attach,alias G   last-entry
+
+bind index,browser,attach,alias \Cd  half-down
+bind index,browser,attach,alias \Cu  half-up
+bind pager                     \Cd  half-down
+bind pager                     \Cu  half-up
+
+# 注意: tmux の prefix が C-b なので、tmux 配下では ^B がそのままでは
+# neomutt に届かない。.tmux.conf に `bind C-b send-prefix` があるので
+# C-b C-b と 2 回押せば通る。
+bind index,browser,attach,alias \Cf  next-page
+bind index,browser,attach,alias \Cb  previous-page
+bind pager                     \Cf  next-page
+bind pager                     \Cb  previous-page
+
+##############################################################
+# 検索
+##############################################################
+# n は既定で search-next。N を逆方向に合わせる。
+bind index,pager N  search-opposite
+
+##############################################################
+# 行選択（Vim のビジュアル行選択に相当）
+##############################################################
+# neomutt にビジュアルモードは無く、「タグ」で複数選択する。
+#
+#   V      選択トグル + 1 行下へ（連打で連続選択、同じ範囲をなぞれば解除）
+#   t      同上（既定のまま。V と同じ動作）
+#   ^A     全選択
+#   ^X     全解除
+#   T      パターンで選択（例: ~N で未読だけ）
+#   ^T     パターンで解除（既定のまま）
+#   Esc t  スレッド全体を選択（既定のまま）
+#          ※ muttrc が sort=reverse-date（フラット表示）なので現状は無効。
+#            sort=threads のときだけ効く。
+#
+# auto_tag = yes なので、選択がある状態で d / s / C などを押すと
+# 「;」を前置しなくても選択全部に適用される（Vim の V→d と同じ感覚）。
+# 選択が無いときは今まで通りカーソル行だけに効く。
+set auto_tag = yes
+
+# $resolve = yes（既定）のとき tag-entry は選択後に自動で 1 行下がるので、
+# next-undeleted を足すと 2 行進んでしまい 1 行飛ばしに選択される。
+bind index V tag-entry
+macro index,pager \Ca "<tag-pattern>~A<enter>"   "全選択"
+macro index,pager \Cx "<untag-pattern>~A<enter>" "選択を全解除"
+
+##############################################################
+# 潰したデフォルトの退避先
+##############################################################
+bind index,pager \eg  group-reply
+bind index       \eG  fetch-mail
+bind index,pager \eD  delete-thread
+bind index,pager \eU  undelete-thread
+bind index       \eN  toggle-new
+bind pager       \eN  mark-as-new
+
+##############################################################
+# 使えない Ctrl キー（macOS の termios が先に食う）
+##############################################################
+# ^V(リテラル入力) ^W(単語削除) ^O(出力破棄) ^Y(遅延サスペンド)
+# ^C ^S ^Q ^Z ^H ^I ^J ^M も端末/シェル側の予約。
+# 実測で neomutt まで届いたのは ^A ^X ^D ^U ^F ^B。
