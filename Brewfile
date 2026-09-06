@@ -145,8 +145,6 @@ cask "parsec"
 cask "raycast"
 # Team communication and collaboration software
 cask "slack"
-# To-do list
-cask "todoist-app"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
 # Video communication and virtual meeting platform
