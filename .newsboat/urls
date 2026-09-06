@@ -103,3 +103,17 @@ https://feeds.feedburner.com/TheHackersNews
 https://blog.trailofbits.com/feed/
 https://googleprojectzero.blogspot.com/feeds/posts/default
 https://portswigger.net/research/rss
+# --- Thailand ---
+https://www.bangkokpost.com/rss/data/most-recent.xml "~Bangkok Post"
+https://www.khaosodenglish.com/feed/
+https://www.thaienquirer.com/feed/
+https://www.blognone.com/atom.xml "~Blognone"
+# --- Cambodia ---
+https://cambodiainvestmentreview.com/feed/
+https://www.b2b-cambodia.com/feed/ "~B2B Cambodia"
+# --- Cambodia (Google News 経由: 直接の RSS が無い/403 のため) ---
+https://news.google.com/rss/search?q=site:kiripost.com+when:7d&hl=en-KH&gl=KH&ceid=KH:en "~Kiripost"
+https://news.google.com/rss/search?q=site:khmertimeskh.com+when:7d&hl=en-KH&gl=KH&ceid=KH:en "~Khmer Times"
+https://news.google.com/rss/search?q=site:phnompenhpost.com+when:7d&hl=en-KH&gl=KH&ceid=KH:en "~Phnom Penh Post"
+# --- Thailand (Google News 経由) ---
+https://news.google.com/rss/search?q=site:techsauce.co+when:7d&hl=en-TH&gl=TH&ceid=TH:en "~Techsauce"
