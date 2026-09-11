@@ -126,7 +126,7 @@ typeset -gA REPO_SSH_HOST=( ${(kv)WORK_REPO_SSH_HOST} )
 
 # repo-get <owner>/<repo> [配置先ディレクトリ名]
 #   例) repo-get apple-world/apple-core   → ~/PROJECTS/appleworld/apple-core
-#       repo-get ymzkryo/foo dmm          → ~/PROJECTS/dmm/foo
+#       repo-get ymzkryo/foo apple-world  → ~/PROJECTS/apple-world/foo
 repo-get() {
   emulate -L zsh
 
