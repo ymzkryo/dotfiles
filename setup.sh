@@ -437,6 +437,11 @@ setup_private_symlinks() {
   # neomutt: muttrc が private/accounts.rc を読む。配下を丸ごとリンクする
   create_symlink "$private_dir/neomutt" "$DOTFILES_DIR/.config/neomutt/private"
 
+  # claude: Claude Code のグローバル設定。上の3つと違いリンク先がホーム直下になるのは、
+  # ~/.claude が Claude Code 自身の状態(__store.db, cache 等)を置く実ディレクトリで、
+  # 丸ごとリンクに置き換えられないため。ファイル単位でリンクする。
+  create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.claude/CLAUDE.md"
+
   log_success "private の設定をリンクしました"
 }
 
