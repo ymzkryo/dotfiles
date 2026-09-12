@@ -25,3 +25,7 @@ export PATH="$HOME/himalaya/target/release:$PATH"
 
 # Custom scripts
 export PATH="$HOME/dotfiles/scripts:$PATH"
+
+# private リポジトリ側のスクリプト（会社・案件に紐づくものはこちらに置く）
+# clone していない環境もあるので、存在するときだけ通す
+[ -d "$HOME/dotfiles/private/scripts" ] && export PATH="$HOME/dotfiles/private/scripts:$PATH"
