@@ -442,6 +442,12 @@ setup_private_symlinks() {
   # 丸ごとリンクに置き換えられないため。ファイル単位でリンクする。
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.claude/CLAUDE.md"
 
+  # snail-cli / memo: どちらもテンプレートの置き場所を絶対パスで持つ。
+  # 未管理のまま放置すると、参照先のディレクトリを消したときに気づけない
+  # (2026-09-12 に ~/private-dotfiles を削除して snail todo new が壊れた)。
+  create_symlink "$private_dir/snail-cli/config.toml" "$TARGET_DIR/.config/snail-cli/config.toml"
+  create_symlink "$private_dir/memo/config.toml" "$TARGET_DIR/.config/memo/config.toml"
+
   log_success "private の設定をリンクしました"
 }
 
