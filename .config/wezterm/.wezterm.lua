@@ -16,6 +16,17 @@ config.keys = {
         mods = "SHIFT",
         action = wezterm.action.SendString("\n"),
     },
+    -- Cmd + Shift + 左右矢印で今のタブを並べ替え（端では止まる。回り込みはしない）
+    {
+        key = "LeftArrow",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.MoveTabRelative(-1),
+    },
+    {
+        key = "RightArrow",
+        mods = "CMD|SHIFT",
+        action = wezterm.action.MoveTabRelative(1),
+    },
 }
 
 -- URL を自動検出してハイパーリンク化
