@@ -442,6 +442,13 @@ setup_private_symlinks() {
   # 丸ごとリンクに置き換えられないため。ファイル単位でリンクする。
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.claude/CLAUDE.md"
 
+  # AGENTS.md は Codex など Claude 以外の CLI が読むグローバル指示。
+  # 内容は CLAUDE.md と同一にする方針なので、実体を分けずに同じファイルを指す。
+  # コピーで運用していたときに ~/.codex/AGENTS.md だけ古くなった事故がある
+  # (2026-09-15。CLAUDE.md に足したルールが Codex 側に効いていなかった)。
+  create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/AGENTS.md"
+  create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.codex/AGENTS.md"
+
   # snail-cli / memo: どちらもテンプレートの置き場所を絶対パスで持つ。
   # 未管理のまま放置すると、参照先のディレクトリを消したときに気づけない
   # (2026-09-12 に ~/private-dotfiles を削除して snail todo new が壊れた)。
