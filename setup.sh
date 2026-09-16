@@ -7,6 +7,7 @@ TARGET_DIR="$HOME"
 
 # デフォルト設定
 CONFIG_METHOD="individual"  # デフォルトは個別リンク
+SYMLINKS_ONLY="false"       # true ならリンクだけ張ってパッケージ処理は飛ばす
 
 # コマンドライン引数の解析
 while [[ $# -gt 0 ]]; do
@@ -22,6 +23,10 @@ while [[ $# -gt 0 ]]; do
     --config-method)
       CONFIG_METHOD="$2"
       shift 2
+      ;;
+    --symlinks-only)
+      SYMLINKS_ONLY="true"
+      shift
       ;;
     *)
       shift
@@ -741,10 +746,14 @@ show_usage() {
   --config-method=METHOD  .configディレクトリの処理方法を指定します
                           "individual": 各ファイルを個別にシンボリックリンク (デフォルト)
                           "whole": .configディレクトリ全体をシンボリックリンク
+  --symlinks-only         シンボリックリンクだけ張り、パッケージのインストールを飛ばす
+                          (brew bundle / mise install / 追加ツール)
+                          private に設定を足したときの反映はこれで足りる
 
 例:
   $0                       # デフォルト設定でセットアップ
   $0 --config-method=whole # .configディレクトリ全体をリンク
+  $0 --symlinks-only       # リンクだけ張り直す
 EOF
 }
 
@@ -752,10 +761,27 @@ EOF
 main() {
   log_info "dotfiles セットアップを開始します... (検出されたOS: $OS)"
   log_info "設定: CONFIG_METHOD=$CONFIG_METHOD"
-  
+
+  # シンボリックリンクを先に張る。
+  #
+  # **パッケージのインストールより前に置く。** リンクは冪等で一瞬で終わるのに、
+  # 後ろに置くと brew bundle の完了を待たないと設定が反映されない。
+  # set -e が効いているので、brew bundle が 1 つでも失敗すればリンクは
+  # 張られないまま終わる。
+  #
+  # 2026-09-16 に実際に踏んだ。work-report スキルのリンク 1 本を張るために
+  # setup.sh を流したところ、Chrome / gcc / openjdk / go / python3.14 の
+  # ダウンロードが始まり、リンクの処理に到達しないまま待たされた。
+  setup_symlinks
+
+  if [ "$SYMLINKS_ONLY" = "true" ]; then
+    log_success "シンボリックリンクの設定が完了しました (--symlinks-only)"
+    log_info "パッケージのインストールは飛ばしました。必要なら引数なしで実行してください。"
+    return
+  fi
+
   setup_package_manager
   install_packages
-  setup_symlinks
   install_mise_tools
   install_additional_tools
   
