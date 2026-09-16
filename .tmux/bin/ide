@@ -1,7 +1,114 @@
 #! /bin/bash
 
+# ide - カレントディレクトリ名でウィンドウをリネームし、決まったレイアウトへ分割する
+#
+#   ide            4ペイン（左を広く取り、右を上下+横に割る）
+#   ide 1          3ペイン（上 + 下を左右）
+#   ide 2          4ペイン（左右 → それぞれ上下）
+#   ide 3          2ペイン（上下）
+#   ide main       3ペイン（左 + 右を上下）
+#
+#   ide restore    ide が作った比率へ戻す
+#   ide save       今の比率を「ide の基準」として上書きする
+#
+#   restore / save は対象ウィンドウを第2引数で受け取れる。
+#   キーバインドから run-shell で呼ぶときは必ず渡すこと。run-shell の中では
+#   TMUX_PANE が設定されず、tmux が「現在のウィンドウ」を取り違えるため
+#   （別セッションの @ide_layout を読み書きしてしまう）。
+#     bind _ run-shell "~/.tmux/bin/ide restore '#{window_id}'"
+#
+# レイアウトを作ったあと、その時点の #{window_layout} を @ide_layout に保存する。
+# restore はそれを select-layout で再適用する。select-layout は現在のウィンドウ
+# サイズに合わせて比率を保ったままスケールするので、モニタを跨いでも崩れない。
+#
+# tmux-layout-keeper の @keep_layout とは役割が違うので別のキーに保存する。
+# あちらは after-resize-pane フックで「今の良い比率」を追従し続けるため、
+# LLM などがペインを広げるとその崩れた値で上書きされてしまう。
+# @ide_layout は ide / ide save でしか書かないので、荒らされても残る。
+#
+# 【制約】ウィンドウオプションなので tmux サーバーを再起動すると消える。
+#         tmux-resurrect はカスタムの @ オプションを保存しない（実測）。
+#         再起動後は ide を叩き直せば基準が再生成される。
+
+set -u
+
+LAYOUT_OPT="@ide_layout"
+PRESET_OPT="@ide_preset"
+
+# 対象ウィンドウ。第2引数 > TMUX_PANE > カレント の順で決める。
+#
+# 空配列の展開 "${T[@]}" は macOS 標準の bash 3.2 だと set -u 下で
+# "unbound variable" になるため、必ず要素を 1 つ以上持たせる。
+# target が空のときは現在のペインを指す "" を渡す（tmux は空文字をカレント扱いする）。
+target=${2:-${TMUX_PANE:-}}
+if [ -n "$target" ]; then
+    T=(-t "$target")
+else
+    T=(-t "")
+fi
+
+# メッセージは stderr と tmux の両方へ出す。
+# run-shell（キーバインド）から呼ばれると stderr は画面に出ないため、
+# display-message を使わないと失敗に気づけない。
+notify() {
+    [ -n "${TMUX:-}" ] && tmux display-message "${T[@]}" "$1"
+    return 0
+}
+
+die() {
+    echo "[ERROR] $1" >&2
+    notify "[ide] $(printf '%s' "$1" | head -1)"
+    exit 1
+}
+
+require_tmux() {
+    [ -n "${TMUX:-}" ] || die "tmux の中で実行してください。"
+}
+
+# 現在のレイアウトを基準として保存する
+save_layout() {
+    local preset=$1 layout
+    layout=$(tmux display-message "${T[@]}" -p '#{window_layout}')
+    tmux set-option -w "${T[@]}" "$LAYOUT_OPT" "$layout"
+    tmux set-option -w "${T[@]}" "$PRESET_OPT" "$preset"
+}
+
+restore_layout() {
+    local layout preset panes
+    layout=$(tmux show-options -w -v "${T[@]}" "$LAYOUT_OPT" 2>/dev/null)
+
+    if [ -z "$layout" ]; then
+        die "このウィンドウには基準がありません。ide save で今の比率を保存するか、ide <preset> で作り直してください。"
+    fi
+
+    # select-layout はペイン数が違うと "have N panes but need M" で失敗する。
+    # レイアウトは変更されないので害は無いが、理由が分かるように出す。
+    if ! tmux select-layout "${T[@]}" "$layout" 2>/dev/null; then
+        panes=$(tmux display-message "${T[@]}" -p '#{window_panes}')
+        preset=$(tmux show-options -w -v "${T[@]}" "$PRESET_OPT" 2>/dev/null)
+        die "ペイン構成が基準と違うため復元できません（現在 ${panes} ペイン）。ペインを閉じてから ide restore するか、ide ${preset:-} で作り直してください。"
+    fi
+
+    notify "[ide] 基準レイアウトへ戻しました"
+}
+
+require_tmux
+
 # get current directory name
-current_dir=$(basename $(pwd))
+current_dir=$(basename "$(pwd)")
+
+case "${1:-}" in
+    restore)
+        restore_layout
+        exit 0
+        ;;
+    save)
+        save_layout "$(tmux show-options -w -v "${T[@]}" "$PRESET_OPT" 2>/dev/null)"
+        echo "[ide] 今の比率を基準として保存しました。"
+        notify "[ide] 今の比率を基準として保存しました"
+        exit 0
+        ;;
+esac
 
 if [ "$#" -eq 0 ]; then
     tmux rename-window "$current_dir"
@@ -15,31 +122,35 @@ if [ "$#" -eq 0 ]; then
     tmux select-pane -t 3
     tmux split-window -h
     tmux select-pane -t 2
+    save_layout default
 else
   case $1 in
     1)
-      tmux rename-window  $current_dir
+      tmux rename-window "$current_dir"
       tmux split-window -v
       tmux split-window -h
       tmux resize-pane -D 15
       tmux select-pane -t 1
+      save_layout 1
       clear
       ;;
     2)
-      tmux rename-window  $current_dir
+      tmux rename-window "$current_dir"
       tmux split-window -h
       tmux split-window -v
       tmux resize-pane -D 15
       tmux select-pane -t 1
       tmux split-window -v
       tmux select-pane -t 1
+      save_layout 2
       clear
       ;;
     3)
-      tmux rename-window  $current_dir
+      tmux rename-window "$current_dir"
       tmux split-window -v
       tmux resize-pane -D 15
       tmux select-pane -D
+      save_layout 3
       clear
       ;;
     main)
@@ -48,10 +159,11 @@ else
       tmux select-pane -t 2
       tmux split-window -v
       tmux select-pane -t 1
+      save_layout main
       clear
       ;;
     *)
-      echo [ERROR] "$1" は設定されていない引数です。
+      die "\"$1\" は設定されていない引数です。ide / ide 1 / ide 2 / ide 3 / ide main / ide restore / ide save"
       ;;
   esac
 fi
