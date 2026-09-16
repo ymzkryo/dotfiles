@@ -308,10 +308,6 @@ setup_symlinks() {
     create_windows_symlink "$DOTFILES_DIR/.vimrc" "$TARGET_DIR/.vimrc"
     create_windows_symlink "$DOTFILES_DIR/.gitconfig" "$TARGET_DIR/.gitconfig"
     
-    # Windowsの場合はVim設定をNeovim用にもコピー
-    mkdir -p "$TARGET_DIR/AppData/Local/nvim"
-    create_windows_symlink "$DOTFILES_DIR/.vimrc" "$TARGET_DIR/AppData/Local/nvim/init.vim"
-    
     # テンプレートディレクトリ
     mkdir -p "$TARGET_DIR/.local/share"
     create_windows_symlink "$DOTFILES_DIR/template" "$TARGET_DIR/.local/share/template"
@@ -400,12 +396,6 @@ setup_symlinks() {
         done
       fi
     done
-  fi
-  
-  # Neovimの設定（存在する場合）
-  if command -v nvim &>/dev/null; then
-    mkdir -p "$TARGET_DIR/.config/nvim"
-    create_symlink "$DOTFILES_DIR/.vimrc" "$TARGET_DIR/.config/nvim/init.vim"
   fi
   
   # テンプレートディレクトリ
