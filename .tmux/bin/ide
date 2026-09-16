@@ -11,6 +11,12 @@
 #   ide restore    ide が作った比率へ戻す
 #   ide save       今の比率を「ide の基準」として上書きする
 #
+#   restore / save は対象ウィンドウを第2引数で受け取れる。
+#   キーバインドから run-shell で呼ぶときは必ず渡すこと。run-shell の中では
+#   TMUX_PANE が設定されず、tmux が「現在のウィンドウ」を取り違えるため
+#   （別セッションの @ide_layout を読み書きしてしまう）。
+#     bind _ run-shell "~/.tmux/bin/ide restore '#{window_id}'"
+#
 # レイアウトを作ったあと、その時点の #{window_layout} を @ide_layout に保存する。
 # restore はそれを select-layout で再適用する。select-layout は現在のウィンドウ
 # サイズに合わせて比率を保ったままスケールするので、モニタを跨いでも崩れない。
@@ -29,8 +35,29 @@ set -u
 LAYOUT_OPT="@ide_layout"
 PRESET_OPT="@ide_preset"
 
+# 対象ウィンドウ。第2引数 > TMUX_PANE > カレント の順で決める。
+#
+# 空配列の展開 "${T[@]}" は macOS 標準の bash 3.2 だと set -u 下で
+# "unbound variable" になるため、必ず要素を 1 つ以上持たせる。
+# target が空のときは現在のペインを指す "" を渡す（tmux は空文字をカレント扱いする）。
+target=${2:-${TMUX_PANE:-}}
+if [ -n "$target" ]; then
+    T=(-t "$target")
+else
+    T=(-t "")
+fi
+
+# メッセージは stderr と tmux の両方へ出す。
+# run-shell（キーバインド）から呼ばれると stderr は画面に出ないため、
+# display-message を使わないと失敗に気づけない。
+notify() {
+    [ -n "${TMUX:-}" ] && tmux display-message "${T[@]}" "$1"
+    return 0
+}
+
 die() {
     echo "[ERROR] $1" >&2
+    notify "[ide] $(printf '%s' "$1" | head -1)"
     exit 1
 }
 
@@ -41,28 +68,28 @@ require_tmux() {
 # 現在のレイアウトを基準として保存する
 save_layout() {
     local preset=$1 layout
-    layout=$(tmux display-message -p '#{window_layout}')
-    tmux set-option -w "$LAYOUT_OPT" "$layout"
-    tmux set-option -w "$PRESET_OPT" "$preset"
+    layout=$(tmux display-message "${T[@]}" -p '#{window_layout}')
+    tmux set-option -w "${T[@]}" "$LAYOUT_OPT" "$layout"
+    tmux set-option -w "${T[@]}" "$PRESET_OPT" "$preset"
 }
 
 restore_layout() {
     local layout preset panes
-    layout=$(tmux show-options -w -v "$LAYOUT_OPT" 2>/dev/null)
+    layout=$(tmux show-options -w -v "${T[@]}" "$LAYOUT_OPT" 2>/dev/null)
 
     if [ -z "$layout" ]; then
-        die "このウィンドウには ide の基準レイアウトがありません。
-        ide か ide <preset> で作り直すか、今の比率でよければ ide save を実行してください。"
+        die "このウィンドウには基準がありません。ide save で今の比率を保存するか、ide <preset> で作り直してください。"
     fi
 
     # select-layout はペイン数が違うと "have N panes but need M" で失敗する。
     # レイアウトは変更されないので害は無いが、理由が分かるように出す。
-    if ! tmux select-layout "$layout" 2>/dev/null; then
-        panes=$(tmux display-message -p '#{window_panes}')
-        preset=$(tmux show-options -w -v "$PRESET_OPT" 2>/dev/null)
-        die "ペイン構成が基準と違うため復元できません（現在 ${panes} ペイン）。
-        ペインを閉じてから ide restore するか、ide ${preset:-} で作り直してください。"
+    if ! tmux select-layout "${T[@]}" "$layout" 2>/dev/null; then
+        panes=$(tmux display-message "${T[@]}" -p '#{window_panes}')
+        preset=$(tmux show-options -w -v "${T[@]}" "$PRESET_OPT" 2>/dev/null)
+        die "ペイン構成が基準と違うため復元できません（現在 ${panes} ペイン）。ペインを閉じてから ide restore するか、ide ${preset:-} で作り直してください。"
     fi
+
+    notify "[ide] 基準レイアウトへ戻しました"
 }
 
 require_tmux
@@ -76,8 +103,9 @@ case "${1:-}" in
         exit 0
         ;;
     save)
-        save_layout "$(tmux show-options -w -v "$PRESET_OPT" 2>/dev/null)"
+        save_layout "$(tmux show-options -w -v "${T[@]}" "$PRESET_OPT" 2>/dev/null)"
         echo "[ide] 今の比率を基準として保存しました。"
+        notify "[ide] 今の比率を基準として保存しました"
         exit 0
         ;;
 esac
