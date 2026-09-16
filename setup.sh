@@ -449,6 +449,16 @@ setup_private_symlinks() {
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/AGENTS.md"
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.codex/AGENTS.md"
 
+  # claude skills: personal スコープ(~/.claude/skills/)に置くスキル。
+  # work-report は ~/PROJECTS/ 配下の作業セッションから呼ぶ想定なので、
+  # vault (~/memo) の project スコープではなくここに置く。作業リポジトリは
+  # 他の人が見るため、個人のワークフローを向こうの .claude/ に混ぜない。
+  # ~/.claude/skills/ 自体は Claude Code が他のスキルを置く実ディレクトリなので、
+  # CLAUDE.md と同じくスキル単位でリンクする。
+  mkdir -p "$TARGET_DIR/.claude/skills"
+  create_symlink "$private_dir/claude/skills/work-report" \
+    "$TARGET_DIR/.claude/skills/work-report"
+
   # snail-cli / memo: どちらもテンプレートの置き場所を絶対パスで持つ。
   # 未管理のまま放置すると、参照先のディレクトリを消したときに気づけない
   # (2026-09-12 に ~/private-dotfiles を削除して snail todo new が壊れた)。
