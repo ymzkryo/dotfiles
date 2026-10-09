@@ -338,6 +338,17 @@ setup_symlinks() {
   # newboatの設定
   create_symlink "$DOTFILES_DIR/.newsboat/config" "$TARGET_DIR/.newsboat/config"
   create_symlink "$DOTFILES_DIR/.newsboat/urls" "$TARGET_DIR/.newsboat/urls"
+
+  # claude skills: 自作スキルを personal スコープ(~/.claude/skills/)へ置く。
+  # 固有名を含まない汎用のものはこちら、案件名を含むものは private 側
+  # (setup_private_symlinks の work-report) に分ける。
+  # ~/.claude/skills/ 自体は Claude Code が配布物や synced を置く実ディレクトリなので、
+  # 丸ごとではなくスキル単位でリンクする。
+  mkdir -p "$TARGET_DIR/.claude/skills"
+  for skill in "$DOTFILES_DIR/.config/claude/skills"/*; do
+    [ -d "$skill" ] || continue
+    create_symlink "$skill" "$TARGET_DIR/.claude/skills/$(basename "$skill")"
+  done
   
   # .configディレクトリの設定
   log_info ".configディレクトリの設定をリンク中..."
