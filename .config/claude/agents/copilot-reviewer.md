@@ -43,8 +43,29 @@ tools: Bash
 ```bash
 <差分取得コマンド> | copilot -p "以下のコード差分をレビューしてください。品質・セキュリティ・パフォーマンスの観点から改善提案をしてください。" \
   --allow-tool 'shell(cat)' --allow-tool 'shell(ls)' --allow-tool 'shell(head)' --allow-tool 'shell(wc)' \
-  --deny-tool 'write' --deny-tool 'shell(rm)' --deny-tool 'shell(git)'
+  --deny-tool 'write' --deny-tool 'shell(rm)' --deny-tool 'shell(git:*)'
 ```
+
+### `shell(git)` ではなく `shell(git:*)` と書くこと
+
+**`--deny-tool 'shell(git)'` は git を拒否できません。** bare な `git` にしか
+一致しないため、`git rev-parse ...` のようなサブコマンド付きの呼び出しは
+そのまま実行されます（実測で確認済み）。
+
+| 指定 | `git rev-parse --abbrev-ref HEAD` |
+| --- | --- |
+| `--deny-tool 'shell(git)'` | **実行されてしまう** |
+| `--deny-tool 'shell(git *)'` | **実行されてしまう** |
+| `--deny-tool 'shell(git:*)'` | 拒否される |
+
+サブコマンドを持つツールは `:*` を付けた形で指定します
+（`copilot --help` の例自身が `shell(git:*)` を使っています）。
+`shell(rm)` や `write` のようにサブコマンドを持たないものは、この形のままで拒否が効きます。
+
+**git を拒否したままで問題ありません。** 差分は親シェルで取得して
+パイプで渡すので、copilot 側が git を叩く必要はありません。むしろ拒否しておくと、
+渡した差分が空だったときに copilot が自分で `git diff` を叩いて
+**差分ではなくファイル全体をレビューしてしまう**事故を防げます。
 
 ## 重要な注意事項
 
