@@ -1,54 +1,126 @@
 ---
-description: 手元のコードをreviewerエージェントでセルフレビューし、指摘に基づいて自動修正するループ
-argument-hint: [レビュー対象] [reviewer名 or heavy]
+description: 手元のコードをreviewerエージェントでセルフレビューし、指摘に基づいて修正する（1回）
+argument-hint: [diff|staged|branch|PR#123|<path>] [reviewer名 or heavy]
 ---
 
 以下の手順を順番に実行してください。
 
 ## ステップ1: 引数の解釈
 
-$ARGUMENTS を以下のルールで解釈してください：
-- 第一引数: レビュー対象（省略時は `diff` = 現在のunstaged changes + untracked files）
-- 第二引数: reviewer名 または `heavy`（省略時はデフォルトセットを並列実行）
+`$ARGUMENTS` を空白で分割し、**トークン単位で**次の順に判定してください。
+位置（第一引数・第二引数）には依存しません。`staged heavy` と `heavy staged` は同義です。
 
-### レビュー対象の指定方法
-- 指定なし / `diff`: `git diff` + `git ls-files --others --exclude-standard` で新規ファイルも取得
-- `staged`: `git diff --cached`
-- `branch` または `ブランチ`: `git diff origin/main...HEAD`
-- `PR #123` または `pr 123`: `gh pr diff 123`
-- その他: そのまま渡す
+### 1-1. reviewer 指定を抜き出す
 
-### reviewerセット
+`heavy` または下表の reviewer 名に**完全一致**するトークン（大文字小文字は無視）を
+reviewer 指定として取り出します。`heavy` が含まれていれば `heavy` を優先します。
 
-#### デフォルト（省略時 — 5並列）
-- `reviewer` - Claude自身による詳細レビュー
-- `codex-reviewer` - Codex CLIを使ったレビュー
-- `copilot-reviewer` - GitHub Copilot CLIを使ったレビュー
-- `simplify-reviewer` - 可読性・一貫性・保守性に特化したレビュー
-- `security-reviewer` - セキュリティに特化したレビュー
+### 1-2. 残りのトークンからレビュー対象を決める
 
-#### heavy（全reviewer — 7並列）
-`heavy` を指定すると以下の全reviewerを並列実行する：
-- `reviewer` - Claude自身による詳細レビュー
-- `codex-reviewer` - Codex CLIを使ったレビュー
-- `copilot-reviewer` - GitHub Copilot CLIを使ったレビュー
-- `simplify-reviewer` - 可読性・一貫性・保守性に特化したレビュー
-- `security-reviewer` - セキュリティに特化したレビュー
-- `performance-reviewer` - パフォーマンスに特化したレビュー
-- `test-reviewer` - テスト品質に特化したレビュー
+| 残りのトークン | 対象の取得方法 |
+| --- | --- |
+| なし / `diff` | 追跡済みは `git diff HEAD`（staged + unstaged）、新規は `git ls-files --others --exclude-standard` |
+| `staged` | `git diff --cached` |
+| `branch` / `ブランチ` | 下記「ベースブランチの解決」に従う |
+| `PR` `pr` `#` の後に数字 / `#123` / `123` / PR の URL | PR 番号を抽出して `gh pr diff <番号>` |
+| 上記以外 | **推測で補完せず**、解釈できなかったトークンと利用可能な reviewer 名を提示して、何も起動せずに終了する |
 
-#### 個別指定
-特定のreviewer名を指定すると、そのreviewerのみ実行する。
-利用可能なreviewer名は上記 heavy セットの一覧を参照。
+**解釈できないトークンが 1 つでもあれば実行しない**こと。reviewer 名のタイポを
+「レビュー対象」として黙って通さないための規則です。
 
-reviewer名が上記のいずれにも一致しない場合は、エラーとしてユーザーに利用可能なreviewer名を案内してください。
+### 1-3. ベースブランチの解決（`branch` 指定時）
+
+`origin/main` を決め打ちにしないこと。**リポジトリによって `master` や `develop` です。**
+
+1. `git symbolic-ref --short refs/remotes/origin/HEAD`
+2. 失敗したら `origin/main` → `origin/master` → `origin/develop` の順に
+   `git rev-parse --verify` が通る最初のものを使う
+3. すべて失敗したら**エラーとして終了**する。空の diff で続行してはいけない
+   （「指摘なし」と誤認するため）
+
+`base=<ref>` 形式のトークンがあればそれを優先します（例: `branch base=develop`）。
+
+### 1-4. 対象から除外するもの
+
+次は reviewer へ渡しません。除外したファイル名は最後の報告に含めてください。
+
+- バイナリ（画像・アーカイブ・コンパイル済み成果物）
+- `*.lock` / `package-lock.json` / `dist/` / `*.min.*`
+- 1 ファイルで 2000 行を超える差分
 
 ## ステップ2: レビュー実行
 
-- 個別のreviewer名が指定された場合: そのreviewerのエージェントを起動し、レビュー対象の情報を渡してコードレビューを実行する
-- `heavy` が指定された場合: 全7reviewerのエージェントを**同時に並列起動**し、レビュー対象の情報を渡してコードレビューを実行する
-- 省略された場合: デフォルト5reviewerのエージェントを**同時に並列起動**し、レビュー対象の情報を渡してコードレビューを実行する
+### 2-1. reviewer セット
 
-## ステップ3: レビュー修正
+| reviewer | 観点 | 依存 |
+| --- | --- | --- |
+| `reviewer` | 総合（品質・バグ） | — |
+| `simplify-reviewer` | 可読性・一貫性・保守性 | — |
+| `security-reviewer` | セキュリティ | — |
+| `codex-reviewer` | 別モデルの視点 | `codex` CLI |
+| `copilot-reviewer` | 別モデルの視点 | `copilot` CLI |
+| `performance-reviewer` | パフォーマンス | — |
+| `test-reviewer` | テスト品質 | — |
 
-すべてのレビューが完了したら、/fix-review-comments スキルを実行して、レビュー指摘に対応してください。
+- **省略時**: 上表の上 5 つ（`reviewer` / `simplify` / `security` / `codex` / `copilot`）
+- **`heavy`**: 全 7 つ
+- **個別指定**: その 1 つだけ
+
+### 2-2. 起動の仕方
+
+**1 つのメッセージ内で全 reviewer の Agent ツール呼び出しをまとめて発行**してください。
+逐次起動しないこと。
+
+**diff の本文は渡さず、対象の指定（種別・ベース ref・PR 番号・対象ファイル一覧）を渡す**こと。
+各 reviewer が自分で差分を取得します。7 並列へ巨大な diff を配るとコンテキストが溢れます。
+
+事前に `git diff --stat` で規模を確認し、**1500 行または 30 ファイルを超える**場合は
+その旨を報告してから続行してください。
+
+### 2-3. 外部 CLI 依存 reviewer の扱い
+
+`codex-reviewer` / `copilot-reviewer` は起動前に `command -v codex` / `command -v copilot`
+を確認してください。
+
+- 未導入なら**その reviewer をスキップ**し、「スキップ: CLI 未導入」と報告する
+  （個別指定された場合はエラーで終了）
+- 認証エラー・タイムアウトも失敗として扱う
+- **CLI を実行できなかった reviewer が、自力のレビューで代替してはいけない。** 失敗を返すこと
+
+### 2-4. 失敗したときの進め方
+
+- 一部の reviewer が失敗しても**他は継続**し、全 reviewer が終了（成功・失敗いずれも）
+  した時点でステップ3 へ進む。リトライはしない
+- 失敗した reviewer は名前と理由を最終報告に必ず記載する
+- **成功した reviewer が 0 件なら修正しない。** 失敗理由を報告して終了する
+
+## ステップ3: レビュー結果の集約
+
+**サブエージェントの出力は親の会話へ要約されて返ることがあり、そのままでは指摘が落ちます。**
+`fix-review-comments` は「直前の会話からレビュー指摘を特定」する前提なので、
+先に会話内へ**省略・言い換えせずに**転記してください。
+
+```
+### <reviewer名> の結果（状態: 成功 / 失敗 / 指摘なし）
+- <reviewer名> #1: <ファイル:行> <指摘内容>
+- <reviewer名> #2: ...
+```
+
+番号は reviewer ごとに `#1` から振ります。reviewer 側に番号が無ければ付与してください。
+
+- **同じ箇所に複数の reviewer が同趣旨の指摘**をしている場合は `[重複: simplify #3]` と注記して 1 件に統合する
+- **同じ箇所に矛盾する指摘**（例: 関数を分割すべき ⇔ インライン化すべき）がある場合は
+  `[相反: reviewer #2 ⇔ performance #1]` と明記する。両方を適用しないこと
+
+## ステップ4: 修正
+
+1. **指摘が 0 件なら**「レビュー指摘はありませんでした」と報告して終了する。
+   `fix-review-comments` は呼ばない
+2. **レビュー対象が `PR` だった場合**、現在のブランチが PR の head と一致しないなら
+   修正を行わず、指摘の一覧のみ出力して終了する（レビュー対象と修正対象がずれるため）
+3. 上記以外は **`fix-review-comments` スキルを呼び出す**（スラッシュコマンドではなくスキル）。
+   指摘の特定 → 妥当性評価 → 修正 → サマリー出力まで、そちらの規則に従う
+4. `[相反: ...]` と注記した指摘は、既存方針に合う側を選ぶか、どちらも採らずに理由を書く。
+   判断できないものは修正せず「要ユーザー判断」として報告する
+
+**再レビューは行いません。** 修正は 1 回で終わります。
