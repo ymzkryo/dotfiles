@@ -349,6 +349,19 @@ setup_symlinks() {
     [ -d "$skill" ] || continue
     create_symlink "$skill" "$TARGET_DIR/.claude/skills/$(basename "$skill")"
   done
+
+  # claude commands / agents: スラッシュコマンドとサブエージェントの定義。
+  # commands/self-review.md は agents/*-reviewer.md を並列起動する前提なので、
+  # 片方だけ管理しても別 PC で成立しない。依存一式をまとめて置く。
+  # skills と同じくディレクトリを走査するので、増やしても setup.sh は触らなくてよい。
+  for kind in commands agents; do
+    [ -d "$DOTFILES_DIR/.config/claude/$kind" ] || continue
+    mkdir -p "$TARGET_DIR/.claude/$kind"
+    for f in "$DOTFILES_DIR/.config/claude/$kind"/*.md; do
+      [ -f "$f" ] || continue
+      create_symlink "$f" "$TARGET_DIR/.claude/$kind/$(basename "$f")"
+    done
+  done
   
   # .configディレクトリの設定
   log_info ".configディレクトリの設定をリンク中..."
