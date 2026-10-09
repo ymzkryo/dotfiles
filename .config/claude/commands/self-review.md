@@ -1,27 +1,43 @@
 ---
-description: 手元のコードをreviewerエージェントでセルフレビューし、指摘に基づいて修正する（1回）
-argument-hint: [diff|staged|branch|PR#123|<path>] [reviewer名 or heavy]
+description: 手元のコードを4つのモデル（Claude Code / codex / copilot / agy）で並列レビューし、指摘に基づいて修正する（1回）
+argument-hint: [省略可。diff|staged|branch|PR#123|<path>] [reviewer名 or heavy]
 ---
 
-以下の手順を順番に実行してください。
+**引数なしで呼べます。** 対象は自動で判定します。
+
+## 構成
+
+親（あなた＝Claude Code）が子エージェントを並列起動し、結果を集約して人間に報告します。
+
+```
+親: Claude Code（このセッション）
+ ├─ reviewer          … Claude Code 自身によるレビュー
+ ├─ codex-reviewer    … OpenAI Codex CLI
+ ├─ copilot-reviewer  … GitHub Copilot CLI
+ └─ agy-reviewer      … Google Antigravity CLI
+```
+
+**モデルの異なる 4 者に同じ対象を見せ、見解を突き合わせる**のが狙いです。
+1 つのモデルの思い込みに気づきやすくなります。
 
 ## ステップ1: 引数の解釈
 
-`$ARGUMENTS` を空白で分割し、**トークン単位で**次の順に判定してください。
-位置（第一引数・第二引数）には依存しません。`staged heavy` と `heavy staged` は同義です。
+`$ARGUMENTS` を空白で分割し、**トークン単位で**次の順に判定します。
+位置には依存しません（`staged heavy` と `heavy staged` は同義）。
 
 ### 1-1. reviewer 指定を抜き出す
 
-`heavy` または下表の reviewer 名に**完全一致**するトークン（大文字小文字は無視）を
-reviewer 指定として取り出します。`heavy` が含まれていれば `heavy` を優先します。
+`heavy` または下記 reviewer 名に**完全一致**するトークン（大文字小文字は無視）を
+reviewer 指定とします。`heavy` が含まれていれば `heavy` を優先します。
 
 ### 1-2. 残りのトークンからレビュー対象を決める
 
-| 残りのトークン | 対象の取得方法 |
+| 残りのトークン | 対象 |
 | --- | --- |
-| なし / `diff` | 追跡済みは `git diff HEAD`（staged + unstaged）、新規は `git ls-files --others --exclude-standard` |
+| **なし** | 下記 1-2-2 の**自動判定** |
+| `diff` | 追跡済み（`git diff HEAD`）＋ 未追跡（`git ls-files --others --exclude-standard`） |
 | `staged` | `git diff --cached` |
-| `branch` / `ブランチ` | 下記「ベースブランチの解決」に従う |
+| `branch` / `ブランチ` | 下記 1-3 で base を解決して `git diff <base>...HEAD` |
 | `PR` `pr` `#` の後に数字 / `#123` / `123` / PR の URL | PR 番号を抽出して `gh pr diff <番号>` |
 | 実在するファイル / ディレクトリのパス | そのパスを対象にする |
 | `base=<ref>` | ベースブランチの上書き（下記 1-3） |
@@ -39,35 +55,57 @@ reviewer 指定として取り出します。`heavy` が含まれていれば `h
   → **reviewer 名のタイポと判断してエラー終了**し、利用可能な名前を提示する
 - それ以外 → **会話的な語として読み飛ばす**
 
-読み飛ばしたトークンは、実行開始時に「次のトークンは解釈せず無視しました: ...」と
-1 行で報告してください。黙って捨てないこと。
+読み飛ばしたトークンは「次のトークンは解釈せず無視しました: ...」と 1 行で報告します。
+黙って捨てないこと。
 
-### 1-3. ベースブランチの解決（`branch` 指定時）
+#### 1-2-2. 省略時の自動判定
 
-`origin/main` を決め打ちにしないこと。**リポジトリによって `master` や `develop` です。**
+**考えずに `/self-review` と打てるように、上から順に当てはまった最初のものを採用します。**
+
+1. **未コミットの変更がある**（`git status --porcelain` が非空）→ `diff`
+2. **デフォルトブランチ以外にいて、base とのコミット差がある**
+   （`git rev-list --count <base>..HEAD` が 1 以上）→ `branch`
+3. どちらでもない → 「レビュー対象がありません」と報告して終了
+
+**選んだ対象と理由を実行開始時に 1 行で報告**してください
+（例: `対象を自動判定: branch（未コミット変更なし / origin/master より 3 コミット先行）`）。
+意図と違ったときに気づけるようにするためです。
+
+### 1-3. ベースブランチの解決（`branch` 指定時・自動判定時）
+
+**`origin/main` を決め打ちにしないこと。** リポジトリによって `master` や `develop` です。
 
 1. `git symbolic-ref --short refs/remotes/origin/HEAD`
 2. 失敗したら `origin/main` → `origin/master` → `origin/develop` の順に
    `git rev-parse --verify` が通る最初のものを使う
-3. すべて失敗したら**エラーとして終了**する。空の diff で続行してはいけない
+3. すべて失敗したら**エラーとして終了**する。空の差分で続行してはいけない
    （「指摘なし」と誤認するため）
 
-`base=<ref>` 形式のトークンがあればそれを優先します（例: `branch base=develop`）。
+`base=<ref>` 形式のトークンがあればそれを優先します。
 
-### 1-4. 差分が空なら実行しない
+### 1-4. 対象が空なら実行しない
 
-対象を決めたら、**reviewer を起動する前に**差分の有無を確認してください。
-これは `branch` に限らず全ての対象種別に適用します。
+**reviewer を起動する前に**対象が空でないか確認します。
+**空の判定は対象の取得方法と揃えること。** 種別ごとに見るものが違います。
 
-`git diff --stat <対象>` が空（0 ファイル）の場合は、**reviewer を 1 つも起動せず**に
-次を報告して終了します。
+| 対象 | 空と判定する条件 |
+| --- | --- |
+| `diff` | `git diff HEAD --stat` が空 **かつ** `git ls-files --others --exclude-standard` が空 |
+| `staged` | `git diff --cached --stat` が空 |
+| `branch` | `git diff <base>...HEAD --stat` が空 |
+| `PR` | `gh pr diff <番号>` の出力が空、または取得に失敗 |
+| パス指定 | そのパスに対する差分が空 |
 
-- 対象の種別と解決したベース ref
-- 現在のブランチと、ベースとのコミット差（`git rev-list --count <base>..HEAD`）
+`diff` で `git diff --stat` だけを見ると、**未追跡の新規ファイルしか無い状態で
+「対象なし」と誤判定**します。`PR` はローカルの `git diff` では確認できません。
 
-ベースの解決に成功していても差分が 0 のことがあります（マージ直後にデフォルト
-ブランチ上にいる場合など）。ステップ4 の「指摘 0 件」判定では遅く、外部 CLI を
-含む 5 並列を空振りで起動してクレジットを消費します。
+空だった場合は **reviewer を 1 つも起動せず**、次を報告して終了します。
+
+- 対象の種別と（`branch` なら）解決したベース ref
+- 現在のブランチと、ベースとのコミット差
+
+ステップ4 の「指摘 0 件」判定では遅く、外部 CLI を含む 4 並列を空振りで起動して
+クレジットを消費します。
 
 ### 1-5. 対象から除外するもの
 
@@ -81,19 +119,25 @@ reviewer 指定として取り出します。`heavy` が含まれていれば `h
 
 ### 2-1. reviewer セット
 
-| reviewer | 観点 | 依存 |
-| --- | --- | --- |
-| `reviewer` | 総合（品質・バグ） | — |
-| `simplify-reviewer` | 可読性・一貫性・保守性 | — |
-| `security-reviewer` | セキュリティ | — |
-| `codex-reviewer` | 別モデルの視点 | `codex` CLI |
-| `copilot-reviewer` | 別モデルの視点 | `copilot` CLI |
-| `performance-reviewer` | パフォーマンス | — |
-| `test-reviewer` | テスト品質 | — |
+**省略時はモデルの異なる 4 者**を使います。
 
-- **省略時**: 上表の上 5 つ（`reviewer` / `simplify` / `security` / `codex` / `copilot`）
-- **`heavy`**: 全 7 つ
-- **個別指定**: その 1 つだけ
+| reviewer | 担当 | 依存 |
+| --- | --- | --- |
+| `reviewer` | Claude Code 自身 | — |
+| `codex-reviewer` | OpenAI Codex CLI | `codex` |
+| `copilot-reviewer` | GitHub Copilot CLI | `copilot` |
+| `agy-reviewer` | Google Antigravity CLI | `agy` |
+
+`heavy` を指定すると、観点特化の 4 つを**追加**して全 8 並列になります。
+
+| reviewer | 観点 |
+| --- | --- |
+| `simplify-reviewer` | 可読性・一貫性・保守性 |
+| `security-reviewer` | セキュリティ |
+| `performance-reviewer` | パフォーマンス |
+| `test-reviewer` | テスト品質 |
+
+個別指定された場合は、その 1 つだけを起動します。
 
 ### 2-2. 起動の仕方
 
@@ -101,15 +145,15 @@ reviewer 指定として取り出します。`heavy` が含まれていれば `h
 逐次起動しないこと。
 
 **diff の本文は渡さず、対象の指定（種別・ベース ref・PR 番号・対象ファイル一覧）を渡す**こと。
-各 reviewer が自分で差分を取得します。7 並列へ巨大な diff を配るとコンテキストが溢れます。
+各 reviewer が自分で差分を取得します。並列へ巨大な diff を配るとコンテキストが溢れます。
 
-事前に `git diff --stat` で規模を確認し、**1500 行または 30 ファイルを超える**場合は
-その旨を報告してから続行してください。
+事前に規模を確認し、**1500 行または 30 ファイルを超える**場合はその旨を報告してから
+続行してください。
 
 ### 2-3. 外部 CLI 依存 reviewer の扱い
 
-`codex-reviewer` / `copilot-reviewer` は起動前に `command -v codex` / `command -v copilot`
-を確認してください。
+`codex-reviewer` / `copilot-reviewer` / `agy-reviewer` は、各エージェント側で
+`command -v` による存在確認を行います。
 
 - 未導入なら**その reviewer をスキップ**し、「スキップ: CLI 未導入」と報告する
   （個別指定された場合はエラーで終了）
@@ -123,9 +167,9 @@ reviewer 指定として取り出します。`heavy` が含まれていれば `h
 - 失敗した reviewer は名前と理由を最終報告に必ず記載する
 - **成功した reviewer が 0 件なら修正しない。** 失敗理由を報告して終了する
 
-## ステップ3: レビュー結果の集約
+## ステップ3: 親が結果を集約する
 
-**サブエージェントの出力は親の会話へ要約されて返ることがあり、そのままでは指摘が落ちます。**
+**子エージェントの出力は親の会話へ要約されて返ることがあり、そのままでは指摘が落ちます。**
 `fix-review-comments` は「直前の会話からレビュー指摘を特定」する前提なので、
 先に会話内へ**省略・言い換えせずに**転記してください。
 
@@ -137,9 +181,11 @@ reviewer 指定として取り出します。`heavy` が含まれていれば `h
 
 番号は reviewer ごとに `#1` から振ります。reviewer 側に番号が無ければ付与してください。
 
-- **同じ箇所に複数の reviewer が同趣旨の指摘**をしている場合は `[重複: simplify #3]` と注記して 1 件に統合する
-- **同じ箇所に矛盾する指摘**（例: 関数を分割すべき ⇔ インライン化すべき）がある場合は
-  `[相反: reviewer #2 ⇔ performance #1]` と明記する。両方を適用しないこと
+転記したうえで、人間に向けて次の形で整理して伝えます。
+
+- **複数の reviewer が一致した指摘** — 確度が高い。`[一致: codex #2, agy #1]` と注記して 1 件に統合する
+- **1 者だけの指摘** — 的を射ているか個別に判断する
+- **矛盾する指摘** — `[相反: reviewer #2 ⇔ performance #1]` と明記する。両方を適用しないこと
 
 ## ステップ4: 修正
 
