@@ -6,7 +6,7 @@ description: |
   "agyと相談", "agyに聞いて", "agyでレビュー"
   使用場面: (1) 文言・メッセージの検討、(2) コードレビュー、
   (3) 設計の相談、(4) バグ調査、(5) 解消困難な問題の調査
-allowed-tools: Bash(agy *), Read, Glob, Grep
+allowed-tools: Bash(agy -p *), Bash(git check-ignore *), Read, Write, Glob, Grep
 ---
 
 # agy（Google Antigravity CLI）
@@ -69,7 +69,7 @@ agy -p "<request>" --sandbox --print-timeout 15m
 
 ```sh
 cd /path/to/project
-agy -p "$(cat <依頼文のファイル>)" --sandbox --print-timeout 15m
+agy -p "$(cat "$REQUEST_FILE")" --sandbox --print-timeout 15m
 ```
 
 ダブルクォート内のコマンド置換は結果を再解釈しないので、`$`・バッククォート・
@@ -87,7 +87,9 @@ agy -p "$(cat <依頼文のファイル>)" --sandbox --print-timeout 15m
 バッククォートも再評価されません（展開は 1 パス）。
 
 危ないのは「本文へ直接書く」形だけです。依頼文はファイルへ書き出して
-`"$(cat <file>)"` で渡すか、変数へ入れてから埋めてください。
+`"$(cat "$REQUEST_FILE")"` で渡すか、変数へ入れてから埋めてください。
+`$REQUEST_FILE` は**実際のパスに置き換えること。** 山括弧のまま実行すると、
+シェルがリダイレクトとして解釈して構文エラーになります。
 
 依頼文を引数へ直接書くのも避けてください。`$HOME` は値に置換され、
 `` `id -un` `` はコマンドとして実行されます。
@@ -102,7 +104,7 @@ agy -p "$(cat <依頼文のファイル>)" --sandbox --print-timeout 15m
 **資料は外部（Google）へ送られる。** 認証情報や個人情報は書き出さないこと。
 使い終わったら削除する。
 
-リポジトリ内へ置くなら、先に `git check-ignore <dir>` で無視されるか確認する。
+リポジトリ内へ置くなら、先に `git check-ignore "$DIR"` で無視されるか確認する。
 **`local/` はこのリポジトリでは無視されていない**（exit 1）。コミットに乗せたく
 ない資料は `.gitignore` へ追加するか、scratchpad へ置く。
 
@@ -114,7 +116,7 @@ agy -p "$(cat <依頼文のファイル>)" --sandbox --print-timeout 15m
 1. `which agy` で導入済みか確認する（未導入ならその旨を伝えて止める）
 2. ユーザーから依頼内容を受け取る
 3. 対象プロジェクトのディレクトリを特定する（デフォルト: 現在のワーキングディレクトリ）
-4. 判断材料がリポジトリ外にある場合は `local/` へ書き出す（→ 上記）
+4. 会話の中にしかない情報を渡す場合は、Write ツールで scratchpad へ書き出す（→ 上記）
 5. **プロンプト末尾に「確認や質問は不要です。具体的な提案・修正案・コード例まで自主的に出力してください。」を必ず追加する**
 6. 上記コマンド形式で agy を実行する
 7. 結果をユーザーに報告する
