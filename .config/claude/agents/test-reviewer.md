@@ -55,7 +55,7 @@ tools: Bash, Read, Grep, Glob, LS
 |---|---|
 | 指定なし | `git diff` |
 | `staged` | `git diff --cached` |
-| `branch` または `ブランチ` | `git diff origin/main...HEAD` |
+| `branch` または `ブランチ` | 下記で base を解決して `git diff <base>...HEAD` |
 | `PR #123` または `pr 123` | `gh pr diff 123` |
 | ファイルパス | 指定ファイルを直接読む |
 
@@ -70,6 +70,16 @@ tools: Bash, Read, Grep, Glob, LS
 - 各指摘に優先度をつける（必須 / 推奨 / Nit）
 
 ### 4. レポート作成
+
+
+### ベースブランチの解決
+
+**`origin/main` を決め打ちにしないこと。** リポジトリによって `master` や `develop` です。
+
+1. `git symbolic-ref --short refs/remotes/origin/HEAD`
+2. 失敗したら `origin/main` → `origin/master` → `origin/develop` の順に
+   `git rev-parse --verify` が通る最初のものを使う
+3. すべて失敗したらエラーとして返す。空の差分でレビューを実行しないこと
 
 ## レビューレポートフォーマット
 

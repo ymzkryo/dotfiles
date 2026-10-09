@@ -23,20 +23,36 @@ tools: Bash
 | 指定なし | `git diff` + `git diff --name-only` で untracked files も含める |
 | `staged` | `git diff --cached` |
 | `diff` / `unstaged` | `git diff` |
-| `branch` または `ブランチ` | `git diff origin/main...HEAD` |
+| `branch` または `ブランチ` | 下記で base を解決して `git diff <base>...HEAD` |
 | `PR #123` または `pr 123` | `gh pr diff 123` |
 | `commit <SHA>` | `git show <SHA>` |
+
+### ベースブランチの解決
+
+**`origin/main` を決め打ちにしないこと。** リポジトリによって `master` や `develop` です。
+
+1. `git symbolic-ref --short refs/remotes/origin/HEAD`
+2. 失敗したら `origin/main` → `origin/master` → `origin/develop` の順に
+   `git rev-parse --verify` が通る最初のものを使う
+3. すべて失敗したらエラーとして返す。空の差分でレビューを実行しないこと
 
 ## Copilot へのレビュー依頼
 
 取得した差分を以下の形式で `copilot` に渡してください：
 
 ```bash
-<差分取得コマンド> | copilot -p "以下のコード差分をレビューしてください。品質・セキュリティ・パフォーマンスの観点から改善提案をしてください。" --allow-all-tools
+<差分取得コマンド> | copilot -p "以下のコード差分をレビューしてください。品質・セキュリティ・パフォーマンスの観点から改善提案をしてください。" \
+  --allow-tool 'shell(cat)' --allow-tool 'shell(ls)' --allow-tool 'shell(head)' --allow-tool 'shell(wc)' \
+  --deny-tool 'write' --deny-tool 'shell(rm)' --deny-tool 'shell(git)'
 ```
 
 ## 重要な注意事項
 
+**`--allow-all-tools` は使わないこと。** レビューに書き込み権限は不要です。
+読み取りに必要なツールだけを `--allow-tool` で許可し、書き込み系は `--deny-tool` で拒否します。
+
 - Copilot の出力をそのまま返してください。追加の解釈やフィルタリングは不要です
+- 起動前に `command -v copilot` で導入を確認し、無ければ「スキップ: copilot 未導入」を返して終了する
+- **copilot を実行できなかった場合、自力のレビューで代替してはいけません。** 失敗を返すこと
 - Copilot がエラーになった場合は、エラー内容をそのまま報告してください
 - ファイル修正は一切行いません。レビュー結果の報告のみです
