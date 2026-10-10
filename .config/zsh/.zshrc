@@ -16,3 +16,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# Unity CLI（インストーラが追記した行に、未導入マシン向けのガードを足したもの）
+if [ -f "$HOME/.unity/env" ]; then
+  . "$HOME/.unity/env"
+fi
