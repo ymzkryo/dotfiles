@@ -174,9 +174,26 @@ python3 scripts/compare_reviews.py diff "$PREV_DIR" "$DIR"
 
 ```sh
 for r in claude codex agy; do
-  [ -s "$DIR/out-$r.md" ] || echo "$r はスキップ（出力が空）"
+  if [ ! -s "$DIR/out-$r.md" ]; then
+    echo "$r はスキップ（出力が空）"
+  elif [ "$(wc -c < "$DIR/out-$r.md")" -lt 1000 ]; then
+    echo "$r はスキップ（出力が短すぎる。中身を見る）"
+  fi
 done
 ```
+
+- **空でないだけでは足りない。** `agy` は headless で権限が自動拒否されると、
+  **`exit=0` のまま 1 行のエラーだけを返す**（2026-10-11 に踏んだ）。
+
+  ```
+  jetski: no output produced — a tool required the "command" permission that
+  headless mode cannot prompt for, so it was auto-denied.
+  ```
+
+  303 バイトあるので「空」の検査は通ってしまう。**査読の形（総評・指摘一覧）に
+  なっているかまで見ること。** 目安として 1,000 バイト未満は疑う。
+  同じ条件で前日は通っていたので、**プロンプトの中身次第で発火する**（リポジトリの
+  実体を確認しに行こうとしたときに起きたと見られる）。
 - **既知**: CLI の引数は版によって変わる。落ちたらまず `<cli> --help` で現行の引数を確認する
   （2026-09-11 に `codex` の `-a` 廃止でスキップが発生した）
 - **一時的な失敗は 1 回だけリトライしてからスキップする。** `agy` は 503 を返すことがあり、
