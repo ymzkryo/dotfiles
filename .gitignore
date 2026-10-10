@@ -72,3 +72,8 @@ Temporary Items
 /.config/zsh/.zsh/050_work_profiles.zsh
 /.config/hammerspoon/modules/private.lua
 /.config/neomutt/private
+
+# Python のバイトコード
+# （.config/claude/skills/editorial-review/scripts/ に .py を置いたため）
+__pycache__/
+*.pyc
