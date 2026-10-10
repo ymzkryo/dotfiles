@@ -469,14 +469,22 @@ setup_private_symlinks() {
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.codex/AGENTS.md"
 
   # claude skills: personal スコープ(~/.claude/skills/)に置くスキル。
-  # work-report は ~/PROJECTS/ 配下の作業セッションから呼ぶ想定なので、
-  # vault (~/memo) の project スコープではなくここに置く。作業リポジトリは
-  # 他の人が見るため、個人のワークフローを向こうの .claude/ に混ぜない。
+  # work-report のように ~/PROJECTS/ 配下の作業セッションから呼ぶものと、
+  # vendoring した外部スキルをここに置く。vault (~/memo) の project スコープに
+  # 置くと作業セッションから呼べず、作業リポジトリの .claude/ に置くと
+  # 他の人が見るところへ個人のワークフローが混ざる。
   # ~/.claude/skills/ 自体は Claude Code が他のスキルを置く実ディレクトリなので、
-  # CLAUDE.md と同じくスキル単位でリンクする。
+  # 丸ごとではなくスキル単位でリンクする。
+  #
+  # 公開側(setup_symlinks)と同じくディレクトリを走査する。スキルを増やしても
+  # setup.sh を触らなくてよくするため。2026-10-10 に humanizer を足したとき、
+  # ここが work-report のハードコードだったので登録が漏れ、手で張った symlink
+  # だけが残っていた(新しいマシンでは張られない状態)。
   mkdir -p "$TARGET_DIR/.claude/skills"
-  create_symlink "$private_dir/claude/skills/work-report" \
-    "$TARGET_DIR/.claude/skills/work-report"
+  for skill in "$private_dir/claude/skills"/*; do
+    [ -d "$skill" ] || continue
+    create_symlink "$skill" "$TARGET_DIR/.claude/skills/$(basename "$skill")"
+  done
 
   # snail-cli / memo: どちらもテンプレートの置き場所を絶対パスで持つ。
   # 未管理のまま放置すると、参照先のディレクトリを消したときに気づけない
