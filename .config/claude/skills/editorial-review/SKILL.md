@@ -39,10 +39,15 @@ description: |
 | `claude`（別インスタンス） | 書籍の編集者（構成・内容の深さ重視） | `claude -p` |
 | `codex` | 校閲担当（事実確認・表記ゆれ・機密漏れ重視） | `~/.claude/skills/codex` |
 | `agy`（Antigravity） | 校閲担当（事実確認・表記ゆれ・機密漏れ重視） | `~/.claude/skills/agy` |
-| `copilot` | 技術雑誌の編集者（言い回し・読みやすさ重視） | **2026-10-10 時点で未インストール**。PATH にも global npm にも無い |
+| `copilot` | 技術雑誌の編集者（言い回し・読みやすさ重視） | `~/.claude/agents/copilot-reviewer.md` |
 
-**3者そろえるのが基本だが、動くものから使えばよい。** いまは `copilot` の枠を `agy` で
-埋めている。**各レビュアーに少し違うロールを割り当てて視点を散らす。**
+**4者そろえるのが基本だが、動くものから使えばよい。**
+**各レビュアーに少し違うロールを割り当てて視点を散らす。**
+
+**2026-10-10 に `copilot` が使えることを確認した。**
+それまで「未インストール」と書いて `agy` に 2 枠を兼ねさせていたが、**誤りだった**
+（`command -v copilot` → 1.0.95 / global npm に `@github/copilot`）。
+**`gh copilot`（gh 拡張）とは別物**で、入っているのは standalone のエージェント型 CLI。
 
 **役割の実績（2026-09 の3記事）。** `claude` と `codex` が事実誤り・論理の飛躍をよく拾う。
 `agy` は事実誤りをほぼ出さず、構成・文体と house style の抜けを拾う。
@@ -80,12 +85,27 @@ description: |
 
 ```bash
 # 例（スクラッチパッドの $DIR にプロンプトを用意済みとする）
-claude -p "$(cat "$DIR/prompt-claude.txt")" < /dev/null          > "$DIR/out-claude.md"  2>&1
-agy    -p "$(cat "$DIR/prompt-agy.txt")" --sandbox --print-timeout 15m \
+claude  -p "$(cat "$DIR/prompt-claude.txt")" < /dev/null         > "$DIR/out-claude.md"  2>&1
+agy     -p "$(cat "$DIR/prompt-agy.txt")" --sandbox --print-timeout 15m \
                                                                  > "$DIR/out-agy.md"     2>&1
-codex  exec -s read-only --skip-git-repo-check -C "$DIR" \
-       -o "$DIR/out-codex.md" - < "$DIR/prompt-codex.txt"         > "$DIR/log-codex.txt"  2>&1
+codex   exec -s read-only --skip-git-repo-check -C "$DIR" \
+        -o "$DIR/out-codex.md" - < "$DIR/prompt-codex.txt"        > "$DIR/log-codex.txt"  2>&1
+copilot -s --no-ask-user --allow-all-tools \
+        --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)' \
+        < "$DIR/prompt-copilot.txt"                               > "$DIR/out-copilot.md" 2>&1
 ```
+
+**渡し方が 4 者で 3 通りに分かれている。取り違えると中身が届かない。**
+
+| | 渡し方 |
+| --- | --- |
+| `claude` / `agy` | **引数**（`-p "$(cat ...)"`）。**`claude` は `< /dev/null` で stdin を塞ぐ** |
+| `codex` | **標準入力**（`exec ... -` の `-` が stdin を指す） |
+| **`copilot`** | **標準入力。`-p` を付けてはいけない**（付けると stdin が無視される） |
+
+**`copilot` の落とし穴は `~/.claude/agents/copilot-reviewer.md` が単一の出所。**
+`--allow-all-tools` が非対話モードで必須、`--no-ask-user` が無いと質問して止まる、
+`-s` が無いと stats が混ざる。
 
 **`claude -p` にも `< /dev/null` が要る。** 付けないと
 `Warning: no stdin data received in 3s, proceeding without it.` が
