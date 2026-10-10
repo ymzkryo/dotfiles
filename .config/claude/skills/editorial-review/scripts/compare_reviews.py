@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
-"""編集者レビューの出力を比較して、切り出しが指摘を落としていないかを判定する。
+"""編集者レビューの出力からラベルを数え、2 回の実行を並べて比べる。
 
-~/memo の 2026-10-02「編集者レビュー skill の再構築」で決めた同値の定義に従う。
+count は機械で決まる。diff は**並べるだけ**で、同じ指摘かどうかの判定は人がやる。
 
-  - 指摘件数が ±2 件に収まる
-  - [must] の本数が一致する
-  - 切り出し前に出た [must] が、切り出し後に 1 件も落ちていない  ← 本番の判定
+**なぜ機械で判定しないか。** LLM は同じ指摘を毎回違う言い方で返す。実測では
+codex が「README の引用に個人パスが残っています」と「個人のディレクトリ構成が
+引用に残っています」を別の回で返した。同じ指摘だが文字列は一致しない。
+前方一致や類似度で寄せると、**取りこぼしを見逃すか、無いものを取りこぼしと言う**。
+どちらも判定を信用できなくする。
 
-LLM の出力は非決定的なので完全一致は取れない。だから「前に出た指摘が出なくなること」
-を見る。件数の増減より取りこぼしが危ない。
+**本数の一致だけでは足りない。** 実測では [must] が 6 → 6 で一致したまま、
+中身が 2 件入れ替わっていた。だから本数と並びの両方を出す。
+
+**変更の影響を見るときは対照を取る。** 同じプロンプトを 2 回流して、
+入れ替わりがどれだけ起きるかを先に測る。それを超えた差だけが変更の影響。
 
 usage:
   compare_reviews.py count <out.md> ...              ラベルを数える
-  compare_reviews.py diff <before_dir> <after_dir>   取りこぼしを見る
+  compare_reviews.py diff <dir_a> <dir_b>            本数と [must] の並びを出す
 """
 import pathlib
-import re
 import sys
 
 LABELS = ("[must]", "[imo]", "[nits]")
@@ -42,16 +46,6 @@ def findings(text: str) -> dict[str, list[str]]:
     return out
 
 
-def key(claim: str) -> str:
-    """表現の揺れを吸収した突き合わせ用のキー。
-
-    同じ指摘が言い換えで返ってくるので、記号と空白を落として先頭だけを見る。
-    完全一致は取れないため、取りこぼしの候補を出すところまでが仕事。
-    """
-    s = re.sub(r"[`*_「」『』（）()\[\]【】、。・:：,.\s]", "", claim)
-    return s[:24]
-
-
 def load(d: pathlib.Path) -> dict[str, dict[str, list[str]]]:
     got = {}
     for r in REVIEWERS:
@@ -69,33 +63,28 @@ def cmd_count(paths: list[str]) -> int:
     return 0
 
 
-def cmd_diff(before: str, after: str) -> int:
-    b, a = load(pathlib.Path(before)), load(pathlib.Path(after))
-    failed = False
+def cmd_diff(dir_a: str, dir_b: str) -> int:
+    """本数と [must] の並びを出す。同じ指摘かどうかは読んだ人が決める。"""
+    a, b = load(pathlib.Path(dir_a)), load(pathlib.Path(dir_b))
 
     for r in REVIEWERS:
-        bt = sum(len(v) for v in b[r].values())
         at = sum(len(v) for v in a[r].values())
-        bm, am = len(b[r]["[must]"]), len(a[r]["[must]"])
+        bt = sum(len(v) for v in b[r].values())
+        am, bm = len(a[r]["[must]"]), len(b[r]["[must]"])
 
         print(f"\n  == {r} ==")
-        print(f"    指摘件数   {bt:3d} -> {at:3d}   差 {at - bt:+d}" + ("" if abs(at - bt) <= 2 else "   ★ ±2 を超えた"))
-        print(f"    [must]     {bm:3d} -> {am:3d}" + ("" if bm == am else "   ★ 本数が一致しない"))
-        if abs(at - bt) > 2 or bm != am:
-            failed = True
+        print(f"    指摘件数   {at:3d} -> {bt:3d}   差 {bt - at:+d}")
+        print(f"    [must]     {am:3d} -> {bm:3d}   差 {bm - am:+d}")
+        print("    [must] の並び（同じ指摘かどうかは読んで判断する）")
+        for i in range(max(am, bm)):
+            left = a[r]["[must]"][i][:46] if i < am else "—"
+            right = b[r]["[must]"][i][:46] if i < bm else "—"
+            print(f"      {i+1}. A: {left}")
+            print(f"         B: {right}")
 
-        after_keys = {key(c) for c in a[r]["[must]"]}
-        lost = [c for c in b[r]["[must]"] if key(c) not in after_keys]
-        if lost:
-            failed = True
-            print(f"    ★ 落ちた [must] {len(lost)} 件（本番の判定）")
-            for c in lost:
-                print(f"       - {c[:72]}")
-        else:
-            print("    落ちた [must] なし")
-
-    print("\n  " + ("切り出し失敗。上の ★ を解消すること" if failed else "同値とみなせる"))
-    return 1 if failed else 0
+    print("\n  本数が合っていても中身が入れ替わることがある。並びを読んで、")
+    print("  A にあって B に無い指摘を自分で拾うこと。")
+    return 0
 
 
 if __name__ == "__main__":
