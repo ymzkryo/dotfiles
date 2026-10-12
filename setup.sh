@@ -468,6 +468,22 @@ setup_private_symlinks() {
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/AGENTS.md"
   create_symlink "$private_dir/claude/CLAUDE.md" "$TARGET_DIR/.codex/AGENTS.md"
 
+  # codex: Codex CLI の設定。private 側に置くのは [projects."..."] に案件名
+  # (outarc / gliiim / lukas) が入るため。認証情報はここではなく
+  # ~/.codex/auth.json にあるので、この1ファイルだけなら private で足りる。
+  #
+  # **管理する理由は常駐デーモンの opt-out を別 PC へ持っていくため。**
+  # codex 0.157.0 以降は対話セッションを起こすと約 374MB のデーモンを
+  # ~/.codex/packages/ へ展開して常駐させる (openai/codex#48195)。既定が有効なので、
+  # [features] daemon_auto_start = false を各マシンで手打ちしない形にしておく。
+  #
+  # **codex 自身がこのファイルを書き換える。** trust_level の追加や notice.* /
+  # tui.* のフラグが実行中に書かれるので、**private リポジトリは放っておくと
+  # dirty になる。** 書き込みで symlink が実ファイルに置き換わらないことは
+  # 2026-10-13 に実測済み (CODEX_HOME を差し替えて features disable を流し、
+  # リンクが残って実体に届くのを確認した)。
+  create_symlink "$private_dir/codex/config.toml" "$TARGET_DIR/.codex/config.toml"
+
   # claude skills: personal スコープ(~/.claude/skills/)に置くスキル。
   # work-report のように ~/PROJECTS/ 配下の作業セッションから呼ぶものと、
   # vendoring した外部スキルをここに置く。vault (~/memo) の project スコープに
