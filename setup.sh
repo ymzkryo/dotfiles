@@ -484,6 +484,14 @@ setup_private_symlinks() {
   # リンクが残って実体に届くのを確認した)。
   create_symlink "$private_dir/codex/config.toml" "$TARGET_DIR/.codex/config.toml"
 
+  # copilot: Copilot CLI の表示設定 (renderMarkdown / screenReader / theme)。
+  # 別マシンで設定し直さなくて済むようにする。
+  #
+  # **同じ ~/.copilot/ にある config.json は対象にしない。** あちらは
+  # "This file is managed automatically" と自身が宣言しており、loggedInUsers や
+  # trustedFolders といった状態が入る。
+  create_symlink "$private_dir/copilot/settings.json" "$TARGET_DIR/.copilot/settings.json"
+
   # claude skills: personal スコープ(~/.claude/skills/)に置くスキル。
   # work-report のように ~/PROJECTS/ 配下の作業セッションから呼ぶものと、
   # vendoring した外部スキルをここに置く。vault (~/memo) の project スコープに
