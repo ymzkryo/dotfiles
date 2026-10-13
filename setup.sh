@@ -244,7 +244,24 @@ create_symlink() {
     log_warn "ソースが存在しません: $src"
     return
   fi
-  
+
+  # **src と dst が同じ実体なら何もしない。**
+  # 親ディレクトリが既に dotfiles へのリンクになっていると (例: ~/.config/neomutt ->
+  # ~/dotfiles/.config/neomutt)、その配下へ個別にリンクを張ろうとしたとき dst が
+  # src 自身に解決される。この判定が無いと下の分岐が「既存の実ファイル」と誤認して
+  # **リポジトリ本体を .backup へ退避し、自分自身を指すリンクを作る。**
+  #
+  # 2026-10-13 に実際に踏んだ。neomutt の 5 ファイル、newsboat の 2 ファイル、
+  # .vim/_config (21件)、.vim/colors (1件)、.tmux/bin (10件) が自己参照リンクになり、
+  # vim / tmux / neomutt / newsboat の設定が一斉に参照不能になった。
+  local src_real dst_real
+  src_real="$(cd "$(dirname "$src")" 2>/dev/null && pwd -P)/$(basename "$src")"
+  dst_real="$(cd "$(dirname "$dst")" 2>/dev/null && pwd -P)/$(basename "$dst")"
+  if [ "$src_real" = "$dst_real" ]; then
+    log_info "リンク元と同じ実体なので何もしません: $dst"
+    return
+  fi
+
   if [ -e "$dst" ]; then
     if [ -L "$dst" ]; then
       log_warn "シンボリックリンクが既に存在します: $dst"
