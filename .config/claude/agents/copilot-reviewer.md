@@ -11,7 +11,7 @@ tools: Bash
 ## 実行フロー
 
 1. ユーザーの入力からレビュー対象の差分を取得する
-2. 差分を `copilot -p` に渡してレビューを依頼する
+2. 差分を `copilot` の**標準入力**に渡してレビューを依頼する（`-p` は使わない。後述）
 3. Copilot の出力結果をそのまま返す
 
 ## レビュー対象の差分取得
@@ -36,13 +36,31 @@ tools: Bash
    `git rev-parse --verify` が通る最初のものを使う
 3. すべて失敗したらエラーとして返す。空の差分でレビューを実行しないこと
 
+## copilot の実体を探す
+
+**`command -v copilot` だけで「未導入」と判定しないこと。**
+
+`copilot` は mise で入れた Node の**グローバル npm** に入っている。リポジトリの
+`mise.toml` が別の Node を固定していると、**そのリポジトリの中でだけ PATH から消える**
+（2026-10-14 に確認。グローバルは Node 23.10.0、`katatsumuri-work` は 24.15.0 固定で、
+repo の中では `command -v copilot` が exit=1。ホームでは見つかる）。
+この判定のせいで、しばらく「copilot は未インストール」と誤認していた。
+
+```bash
+COPILOT=$(command -v copilot || find ~/.local/share/mise/installs/node -path '*/bin/copilot' 2>/dev/null | sort -V | tail -n 1)
+[ -n "$COPILOT" ] || { echo "スキップ: copilot 未導入（PATH にも mise の Node 配下にも無い）"; exit 0; }
+```
+
+**`ls <glob>` ではなく `find` を使う。** zsh は glob が 1 件も当たらないと
+`no matches found` で**コマンドごと失敗する**ため、未導入の環境で壊れる。
+
 ## Copilot へのレビュー依頼
 
 **指示文と差分をまとめて標準入力へ流す。`-p` は使わない。**
 
 ```bash
 DIFF=$(<差分取得コマンド>)
-cat <<EOS | copilot -s --no-ask-user --allow-all-tools \
+cat <<EOS | "$COPILOT" -s --no-ask-user --allow-all-tools \
   --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)'
 以下のコード差分をレビューしてください。品質・セキュリティ・パフォーマンスの観点から
 問題のある箇所と具体的な修正案を示してください。
@@ -111,11 +129,12 @@ EOS
 
 ## 重要な注意事項
 
-**`--allow-all-tools` は使わないこと。** レビューに書き込み権限は不要です。
-読み取りに必要なツールだけを `--allow-tool` で許可し、書き込み系は `--deny-tool` で拒否します。
+**`--allow-all-tools` は外さないこと**（非対話モードで必須。上の「必ず付けるオプション」）。
+書き込みは `--deny-tool` で塞ぐ。ただし `write` で塞げるのは**シェル以外の**ファイル編集ツールで、
+シェル経由の書き込みまで全部は防げない（GitHub Docs「Using the approval options」）。
 
 - Copilot の出力をそのまま返してください。追加の解釈やフィルタリングは不要です
-- 起動前に `command -v copilot` で導入を確認し、無ければ「スキップ: copilot 未導入」を返して終了する
+- 起動前に上の「copilot の実体を探す」で `$COPILOT` を決める。見つからなければ「スキップ: copilot 未導入」を返して終了する
 - **copilot を実行できなかった場合、自力のレビューで代替してはいけません。** 失敗を返すこと
 - Copilot がエラーになった場合は、エラー内容をそのまま報告してください
 - ファイル修正は一切行いません。レビュー結果の報告のみです

@@ -20,17 +20,30 @@ usage:
   compare_reviews.py diff <dir_a> <dir_b>            本数と [must] の並びを出す
 """
 import pathlib
+import re
 import sys
 
 LABELS = ("[must]", "[imo]", "[nits]")
-REVIEWERS = ("claude", "codex", "agy")
+REVIEWERS = ("claude", "codex", "agy", "copilot")
 
 
 # ラベルの前に付く装飾。レビュアーごとに違う形で返ってくる。
 #   claude: "- **[must]** ..."     codex: "- [must] ..."
 #   agy:    "#### `[must]` ..."
+#   claude: "**1. [must] ...**"   （太字の中に番号。2026-10-13 に 0 件と数えていた）
 # 行頭を全部剥がしてから判定しないと、agy が 0 件に見えて取りこぼしを検出できない。
 _DECOR = "-*#`> \t　"
+_NUMBER = re.compile(r"^[0-9]+[.)]\s*")
+
+# ここから後ろは指摘一覧ではない。claude はタイトル案の後ろに
+# 「`[imo]` の件は…」のような補足を書くことがあり、数えると件数が膨らむ
+# （2026-10-10 の対照で 15 件を 16 件と数えていた）。
+_TAIL = "タイトル案"
+
+
+def _is_tail_heading(stripped: str) -> bool:
+    """見出し・太字・行頭が「タイトル案」で始まる行。本文中の言及では止まらない。"""
+    return stripped.startswith(_TAIL)
 
 
 def findings(text: str) -> dict[str, list[str]]:
@@ -38,6 +51,9 @@ def findings(text: str) -> dict[str, list[str]]:
     out: dict[str, list[str]] = {label: [] for label in LABELS}
     for line in text.splitlines():
         stripped = line.lstrip(_DECOR)
+        if _is_tail_heading(stripped):
+            break
+        stripped = _NUMBER.sub("", stripped).lstrip(_DECOR)
         for label in LABELS:
             if stripped.startswith(label):
                 claim = stripped[len(label):].lstrip(_DECOR).strip()
