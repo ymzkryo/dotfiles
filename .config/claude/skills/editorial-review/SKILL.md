@@ -49,6 +49,10 @@ description: |
 （`command -v copilot` → 1.0.95 / global npm に `@github/copilot`）。
 **`gh copilot`（gh 拡張）とは別物**で、入っているのは standalone のエージェント型 CLI。
 
+**`copilot` の中身は Claude だった**（2026-10-14、`~/.copilot/logs` に `model: claude-sonnet-5.5`）。
+「違うモデルの目を足す」つもりで並べていたが、**4 者のうち 2 者が Claude の系統**になっている。
+モデルを分けたいなら Copilot CLI 側でモデルを選ぶ。**CLI の数とモデルの数は別**。
+
 **役割の実績（2026-09 の3記事）。** `claude` と `codex` が事実誤り・論理の飛躍をよく拾う。
 `agy` は事実誤りをほぼ出さず、構成・文体と house style の抜けを拾う。
 **`agy` の「内容」指摘は誤読が混ざる**ので、実物に当たってから採ること。
@@ -85,15 +89,27 @@ description: |
 
 ```bash
 # 例（スクラッチパッドの $DIR にプロンプトを用意済みとする）
-claude  -p "$(cat "$DIR/prompt-claude.txt")" < /dev/null         > "$DIR/out-claude.md"  2>&1
+# copilot は PATH に無いことがある。探し方は copilot-reviewer.md が単一の出所
+COPILOT=$(command -v copilot || find ~/.local/share/mise/installs/node -path '*/bin/copilot' 2>/dev/null | sort -V | tail -n 1)
+
+claude  -p "$(cat "$DIR/prompt-claude.txt")" < /dev/null         > "$DIR/out-claude.md"  2> "$DIR/err-claude.txt"
 agy     -p "$(cat "$DIR/prompt-agy.txt")" --sandbox --print-timeout 15m \
-                                                                 > "$DIR/out-agy.md"     2>&1
+                                                                 > "$DIR/out-agy.md"     2> "$DIR/err-agy.txt"
 codex   exec -s read-only --skip-git-repo-check -C "$DIR" \
-        -o "$DIR/out-codex.md" - < "$DIR/prompt-codex.txt"        > "$DIR/log-codex.txt"  2>&1
-copilot -s --no-ask-user --allow-all-tools \
+        -o "$DIR/out-codex.md" - < "$DIR/prompt-codex.txt"        > "$DIR/log-codex.txt"  2> "$DIR/err-codex.txt"
+"$COPILOT" -s --no-ask-user --allow-all-tools \
         --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)' \
-        < "$DIR/prompt-copilot.txt"                               > "$DIR/out-copilot.md" 2>&1
+        < "$DIR/prompt-copilot.txt"                               > "$DIR/out-copilot.md" 2> "$DIR/err-copilot.txt"
 ```
+
+**標準エラーは `out-*.md` に混ぜない（`2>&1` にしない）。** 2026-10-14 に、
+`out-*.md` に混ざっていた余計なものが **2 件とも `2>&1` のせい**だったと分かった。
+下の `claude` の警告も `codex` の推論トレースも、CLI は**標準エラーに**出していた。
+`err-*.txt` は失敗の調査用に残す（`agy` の 1 行エラーがどちらに出るかはまだ確かめていない）。
+
+**`$COPILOT` が空なら `copilot` はスキップする。** `command -v copilot` だけで
+判定すると、**リポジトリの `mise.toml` が別の Node を固定しているときに
+「未導入」と誤認する**（2026-10-14。詳細は `copilot-reviewer.md`）。
 
 **渡し方が 4 者で 3 通りに分かれている。取り違えると中身が届かない。**
 
@@ -107,14 +123,15 @@ copilot -s --no-ask-user --allow-all-tools \
 `--allow-all-tools` が非対話モードで必須、`--no-ask-user` が無いと質問して止まる、
 `-s` が無いと stats が混ざる。
 
-**`claude -p` にも `< /dev/null` が要る。** 付けないと
-`Warning: no stdin data received in 3s, proceeding without it.` が
-**出力ファイルの先頭に混ざる**。3 秒待ってから続行するのでレビュー自体は成功し、
-**壊れていることに気づきにくい**。
+**`claude -p` にも `< /dev/null` が要る。** 付けないと 3 秒 stdin を待ち、
+`Warning: no stdin data received in 3s, proceeding without it.` を**標準エラーに**出して続行する。
+以前は `2>&1` で保存していたので**出力ファイルの先頭に混ざっていた**（2.1.296 で
+`sleep 6 | claude -p ... > out 2> err` として確認。out は回答だけ、警告は err）。
 
-**`codex` は `-o` で査読本文だけを別ファイルに書かせる。** `-o` なしで stdout を
-リダイレクトすると、バージョン・workdir・推論トレースを含む **262 KB** が入る
-（`-o` ありは査読本文のみの 12.8 KB）。指摘を数えるときにトレースのノイズを拾う。
+**`codex` は `-o` で査読本文だけを別ファイルに書かせる。** `codex exec` は進行ログを
+**標準エラー**、最終の回答を標準出力に分けて出す（[公式](https://developers.openai.com/codex/noninteractive)、
+0.162.1 で確認）。以前の **262 KB**（査読本文は 12.8 KB）は `-o` が無かったからではなく、
+**`2>&1` で進行ログを同じファイルに入れていた**せいだった。`-o` は保険として残す。
 
 **所要時間は 1 分〜4 分**（2026-10-10 実測、25,836 バイトの文書で
 `agy` 62 秒 / `codex` 210 秒 / `claude` 240 秒）。**前景で待つと 2 分で打ち切られる**ので、
@@ -138,6 +155,13 @@ python3 scripts/compare_reviews.py diff "$PREV_DIR" "$DIR"
 `claude` が `- **[must]**`、`codex` が `- [must]`、`agy` が `` #### `[must]` `` だった。
 行頭の `-` `*` `#` `` ` `` `>` を剥がさないと **`agy` が 0 件に見える**。
 最初に書いたスクリプトが実際にそうなっていた。
+
+**そのあとも 2 回間違えた**（2026-10-14 に直した。テストは `tests/compare_reviews_test.py`）。
+
+- `claude` が `**1. [must] ...**` と**太字の中に番号**を入れた回を **0 件**と数えた
+- `claude` が**タイトル案の後ろ**に書いた補足（`` `[imo]` の件は… ``）まで数え、15 件を **16 件**とした
+
+**0 件や不自然な件数が出たら、まず数える側を疑って出力を開く。** 書式は回によって変わる。
 
 ### 4. 反映する前に、指摘そのものの裏を取る
 
