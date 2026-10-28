@@ -21,3 +21,10 @@ esac
 if [ -f "$HOME/.unity/env" ]; then
   . "$HOME/.unity/env"
 fi
+
+# Homebrew の curl を /usr/bin/curl より優先する（keg-only なので PATH に足さないと使われない）。
+# macOS の curl はシステムキーチェーンを使い、侵害された eMudhra のルート証明書を
+# 信頼したままになっている（2026-10）。Homebrew 版は Mozilla の CA バンドルを使う
+if [ -d /opt/homebrew/opt/curl/bin ]; then
+  export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+fi
