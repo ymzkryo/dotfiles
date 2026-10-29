@@ -77,7 +77,9 @@ COPILOT=$(command -v copilot || find ~/.local/share/mise/installs/node -path '*/
 
 ```bash
 DIFF=$(git show --first-parent "$SHA")   # ← 上の表から選んだ差分取得コマンドに置き換える
-cat <<EOS | "$COPILOT" -s --no-ask-user --allow-all-tools \
+cat <<EOS | "$COPILOT" -s --no-ask-user \
+  --allow-tool='shell(cat)' --allow-tool='shell(ls)' --allow-tool='shell(head)' \
+  --allow-tool='shell(wc)' --allow-tool='shell(grep)' \
   --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)'
 以下のコード差分をレビューしてください。品質・セキュリティ・パフォーマンスの観点から
 問題のある箇所と具体的な修正案を示してください。
@@ -106,7 +108,7 @@ EOS
 | `<差分> \| copilot -p "...マーカーの番号を答えて"` | **「質問が入力されていないようです」** |
 | 〃（`--deny-tool` 付き） | **「標準入力を読み取ろうとしましたが権限が拒否されました」** |
 | 〃（`--allow-tool 'shell(cat)'` 付き） | **「差分が会話に含まれていません」** |
-| **`<差分> \| copilot -s --no-ask-user --allow-all-tools`（`-p` 無し）** | **`7391`** ✅ |
+| **`<差分> \| copilot -s --no-ask-user`（`-p` 無し）** | **`7391`** ✅ |
 
 **`--help` の `--fleet` の説明に「combine with `-i`, `-p`, or piped stdin」とあり、
 標準入力は `-i` / `-p` と**並ぶ**入力モード**として設計されている。
@@ -119,12 +121,30 @@ EOS
 
 | オプション | 理由 |
 | --- | --- |
-| **`--allow-all-tools`** | **`--help` が「required for non-interactive mode」と明記。** 無いと権限確認で止まる |
+| **読み取り系の `--allow-tool`** | 権限確認で止まらないために要る。**`--allow-all-tools` は使わない**（下記） |
 | **`--no-ask-user`** | `ask_user` ツールを無効化する。**無いと「対話セッションで再実行してください」と返して終わる** |
 | **`-s`** | stats と装飾を抑制し、**エージェントの応答だけ**を出す。無いと `AI Credits` や `Resume copilot --resume=...` が混ざる |
 
-**`--allow-all-tools` を付けたうえで `--deny-tool` で個別に塞ぐ**のが正しい順序。
-`--deny-tool` は `--allow-all-tools` より優先される。
+### `--allow-all-tools` は使わないこと
+
+**呼び出し元に拒否されてエージェントが起動しない。** Claude Code の auto モードは
+`--allow-all-tools` を「安全装置を外してエージェントを起動する」操作と見なし、
+**`[Create Unsafe Agents]` として拒否する。** copilot のプロセスは立ち上がらないので、
+レビューは 0 件で返る。
+
+**2026-10-29 に実際に起きた。** `/self-review` から `copilot-reviewer` が
+「Copilot の出力は 1 件もなく、指摘もありません」と返し続けていた原因がこれ。
+
+代わりに**読み取りに要るツールだけを `--allow-tool` で個別に許可する。**
+実測では、これで 5KB の差分のレビューが完走した（exit 0）。
+
+**`--help` の「required for non-interactive mode」は鵜呑みにしないこと。**
+実測では `--allow-all-tools` 無しでも非対話で動いた。標準入力がプロンプト本体なので、
+応答するだけならツール呼び出しが発生しないため。
+
+`--allow-all` と `--yolo` も同じ理由で使わない（どちらも `--allow-all-tools` を含む）。
+
+**`--deny-tool` は `--allow-tool` より優先される**ので、許可したうえで個別に塞ぐ順序は変わらない。
 
 **`--output-format=json`（JSONL）** も用意されているが、いまは `-s` の素のテキストで足りる。
 
@@ -151,9 +171,11 @@ EOS
 
 ## 重要な注意事項
 
-**`--allow-all-tools` は外さないこと**（非対話モードで必須。上の「必ず付けるオプション」）。
-書き込みは `--deny-tool` で塞ぐ。ただし `write` で塞げるのは**シェル以外の**ファイル編集ツールで、
-シェル経由の書き込みまで全部は防げない（GitHub Docs「Using the approval options」）。
+**`--allow-all-tools` は付けないこと**（呼び出し元に `[Create Unsafe Agents]` として
+拒否され、copilot が起動しない。上の「`--allow-all-tools` は使わないこと」）。
+読み取りに要るツールだけを `--allow-tool` で許可し、書き込みは `--deny-tool` で塞ぐ。
+ただし `write` で塞げるのは**シェル以外の**ファイル編集ツールで、シェル経由の書き込みまで
+全部は防げない（GitHub Docs「Using the approval options」）。
 
 - Copilot の出力をそのまま返してください。追加の解釈やフィルタリングは不要です
 - 起動前に上の「copilot の実体を探す」で `$COPILOT` を決める。見つからなければ「スキップ: copilot 未導入」を返して終了する
