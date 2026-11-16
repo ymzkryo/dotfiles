@@ -70,11 +70,49 @@ REQUEST=$(cat <<EOS
 
 確認や質問は不要です。具体的な提案・修正案・コード例まで自主的に出力してください。
 
+シェルで使えるのは git diff / git log / git show / git grep / rg / grep / cat / head など
+読み取り系のコマンドだけです。find・テストの実行・それ以外のコマンドへのパイプなど、
+許可外のものを使うと回答全体が失われます。周辺のコードはファイルの読み取りで確認し、
+確認できないことは「未確認」と書いてください。
+
 $DIFF
 EOS
 )
-agy -p "$REQUEST" --sandbox --print-timeout 15m
+AGY_SETTINGS='{"permissions":{"allow":["command(git diff)","command(git log)","command(git show)","command(git status)","command(git grep)","command(git ls-files)","command(git blame)","command(git rev-parse)","command(git merge-base)","command(rg)","command(grep)","command(ls)","command(cat)","command(head)","command(tail)","command(wc)","command(sort)","command(uniq)","command(sed -n)"]}}'
+agy -p "$REQUEST" --mode plan --sandbox --print-timeout 15m --settings "$AGY_SETTINGS"
 ```
+
+### `--mode plan` と `--settings` で読み取り専用にする
+
+**agy 1.5.9（2026-11-16 時点）から、`-p` の既定が `auto` モードになった。**
+`auto` では `--sandbox` を付けても、ワークスペース内への書き込み
+（`touch` が成功）と外部への通信（`curl` が 200）が**確認なしで通る**。
+1.5.5 までは `default` モードで、許可リストに無いコマンドは拒否されていた。
+`~/.gemini/antigravity-cli/log/` の `jetski_mode_auto` / `jetski_mode_default` で見分けられる。
+
+- **`--mode plan`** で `default` モードに戻る。許可リストに無いコマンドは拒否される
+- **`--settings` の `permissions.allow` は、グローバルの許可リストを置き換える**（足されない）。
+  `~/.gemini/antigravity-cli/settings.json` に何が溜まっていても、この reviewer には効かない
+- 許可は前方一致（`command(git diff)` で `git diff HEAD -- a.txt` も通る）。
+  `&&` やパイプでつないだ場合は、**それぞれのコマンドが許可されている必要がある**
+- ワークスペース（＝カレントディレクトリ）の中のファイル読み取りは許可なしで通る。
+  **外のファイルは読めない**ので、必ず対象リポジトリへ `cd` してから実行する
+
+`find` は `-delete` / `-exec` で書き換えられるので許可しない。`gh` も通信と書き込みが
+できるので許可しない（差分はこちらで取得して渡している）。
+
+### 1 行だけの失敗を見逃さないこと
+
+許可されていないコマンドを agy が使おうとすると、**回答全体が捨てられ、
+`exit=0` のまま次の 1 行だけが返る。**
+
+```
+jetski: no output produced — a tool required the "command" permission that headless mode cannot prompt for, so it was auto-denied.
+```
+
+出力がこの形（`jetski:` で始まる、または 1,000 バイト未満でレビューの体をなしていない）
+だったら、**依頼文の末尾に「シェルのコマンドもファイルの読み取りも使わず、上の差分だけで
+判断してください。」を足して 1 回だけ再実行**する。それでも同じなら失敗として返す。
 
 **`$(<...)` の形で書かないこと。** `$(<file)` はシェルがファイル読み込みと解釈するため、
 `DIFF=$(<差分取得コマンド>)` と書くと `差分取得コマンド` という名前のファイルを探して
@@ -85,19 +123,20 @@ agy -p "$REQUEST" --sandbox --print-timeout 15m
 
 | オプション | 理由 |
 | --- | --- |
+| `--mode plan` | 許可リスト外のコマンドを拒否するモードにする（上記） |
+| `--settings "$AGY_SETTINGS"` | 読み取り系のコマンドだけを許可する（上記） |
 | `--sandbox` | エージェントが起動するコマンドを OS の封じ込めに制限する |
-| `--print-timeout 15m` | **既定は 5m** で、規模の大きい差分では足りない |
+| `--print-timeout 15m` | 1.5.9 で**既定が 0（無制限）**になった。固まったときに戻ってこないので上限を付ける |
 
 **`--dangerously-skip-permissions` は付けないこと。** 付けるとすべてのツール要求が
 自動承認され、ファイルを書き換えられる可能性があります。
-
-非対話（`-p`）では確認プロンプトが出せないため、承認が必要なツールは既定で
-ソフト拒否されます。素の `-p` 実行はおおむね読み取り主体で動きます。
 
 ## 重要な注意事項
 
 - **agy の出力をそのまま返してください。** 追加の解釈やフィルタリングは不要です
 - agy がエラー・タイムアウトになった場合は、その内容をそのまま報告してください
+- `RESOURCE_EXHAUSTED (code 429)` は Vertex AI の割り当て切れで、agy 側で再試行したうえで
+  `"retryable": false` を返している。**再実行せず失敗として返すこと**
 - **agy を実行できなかった場合、自力のレビューで代替してはいけません。** 失敗を返すこと
 - ファイル修正は一切行いません。レビュー結果の報告のみです
 - 出力が長いと agy 側で途中打ち切りになることがあります。その場合は
