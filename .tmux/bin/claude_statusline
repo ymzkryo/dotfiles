@@ -3,13 +3,26 @@
 
 Receives session JSON on stdin from Claude Code's statusLine feature,
 writes rate limit info to /tmp/claude-usage.txt for tmux consumption,
+writes a snapshot of the rate limits for llm-fuel (`llm-fuel claude`),
 and outputs a status line string for Claude Code itself.
 """
 
 import json
+import os
 import sys
+import tempfile
 import time
 from datetime import datetime, timezone
+
+# llm-fuel が読むスナップショット。LLM_FUEL_CLAUDE_SNAPSHOT で変えられる（llm-fuel 側と同じ既定値）
+SNAPSHOT_PATH = os.environ.get("LLM_FUEL_CLAUDE_SNAPSHOT") or os.path.join(
+    os.environ.get("XDG_STATE_HOME") or os.path.expanduser("~/.local/state"),
+    "llm-fuel",
+    "claude-rate-limits.json",
+)
+# 書き出す枠と項目。statusline の入力にはパスや作業名も載るので、許可したものだけ取り出す
+SNAPSHOT_WINDOWS = ("five_hour", "seven_day")
+SNAPSHOT_FIELDS = ("used_percentage", "resets_at")
 
 
 def format_remaining(resets_at):
@@ -23,13 +36,51 @@ def format_remaining(resets_at):
     return f"{mins}m"
 
 
+def write_snapshot(rate_limits):
+    """llm-fuel 用に、枠の使用率とリセット時刻だけを観測時刻付きで書く。
+
+    枠が 1 つも無い入力では書かない（前回の値を「無し」で上書きしない）。
+    statusline を止めないよう、失敗は握りつぶす。
+    """
+    try:
+        windows = {}
+        for name in SNAPSHOT_WINDOWS:
+            window = rate_limits.get(name)
+            if not isinstance(window, dict) or window.get("used_percentage") is None:
+                continue
+            windows[name] = {k: window.get(k) for k in SNAPSHOT_FIELDS}
+        if not windows:
+            return
+
+        snapshot = {
+            "schema_version": 1,
+            "observed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "source": "claude_code_statusline",
+            "rate_limits": windows,
+        }
+        directory = os.path.dirname(SNAPSHOT_PATH)
+        os.makedirs(directory, exist_ok=True)
+        # 読み手が書きかけを読まないよう、一時ファイルに書いてから置き換える
+        fd, tmp = tempfile.mkstemp(dir=directory, prefix=".claude-rate-limits.")
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump(snapshot, f)
+            os.replace(tmp, SNAPSHOT_PATH)
+        except BaseException:
+            os.unlink(tmp)
+            raise
+    except Exception:
+        pass
+
+
 def main():
     try:
         data = json.load(sys.stdin)
     except (json.JSONDecodeError, EOFError, ValueError):
         return
 
-    rate_limits = data.get("rate_limits", {})
+    rate_limits = data.get("rate_limits") or {}
+    write_snapshot(rate_limits)
     five_hour = rate_limits.get("five_hour", {})
     used_pct = five_hour.get("used_percentage")
     resets_at = five_hour.get("resets_at")
