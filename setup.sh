@@ -466,6 +466,11 @@ setup_private_symlinks() {
   create_symlink "$private_dir/zsh/.zsh/050_work_profiles.zsh" \
     "$DOTFILES_DIR/.config/zsh/.zsh/050_work_profiles.zsh"
 
+  # zsh: ~/.zshenv。上の 050 は ~/.zshrc 経由で対話シェルでしか読まれないので、
+  # Claude Code の Bash・cron・launchd（非対話）から使う環境変数はこちらに置く。
+  # 2026-11-18 に /standup から呼んだ llm-fuel で LLM_FUEL_AGY_PROJECT が見えなかった。
+  create_symlink "$private_dir/zsh/.zshenv" "$TARGET_DIR/.zshenv"
+
   # hammerspoon: modules/_config.lua が require("modules.private") で読む
   create_symlink "$private_dir/hammerspoon/private.lua" \
     "$DOTFILES_DIR/.config/hammerspoon/modules/private.lua"
