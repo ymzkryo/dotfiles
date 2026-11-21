@@ -71,13 +71,27 @@ COPILOT=$(command -v copilot || find ~/.local/share/mise/installs/node -path '*/
 **`ls <glob>` ではなく `find` を使う。** zsh は glob が 1 件も当たらないと
 `no matches found` で**コマンドごと失敗する**ため、未導入の環境で壊れる。
 
+## 呼び出し元のスキル名（`-n`）
+
+**copilot には必ず `-n "$SKILL"` でセッション名を付ける。** 名前は copilot の記録
+（`~/.copilot/session-state/<id>/workspace.yaml`）に残り、llm-fuel が AI クレジットを
+**スキル別**に集計するのに使う（API はモデル別の合計しか返さない）。
+
+- 依頼文に **`呼び出し元: <スキル名>`** があれば、その名前を使う（例: `self-review`）
+- 無ければ `copilot-reviewer`
+- 名前は英数字と `-` `_` だけにする（それ以外の文字が来たら `copilot-reviewer` にする）
+
+```bash
+SKILL=copilot-reviewer   # 依頼文に「呼び出し元: self-review」があれば SKILL=self-review
+```
+
 ## Copilot へのレビュー依頼
 
 **指示文と差分をまとめて標準入力へ流す。`-p` は使わない。**
 
 ```bash
 DIFF=$(git show --first-parent "$SHA")   # ← 上の表から選んだ差分取得コマンドに置き換える
-cat <<EOS | "$COPILOT" -s --no-ask-user \
+cat <<EOS | "$COPILOT" -s --no-ask-user -n "$SKILL" \
   --allow-tool='shell(cat)' --allow-tool='shell(ls)' --allow-tool='shell(head)' \
   --allow-tool='shell(wc)' --allow-tool='shell(grep)' \
   --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)'
