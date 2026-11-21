@@ -71,15 +71,28 @@ COPILOT=$(command -v copilot || find ~/.local/share/mise/installs/node -path '*/
 **`ls <glob>` ではなく `find` を使う。** zsh は glob が 1 件も当たらないと
 `no matches found` で**コマンドごと失敗する**ため、未導入の環境で壊れる。
 
+## 呼び出し元のスキル名（`-n`）
+
+**copilot には必ず `-n "$SKILL"` でセッション名を付ける。** 名前は copilot の記録
+（`~/.copilot/session-state/<id>/workspace.yaml`）に残り、llm-fuel が AI クレジットを
+**スキル別**に集計するのに使う（API はモデル別の合計しか返さない）。
+
+- 依頼文に **`呼び出し元: <スキル名>`** があれば、その名前を使う（例: `self-review`）
+- 無ければ `copilot-reviewer`
+- 名前は英数字と `-` `_` だけにする（それ以外の文字が来たら `copilot-reviewer` にする）
+
+```bash
+SKILL=copilot-reviewer   # 依頼文に「呼び出し元: self-review」があれば SKILL=self-review
+```
+
 ## Copilot へのレビュー依頼
 
 **指示文と差分をまとめて標準入力へ流す。`-p` は使わない。**
 
 ```bash
 DIFF=$(git show --first-parent "$SHA")   # ← 上の表から選んだ差分取得コマンドに置き換える
-cat <<EOS | "$COPILOT" -s --no-ask-user \
-  --allow-tool='shell(cat)' --allow-tool='shell(ls)' --allow-tool='shell(head)' \
-  --allow-tool='shell(wc)' --allow-tool='shell(grep)' \
+cat <<EOS | "$COPILOT" -s --no-ask-user -n "$SKILL" \
+  --available-tools view grep glob --disable-builtin-mcps \
   --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)'
 以下のコード差分をレビューしてください。品質・セキュリティ・パフォーマンスの観点から
 問題のある箇所と具体的な修正案を示してください。
@@ -121,7 +134,8 @@ EOS
 
 | オプション | 理由 |
 | --- | --- |
-| **読み取り系の `--allow-tool`** | 権限確認で止まらないために要る。**`--allow-all-tools` は使わない**（下記） |
+| **`--available-tools view grep glob`** | **モデルに見せるツールを読み取りの 3 つに絞る。** 無いと 1 回ごとにツールの定義（約 25k トークン）がキャッシュに書かれ、**「ok」と返すだけで 7.3 クレジット**かかる（下記）。`--allow-all-tools` は使わない（下記） |
+| **`--disable-builtin-mcps`** | 組み込みの GitHub MCP を読まない。レビューには要らない |
 | **`--no-ask-user`** | `ask_user` ツールを無効化する。**無いと「対話セッションで再実行してください」と返して終わる** |
 | **`-s`** | stats と装飾を抑制し、**エージェントの応答だけ**を出す。無いと `AI Credits` や `Resume copilot --resume=...` が混ざる |
 
@@ -135,8 +149,27 @@ EOS
 **2026-10-29 に実際に起きた。** `/self-review` から `copilot-reviewer` が
 「Copilot の出力は 1 件もなく、指摘もありません」と返し続けていた原因がこれ。
 
-代わりに**読み取りに要るツールだけを `--allow-tool` で個別に許可する。**
-実測では、これで 5KB の差分のレビューが完走した（exit 0）。
+代わりに**読み取りに要るツールだけを `--available-tools` で見せる。**
+`view` `grep` `glob` は読み取りなので、`--allow-tool` 無しでも確認で止まらずに使える
+（2026-11-21、差分の外の `Cargo.toml` や `src/copilot.rs` を `view` で読んで確かめていた）。
+
+### `--available-tools` でツールを絞る理由（AI クレジット）
+
+**copilot の 1 回の費用のほとんどはツールの定義。** 2026-11-21 に「ok」と返させるだけの呼び出しで測った:
+
+| 設定 | AI クレジット |
+| --- | --- |
+| 何も絞らない | 7.33（キャッシュ書き込み 29k トークン） |
+| `--disable-builtin-mcps --no-custom-instructions` | 6.78 |
+| **`--available-tools view grep glob`** | **0.75** |
+| 上の 2 つを合わせる | 0.66 |
+
+実際のレビュー（llm-fuel の約 400 行の差分。`view` で 2 回ファイルを読んだ）は **5.48**。
+絞らない頃の self-review は 1 回 10〜20 だった。Copilot Pro+ の月の枠は 7,000 なので、
+**絞らないと 1 回で枠の 0.1% 以上が定義の読み込みだけで消える。**
+
+以前は `--allow-tool='shell(cat)'` などでシェルの読み取りを許していたが、`shell` を見せると
+定義が大きくなるので外した。差分は標準入力で渡しているので、シェルは要らない。
 
 **`--help` の「required for non-interactive mode」は鵜呑みにしないこと。**
 実測では `--allow-all-tools` 無しでも非対話で動いた。標準入力がプロンプト本体なので、
@@ -173,7 +206,7 @@ EOS
 
 **`--allow-all-tools` は付けないこと**（呼び出し元に `[Create Unsafe Agents]` として
 拒否され、copilot が起動しない。上の「`--allow-all-tools` は使わないこと」）。
-読み取りに要るツールだけを `--allow-tool` で許可し、書き込みは `--deny-tool` で塞ぐ。
+モデルに見せるツールは `--available-tools view grep glob` に絞り、書き込みは `--deny-tool` でも塞ぐ。
 ただし `write` で塞げるのは**シェル以外の**ファイル編集ツールで、シェル経由の書き込みまで
 全部は防げない（GitHub Docs「Using the approval options」）。
 

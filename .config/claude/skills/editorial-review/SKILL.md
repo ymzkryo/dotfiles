@@ -97,7 +97,8 @@ agy     -p "$(cat "$DIR/prompt-agy.txt")" --sandbox --print-timeout 15m \
                                                                  > "$DIR/out-agy.md"     2> "$DIR/err-agy.txt"
 codex   exec -s read-only --skip-git-repo-check -C "$DIR" \
         -o "$DIR/out-codex.md" - < "$DIR/prompt-codex.txt"        > "$DIR/log-codex.txt"  2> "$DIR/err-codex.txt"
-"$COPILOT" -s --no-ask-user --allow-all-tools \
+"$COPILOT" -s --no-ask-user -n editorial-review --allow-all-tools \
+        --available-tools view grep glob --disable-builtin-mcps \
         --deny-tool='write' --deny-tool='shell(rm)' --deny-tool='shell(git:*)' \
         < "$DIR/prompt-copilot.txt"                               > "$DIR/out-copilot.md" 2> "$DIR/err-copilot.txt"
 ```
@@ -106,6 +107,13 @@ codex   exec -s read-only --skip-git-repo-check -C "$DIR" \
 `out-*.md` に混ざっていた余計なものが **2 件とも `2>&1` のせい**だったと分かった。
 下の `claude` の警告も `codex` の推論トレースも、CLI は**標準エラーに**出していた。
 `err-*.txt` は失敗の調査用に残す（`agy` の 1 行エラーがどちらに出るかはまだ確かめていない）。
+
+**`copilot` には `--available-tools view grep glob --disable-builtin-mcps` を付ける。** 付けないと 1 回ごとに
+ツールの定義が読み込まれ、それだけで 7 クレジットほどかかる（`copilot-reviewer.md` の「`--available-tools` でツールを絞る理由」）。
+`--allow-all-tools` が許すのも、この 3 つの読み取りツールだけになる。
+
+**`copilot` には `-n editorial-review` を付ける。** セッション名として copilot の記録に残り、
+llm-fuel が AI クレジットをスキル別に集計するのに使う（`copilot-reviewer.md` の「呼び出し元のスキル名」）。
 
 **`$COPILOT` が空なら `copilot` はスキップする。** `command -v copilot` だけで
 判定すると、**リポジトリの `mise.toml` が別の Node を固定しているときに
